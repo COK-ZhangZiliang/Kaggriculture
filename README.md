@@ -6,7 +6,7 @@
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
   [![Tests](https://img.shields.io/badge/tests-12%20passed-2ea44f?logo=pytest&logoColor=white)](#-verified-baseline)
-  [![Baseline score](https://img.shields.io/badge/Kaggle%20baseline-600.0-20BEFF?logo=kaggle&logoColor=white)](#-submission)
+  [![Submission status](https://img.shields.io/badge/Kaggle%20submission-COMPLETE-20BEFF?logo=kaggle&logoColor=white)](#-submission)
   [![Policy](https://img.shields.io/badge/policy-deterministic-7B61FF)](#-strategy)
 
   **A small, reproducible first baseline for Kaggle's 720-state farming simulation.**
@@ -117,13 +117,14 @@ Baseline v1 has completed Kaggle's remote submission pipeline:
 | Kaggle API timestamp | `2026-08-05T11:19:05.207000` |
 | Message | `baseline-v1 deterministic carrot planner` |
 | Remote status | `COMPLETE` |
-| Public score | **600.0** |
+| Public score snapshot | **471.3** · verified `2026-08-05T11:25:21Z` |
 | Archive | 2,211 bytes · SHA256 `d3781fb452c1ec3c85579c9c22f8dac860c307c3d4b57701eaef796c58d9f448` |
 | Matching code commit | [`ec8bdba`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/ec8bdba50701653e4c3b884cce65897e6fc68f3e) |
 
-The score above is the value returned for this submission by the Kaggle API;
-it is not a claim about final rank or private leaderboard performance. The
-archived `main.py` and the file in the linked commit have the same SHA256.
+The score above is a timestamped Kaggle API snapshot and may continue changing
+as simulation episodes are processed; it is not a claim about final rank or
+private leaderboard performance. The archived `main.py` and the file in the
+linked commit have the same SHA256.
 
 The packaging script creates `dist/submission.tar.gz` with exactly one member:
 
