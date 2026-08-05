@@ -1,0 +1,47 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.coverage
+coverage.xml
+htmlcov/
+build/
+*.egg-info/
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+.envrc
+.direnv/
+.netrc
+access_token
+kaggle.json
+credentials*.json
+secrets/
+*.pem
+*.key
+*.p12
+
+# Local Kaggle downloads and generated run artifacts
+data/
+datasets/
+replays/
+logs/
+runs/
+outputs/
+dist/
+checkpoints/
+models/
+*.log
+*.tar.gz
+*.zip
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
