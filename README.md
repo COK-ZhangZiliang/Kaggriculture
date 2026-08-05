@@ -48,7 +48,7 @@ mixed-crop planning, opponent modeling, or learned policies are added.
 Local verification used Python 3.12, `kaggle-environments==1.32.4`, 720 recorded
 states, and fixed environment seeds.
 
-| Side | Opponent | Seed | Final rewards | Result |
+| Side | Opponent | Seed | Example reward snapshot | Result |
 |:---:|:---|---:|:---:|:---:|
 | P0 | `starter` | 20260805 | **10,032** – 3,175 | Win |
 | P1 | `starter` | 20260806 | 3,184 – **10,300** | Win |
