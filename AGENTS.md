@@ -74,6 +74,10 @@ validation; a local win or successful upload is not evidence of a scored bot.
   carrot planner`.
 - Record the submission ID, timestamp, message, and remote status in the
   delivery evidence, but do not fabricate a score or validation result.
+- Every code revision submitted to Kaggle must also be committed and pushed to
+  GitHub in the same delivery cycle. Record the Kaggle submission ID together
+  with the corresponding Git commit SHA so the uploaded `main.py` is traceable
+  to the public repository.
 
 ## Git Rules
 
