@@ -5,7 +5,7 @@
 
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
-  [![Tests](https://img.shields.io/badge/tests-18%20passed-2ea44f?logo=pytest&logoColor=white)](#-verified-v2)
+  [![Tests](https://img.shields.io/badge/tests-18%20passed-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
   [![Submission status](https://img.shields.io/badge/Kaggle%20submission-COMPLETE-20BEFF?logo=kaggle&logoColor=white)](#-submission)
   [![Policy](https://img.shields.io/badge/policy-market--aware-7B61FF)](#-strategy)
 
@@ -16,9 +16,9 @@
 
 This repository contains a self-contained agent for the
 [Kaggriculture competition](https://www.kaggle.com/competitions/kaggriculture).
-V2 combines a complete mixed-farm economic route with visible-state repair,
-shared-market timing, both-seat evaluation, and a reproducible submission
-archive.
+The current agent combines a complete mixed-farm economic route with
+visible-state repair, shared-market timing, both-seat evaluation, and a
+reproducible submission archive.
 
 ```text
 mixed herd + wheat / melon / strawberry route
@@ -33,7 +33,7 @@ the rest of this repository and returns only JSON-safe actions.
 
 ## 🧠 Strategy
 
-The policy runs a diversified supply chain instead of a single carrot field:
+The policy runs a diversified crop-and-livestock supply chain:
 
 - scales labor and unlocks three quadrants for a mixed cow/sheep herd;
 - uses wheat for feed and liquidity, bounded melons for capital events, and
@@ -52,18 +52,16 @@ are recorded in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), and the
 full research and evidence boundary is in
 [`docs/v2-strategy.md`](docs/v2-strategy.md).
 
-## ✅ Verified V2
+## ✅ Verified current strategy
 
 Local verification used Python 3.12, `kaggle-environments==1.32.4`, 720 recorded
 states, and fixed environment seeds.
 
 | Gate | Games | Result | Mean margin |
 |---|---:|---:|---:|
-| Original V1 vs five public policy artifacts | 20 | 0 wins | Large negative |
-| V2 development observation vs Kaito v21.1 | 12 | 12 wins | +2,697.5 |
-| V2 unopened holdout vs five public policy artifacts | 40 | **38 wins** | Positive for every opponent |
-| V2 P0 vs `starter`, seed 20260805 | 1 | **195,948 – 3,497** | +192,451 |
-| V2 P0 vs `random`, seed 20260805 | 1 | **196,806 – 0** | +196,806 |
+| Holdout vs five public policy artifacts | 40 | **38 wins** | Positive for every opponent |
+| P0 vs `starter`, seed 20260805 | 1 | **195,948 – 3,497** | +192,451 |
+| P0 vs `random`, seed 20260805 | 1 | **196,806 – 0** | +196,806 |
 
 The 40-game holdout used four previously unopened seeds, both seats, and exact
 temporary files for Kaito v21.1, Rayk c27, a Subin/Savko composite, a structured
@@ -71,8 +69,6 @@ economic policy, and Bruce Route 1. All 40 games ended `DONE/DONE`. The built-in
 `random` opponent is not reproducible, so its reward is only a smoke snapshot.
 The immutable per-match rows, opponent hashes, source URLs, and exact candidate
 SHA are in [`docs/evidence/v2-holdout.json`](docs/evidence/v2-holdout.json).
-The development-ablation row guided candidate selection, but its original
-per-match artifact was not retained and is not counted as release evidence.
 The automated suite contains eighteen passing tests, including both-seat
 Kaggle file loading, self-play symmetry, terminal inventory, and reproducible
 archive checks. Local results do not imply a public leaderboard score.
@@ -134,20 +130,7 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-Baseline V1 completed Kaggle's remote submission pipeline. V2 was delivered
-from the reviewed Git commit and passed Kaggle validation.
-
-| Delivery evidence | Value |
-|:---|:---|
-| Submission ID | `55268182` |
-| Kaggle API timestamp | `2026-08-05T11:19:05.207000` |
-| Message | `baseline-v1 deterministic carrot planner` |
-| Remote status | `COMPLETE` |
-| Public score snapshot | **471.3** · verified `2026-08-05T11:25:21Z` |
-| Archive | 2,211 bytes · SHA256 `d3781fb452c1ec3c85579c9c22f8dac860c307c3d4b57701eaef796c58d9f448` |
-| Matching code commit | [`ec8bdba`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/ec8bdba50701653e4c3b884cce65897e6fc68f3e) |
-
-V2 delivery:
+Current delivery:
 
 | Delivery evidence | Value |
 |:---|:---|
@@ -162,10 +145,10 @@ V2 delivery:
 | Packed `main.py` | 24,339 bytes · SHA256 `8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38` |
 | Archive members | Three root-level files: `main.py`, Apache-2.0 text, notice |
 
-Both scores above are timestamped Kaggle API snapshots and may continue
-changing as simulation episodes are processed; neither is a claim about final
-rank or private leaderboard performance. The V2 archived `main.py` and the file
-in the linked code commit have the same SHA256.
+The score above is a timestamped Kaggle API snapshot and may continue changing
+as simulation episodes are processed; it is not a claim about final rank or
+private leaderboard performance. The archived `main.py` and the file in the
+linked code commit have the same SHA256.
 
 The packaging script creates a deterministic archive whose executable remains
 self-contained. The license and notice travel with the third-party route:

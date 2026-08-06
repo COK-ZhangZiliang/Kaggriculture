@@ -44,6 +44,51 @@ submission validation.
 - Keep README commands runnable from the repository root and update README
   evidence whenever the verified runtime or submission state changes.
 
+## Documentation Rules
+
+- `README.md` must describe only the currently promoted agent strategy, its
+  current verification evidence, and its current Kaggle delivery.
+- Do not retain superseded strategy descriptions, prior submission tables, or
+  version-to-version evolution narratives in `README.md`.
+- Record the chronological strategy evolution only in the `Strategy Evolution
+  Log` section of this file. When a new strategy is promoted, replace the
+  strategy and delivery content in `README.md` and append one concise history
+  entry here in the same documentation change.
+- Keep detailed reproducibility evidence in `docs/` when needed; the evolution
+  log should summarize and link to evidence rather than duplicate raw results.
+
+## Strategy Evolution Log
+
+### V1: deterministic carrot baseline — 2026-08-05
+
+- Used the north-west quadrant as a carrot field, hired four hands daily,
+  assigned units by row, replenished seeds, and liquidated at the end.
+- Established the first complete 720-state local, packaging, Kaggle validation,
+  and public-GitHub delivery path.
+- Kaggle submission `55268182`, message `baseline-v1 deterministic carrot
+  planner`, reached `COMPLETE`; code commit `ec8bdba50701653e4c3b884cce65897e6fc68f3e`,
+  archive SHA-256
+  `d3781fb452c1ec3c85579c9c22f8dac860c307c3d4b57701eaef796c58d9f448`.
+- Its public score was observed at 471.3 on `2026-08-05T11:25:21Z`; simulation
+  ratings are dynamic, so this is only a historical snapshot.
+
+### V2: market-aware mixed farm — 2026-08-06 (current)
+
+- Replaced the single-crop planner with a three-quadrant wheat, melon,
+  strawberry, cow, and sheep supply chain.
+- Added worker alignment, actor-local weed recovery, projected-stock sell
+  clipping, sustained mirror detection, premium-sale front-running,
+  collision-aware order sorting, and step-718 liquidation.
+- Frozen holdout evidence: 38 wins in 40 both-seat games, all 720 states and
+  `DONE/DONE`, with a positive mean margin against every evaluated public
+  policy artifact. See `docs/evidence/v2-holdout.json`.
+- Kaggle submission `55292510`, message `v2 market-aware mixed-farm route
+  c587ec5`, reached `COMPLETE`; code commit
+  `c587ec54eb5e46e560f21797507b1e759ba7ccf6`, archive SHA-256
+  `3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef`.
+- Its public score was 754.8 after public episode `90378552`, verified at
+  `2026-08-06T07:40:21Z`; this remains a dynamic snapshot.
+
 ## Verification Gates
 
 Before treating a baseline change as complete, run all applicable checks:
