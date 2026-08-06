@@ -142,6 +142,23 @@ file-based opponents and records their SHA-256 hashes so this protocol can be
 repeated without committing third-party agents. The immutable per-match
 manifest is checked in at [`docs/evidence/v2-holdout.json`](evidence/v2-holdout.json).
 
+## Online delivery
+
+The exact reviewed archive was committed and pushed before upload, then Kaggle
+accepted submission `55292510` at `2026-08-06T07:36:04.577000`. It maps to Git
+commit
+[`c587ec54eb5e46e560f21797507b1e759ba7ccf6`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/c587ec54eb5e46e560f21797507b1e759ba7ccf6),
+archive SHA-256
+`3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef`,
+and packed `main.py` SHA-256
+`8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38`.
+
+Kaggle marked the submission `COMPLETE`. Its initial 600.0 validation rating
+was not treated as competitive evidence. After public episode `90378552`
+completed, the official submission API showed **754.8** at
+`2026-08-06T07:40:21Z`, above the user-reported V1 snapshot of 448.6. This is a
+dynamic early rating, not a final-rank claim.
+
 ## Evidence boundary
 
 - A local win is not a Kaggle rating.
@@ -150,5 +167,5 @@ manifest is checked in at [`docs/evidence/v2-holdout.json`](evidence/v2-holdout.
 - The public simulation rating can continue moving after validation.
 - A Notebook author's team score is not attributed to the Notebook binary
   unless hashes or chronology establish that link.
-- V2's online row will be added only after the exact packaged `main.py` is
-  uploaded and the submission ID is mapped to its Git commit.
+- Every future Kaggle code revision must likewise be committed and pushed to
+  GitHub in the same delivery cycle, with submission ID and Git SHA recorded.

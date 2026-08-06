@@ -134,8 +134,8 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-Baseline V1 completed Kaggle's remote submission pipeline. V2 has passed its
-local gates and the exact reviewed archive is ready for upload.
+Baseline V1 completed Kaggle's remote submission pipeline. V2 was delivered
+from the reviewed Git commit and passed Kaggle validation.
 
 | Delivery evidence | Value |
 |:---|:---|
@@ -147,20 +147,25 @@ local gates and the exact reviewed archive is ready for upload.
 | Archive | 2,211 bytes · SHA256 `d3781fb452c1ec3c85579c9c22f8dac860c307c3d4b57701eaef796c58d9f448` |
 | Matching code commit | [`ec8bdba`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/ec8bdba50701653e4c3b884cce65897e6fc68f3e) |
 
-V2 pre-upload artifact:
+V2 delivery:
 
 | Delivery evidence | Value |
 |:---|:---|
+| Submission ID | `55292510` |
+| Kaggle API timestamp | `2026-08-06T07:36:04.577000` |
+| Message | `v2 market-aware mixed-farm route c587ec5` |
+| Remote status | `COMPLETE` |
+| Public score snapshot | **754.8** · verified `2026-08-06T07:40:21Z`, after public episode `90378552` |
+| Matching code commit | [`c587ec5`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/c587ec54eb5e46e560f21797507b1e759ba7ccf6) |
 | Local status | 18 tests passed; required starter/random gates passed |
 | Archive | 17,814 bytes · SHA256 `3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef` |
 | Packed `main.py` | 24,339 bytes · SHA256 `8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38` |
 | Archive members | Three root-level files: `main.py`, Apache-2.0 text, notice |
-| Kaggle status | Not uploaded yet |
 
-The score above is a timestamped Kaggle API snapshot and may continue changing
-as simulation episodes are processed; it is not a claim about final rank or
-private leaderboard performance. The archived `main.py` and the file in the
-linked commit have the same SHA256.
+Both scores above are timestamped Kaggle API snapshots and may continue
+changing as simulation episodes are processed; neither is a claim about final
+rank or private leaderboard performance. The V2 archived `main.py` and the file
+in the linked code commit have the same SHA256.
 
 The packaging script creates a deterministic archive whose executable remains
 self-contained. The license and notice travel with the third-party route:
