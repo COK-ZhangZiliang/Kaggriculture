@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create and verify the minimal Kaggle submission archive."""
+"""Create and verify the minimal compliant Kaggle submission archive."""
 
 import argparse
 import gzip
@@ -9,7 +9,14 @@ from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SOURCE = REPOSITORY_ROOT / "main.py"
+LICENSE = REPOSITORY_ROOT / "LICENSES" / "Apache-2.0.txt"
+NOTICE = REPOSITORY_ROOT / "THIRD_PARTY_NOTICES.md"
 DEFAULT_OUTPUT = REPOSITORY_ROOT / "dist" / "submission.tar.gz"
+SUBMISSION_FILES = (
+    (SOURCE, "main.py"),
+    (LICENSE, "LICENSE-APACHE-2.0.txt"),
+    (NOTICE, "THIRD_PARTY_NOTICES.txt"),
+)
 
 
 def parse_args():
@@ -29,6 +36,15 @@ def create_submission(source, output):
 
     source_bytes = source.read_bytes()
     compile(source_bytes.decode("utf-8"), str(source), "exec")
+    submission_files = (
+        (source, "main.py"),
+        (LICENSE, "LICENSE-APACHE-2.0.txt"),
+        (NOTICE, "THIRD_PARTY_NOTICES.txt"),
+    )
+    for path, _ in submission_files:
+        if not path.is_file():
+            raise FileNotFoundError(path)
+
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("wb") as raw_archive:
         with gzip.GzipFile(
@@ -43,22 +59,23 @@ def create_submission(source, output):
                 fileobj=compressed_archive,
                 format=tarfile.USTAR_FORMAT,
             ) as archive:
-                member = tarfile.TarInfo("main.py")
-                member.size = len(source_bytes)
-                member.mode = 0o644
-                member.mtime = 0
-                member.uid = 0
-                member.gid = 0
-                member.uname = ""
-                member.gname = ""
-                archive.addfile(member, io.BytesIO(source_bytes))
+                for path, archive_name in submission_files:
+                    payload = path.read_bytes()
+                    member = tarfile.TarInfo(archive_name)
+                    member.size = len(payload)
+                    member.mode = 0o644
+                    member.mtime = 0
+                    member.uid = 0
+                    member.gid = 0
+                    member.uname = ""
+                    member.gname = ""
+                    archive.addfile(member, io.BytesIO(payload))
 
     with tarfile.open(output, "r:gz") as archive:
         members = archive.getmembers()
-    if (
-        len(members) != 1
-        or members[0].name != "main.py"
-        or not members[0].isfile()
+    expected_names = [archive_name for _, archive_name in submission_files]
+    if [member.name for member in members] != expected_names or not all(
+        member.isfile() for member in members
     ):
         raise RuntimeError(
             f"unexpected archive members: {[member.name for member in members]}"
@@ -74,7 +91,10 @@ def main():
     args = parse_args()
     output = args.output if args.output.is_absolute() else Path.cwd() / args.output
     size = create_submission(SOURCE, output)
-    print(f"{output} ({size} bytes): main.py")
+    print(
+        f"{output} ({size} bytes): "
+        + ", ".join(archive_name for _, archive_name in SUBMISSION_FILES)
+    )
 
 
 if __name__ == "__main__":

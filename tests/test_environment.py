@@ -1,11 +1,25 @@
 from importlib.metadata import version
 
+import pytest
 from kaggle_environments import make
 
-from main import CROP, agent
+from main import agent
 
 
-def assert_complete_episode(players, seed):
+SELLABLE = (
+    "WHEAT",
+    "CARROT",
+    "TOMATO",
+    "STRAWBERRY",
+    "MELON",
+    "EGG",
+    "MILK",
+    "WOOL",
+    "FERTILIZER",
+)
+
+
+def assert_complete_episode(players, seed, candidate_seat):
     env = make(
         "kaggriculture",
         configuration={"episodeSteps": 720, "seed": seed},
@@ -25,17 +39,50 @@ def assert_complete_episode(players, seed):
         for player, log in enumerate(logs)
         if log.get("stderr")
     ]
-    baseline_private = final[0].observation.private
-    assert baseline_private.shed.get(CROP, 0) == 0
+    candidate_private = final[candidate_seat].observation.private
+    assert all(candidate_private.shed.get(product, 0) == 0 for product in SELLABLE)
     assert all(
-        sum(inventory.values()) == 0
-        for inventory in baseline_private.inventories
+        sum(
+            quantity
+            for product, quantity in inventory.items()
+            if product in SELLABLE
+        )
+        == 0
+        for inventory in candidate_private.inventories
     )
+    return [state.reward for state in final]
 
 
 def test_full_episode_against_starter():
-    assert_complete_episode([agent, "starter"], seed=20260805)
+    rewards = assert_complete_episode(
+        [agent, "starter"],
+        seed=20260805,
+        candidate_seat=0,
+    )
+    assert rewards[0] > rewards[1]
 
 
-def test_submission_file_loader():
-    assert_complete_episode(["main.py", "starter"], seed=20260806)
+@pytest.mark.parametrize(
+    ("candidate_seat", "seed"),
+    ((0, 20260806), (1, 20260807)),
+)
+def test_submission_file_loader_from_both_seats(candidate_seat, seed):
+    players = ["main.py", "starter"]
+    if candidate_seat == 1:
+        players.reverse()
+    rewards = assert_complete_episode(players, seed, candidate_seat)
+    assert rewards[candidate_seat] > rewards[1 - candidate_seat]
+
+
+def test_self_play_is_symmetric_and_completes():
+    env = make(
+        "kaggriculture",
+        configuration={"episodeSteps": 720, "seed": 20260808},
+        debug=False,
+    )
+    steps = env.run(["main.py", "main.py"])
+    final = steps[-1]
+
+    assert len(steps) == 720
+    assert [state.status for state in final] == ["DONE", "DONE"]
+    assert final[0].reward == final[1].reward

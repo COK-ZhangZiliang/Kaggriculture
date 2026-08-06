@@ -32,7 +32,7 @@ def parse_args():
 def main():
     args = parse_args()
     replay_path = args.replay or Path(
-        f"replays/baseline-v1-p{args.player}-vs-{args.opponent}-seed-{args.seed}.json"
+        f"replays/v2-p{args.player}-vs-{args.opponent}-seed-{args.seed}.json"
     )
     replay_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -56,7 +56,7 @@ def main():
         json.dumps(env.toJSON(), separators=(",", ":")),
         encoding="utf-8",
     )
-    baseline_reward = rewards[args.player]
+    candidate_reward = rewards[args.player]
     opponent_reward = rewards[1 - args.player]
     summary = {
         "environment": "kaggriculture",
@@ -69,9 +69,9 @@ def main():
         "rewards": rewards,
         "result": (
             "win"
-            if baseline_reward > opponent_reward
+            if candidate_reward > opponent_reward
             else "loss"
-            if baseline_reward < opponent_reward
+            if candidate_reward < opponent_reward
             else "tie"
         ),
         "replay": str(replay_path),

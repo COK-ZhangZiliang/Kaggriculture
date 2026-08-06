@@ -1,0 +1,829 @@
+{
+  "schema_version": 1,
+  "purpose": "Frozen V2 holdout promotion evidence",
+  "generated_at_utc": "2026-08-06T07:30:50Z",
+  "claim_boundary": [
+    "This file records deterministic local simulator results for the pinned engine and frozen agent hashes.",
+    "It is not evidence of a Kaggle leaderboard score, rank, or matchmaking performance.",
+    "No third-party source code is embedded in this evidence file."
+  ],
+  "command": {
+    "working_directory": "repository root",
+    "path_policy": "machine-specific absolute paths are replaced by placeholders",
+    "placeholders": {
+      "SNAPSHOT_DIR": "directory containing the immutable candidate snapshot",
+      "PUBLIC_AGENTS_DIR": "directory containing the five frozen opponent files",
+      "RAW_OUTPUT": "temporary raw JSON output path"
+    },
+    "argv": [
+      ".venv/bin/python",
+      "scripts/run_league.py",
+      "--candidate",
+      "${SNAPSHOT_DIR}/v2-main-8d419acf65749692.py",
+      "--opponent",
+      "Kaito-v21.1=${PUBLIC_AGENTS_DIR}/kaito_v211.py",
+      "--opponent",
+      "Rayk-c27=${PUBLIC_AGENTS_DIR}/rayk_c27.py",
+      "--opponent",
+      "Soil-composite=${PUBLIC_AGENTS_DIR}/soil_composite.py",
+      "--opponent",
+      "Structured-policy=${PUBLIC_AGENTS_DIR}/structured_policy.py",
+      "--opponent",
+      "Bruce-route1=${PUBLIC_AGENTS_DIR}/bruce_route1.py",
+      "--seed",
+      "314159",
+      "--seed",
+      "271828",
+      "--seed",
+      "161803",
+      "--seed",
+      "141421",
+      "--require-positive-mean",
+      "--output",
+      "${RAW_OUTPUT}"
+    ]
+  },
+  "environment": {
+    "name": "kaggriculture",
+    "episode_steps": 720,
+    "kaggle_environments_version": "1.32.4",
+    "python_version": "3.12.13"
+  },
+  "candidate": {
+    "repository_file": "main.py",
+    "snapshot_file": "v2-main-8d419acf65749692.py",
+    "sha256": "8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38"
+  },
+  "opponents": [
+    {
+      "name": "Kaito-v21.1",
+      "file": "kaito_v211.py",
+      "sha256": "d9dc24ce5429ec628ead0621a160bee90725350683d7dfcc4686fcaf511f3aab",
+      "source_type": "Kaggle public notebook",
+      "source_url": "https://www.kaggle.com/code/kaitofukami/177-180-fresh-top-30-v21-1-conditional-memory",
+      "relation": "local executable extracted from the cited notebook for frozen evaluation"
+    },
+    {
+      "name": "Rayk-c27",
+      "file": "rayk_c27.py",
+      "sha256": "b7f17796744b0d7050618fc019b5647f2bad891eef8559e227efdea5c2338196",
+      "source_type": "Kaggle public notebook",
+      "source_url": "https://www.kaggle.com/code/raykkretzschmar/kaggriculture-findings-from-zero-to-top-meta",
+      "relation": "local executable extracted from the cited notebook for frozen evaluation"
+    },
+    {
+      "name": "Soil-composite",
+      "file": "soil_composite.py",
+      "sha256": "943e8c114ace4f5c5965698e66a4943e982dab4ccb57d8efa134a4e5b4f13955",
+      "source_type": "Kaggle public notebook",
+      "source_url": "https://www.kaggle.com/code/prvsiyan/kaggriculture-frontier-the-soil-remembers-rain",
+      "relation": "local executable extracted from the cited notebook for frozen evaluation"
+    },
+    {
+      "name": "Structured-policy",
+      "file": "structured_policy.py",
+      "sha256": "88c2d49a64d3d6371de1e0b87bad9cf1a6afcbaf3b346934a8e9d2c8fdea5345",
+      "source_type": "Kaggle public notebook",
+      "source_url": "https://www.kaggle.com/code/pilkwang/kaggriculture-structured-economic-policy",
+      "relation": "local executable extracted from the cited notebook for frozen evaluation"
+    },
+    {
+      "name": "Bruce-route1",
+      "file": "bruce_route1.py",
+      "sha256": "ed8c8420514acb5a96c0d44cfd42a8786e49c7cdc01a0de61d2e6b8997dda87a",
+      "source_type": "Kaggle public notebook",
+      "source_url": "https://www.kaggle.com/code/bruceqdu/my-2026-08-04-high-score-pipeline",
+      "relation": "local executable extracted from the cited notebook for frozen evaluation"
+    }
+  ],
+  "seeds": [
+    314159,
+    271828,
+    161803,
+    141421
+  ],
+  "both_seats": true,
+  "promotion_gate": {
+    "invocation_flag": "--require-positive-mean",
+    "conditions": [
+      "every game has 720 states, statuses DONE/DONE, and empty stderr",
+      "every opponent summary has mean_margin > 0"
+    ],
+    "passed": true
+  },
+  "matches": [
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 314159,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 119174,
+      "opponent_reward": 115226,
+      "margin": 3948,
+      "normalized_margin": 0.033686006825938565,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 314159,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 119174,
+      "opponent_reward": 115226,
+      "margin": 3948,
+      "normalized_margin": 0.033686006825938565,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 271828,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 116070,
+      "opponent_reward": 111984,
+      "margin": 4086,
+      "normalized_margin": 0.03583361835354784,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 271828,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 116070,
+      "opponent_reward": 111984,
+      "margin": 4086,
+      "normalized_margin": 0.03583361835354784,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 161803,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 116840,
+      "opponent_reward": 118358,
+      "margin": -1518,
+      "normalized_margin": -0.012908273029532564,
+      "result": "loss",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 161803,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 116840,
+      "opponent_reward": 118358,
+      "margin": -1518,
+      "normalized_margin": -0.012908273029532564,
+      "result": "loss",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 141421,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 131010,
+      "opponent_reward": 130748,
+      "margin": 262,
+      "normalized_margin": 0.002001849036132611,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Kaito-v21.1",
+      "seed": 141421,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 131010,
+      "opponent_reward": 130748,
+      "margin": 262,
+      "normalized_margin": 0.002001849036132611,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 314159,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 121984,
+      "opponent_reward": 116673,
+      "margin": 5311,
+      "normalized_margin": 0.04450738926576635,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 314159,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 121984,
+      "opponent_reward": 116673,
+      "margin": 5311,
+      "normalized_margin": 0.04450738926576635,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 271828,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 145175,
+      "opponent_reward": 135009,
+      "margin": 10166,
+      "normalized_margin": 0.07256659909202524,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 271828,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 148593,
+      "opponent_reward": 137526,
+      "margin": 11067,
+      "normalized_margin": 0.07735942038103027,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 161803,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 125720,
+      "opponent_reward": 107180,
+      "margin": 18540,
+      "normalized_margin": 0.15920996135680548,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 161803,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 146849,
+      "opponent_reward": 125850,
+      "margin": 20999,
+      "normalized_margin": 0.15400863222820765,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 141421,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 126951,
+      "opponent_reward": 114343,
+      "margin": 12608,
+      "normalized_margin": 0.1045032201380888,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Rayk-c27",
+      "seed": 141421,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 126947,
+      "opponent_reward": 114110,
+      "margin": 12837,
+      "normalized_margin": 0.1065059301327072,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 314159,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 121471,
+      "opponent_reward": 116535,
+      "margin": 4936,
+      "normalized_margin": 0.04147794593413611,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 314159,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 121471,
+      "opponent_reward": 116535,
+      "margin": 4936,
+      "normalized_margin": 0.04147794593413611,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 271828,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 145032,
+      "opponent_reward": 134648,
+      "margin": 10384,
+      "normalized_margin": 0.0742562929061785,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 271828,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 148443,
+      "opponent_reward": 137151,
+      "margin": 11292,
+      "normalized_margin": 0.07907729153973823,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 161803,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 124317,
+      "opponent_reward": 113841,
+      "margin": 10476,
+      "normalized_margin": 0.08797520973471393,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 161803,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 144937,
+      "opponent_reward": 132335,
+      "margin": 12602,
+      "normalized_margin": 0.09089991055714244,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 141421,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 126736,
+      "opponent_reward": 113788,
+      "margin": 12948,
+      "normalized_margin": 0.10766493156608073,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Soil-composite",
+      "seed": 141421,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 126732,
+      "opponent_reward": 113555,
+      "margin": 13177,
+      "normalized_margin": 0.10967717770832379,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 314159,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 91800,
+      "opponent_reward": 80631,
+      "margin": 11169,
+      "normalized_margin": 0.129547471162378,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 314159,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 91800,
+      "opponent_reward": 80631,
+      "margin": 11169,
+      "normalized_margin": 0.129547471162378,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 271828,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 140023,
+      "opponent_reward": 112623,
+      "margin": 27400,
+      "normalized_margin": 0.21690428504706188,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 271828,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 133764,
+      "opponent_reward": 106635,
+      "margin": 27129,
+      "normalized_margin": 0.22569977412551634,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 161803,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 167810,
+      "opponent_reward": 136930,
+      "margin": 30880,
+      "normalized_margin": 0.20266456651571832,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 161803,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 165998,
+      "opponent_reward": 141371,
+      "margin": 24627,
+      "normalized_margin": 0.16024387625297282,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 141421,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 159498,
+      "opponent_reward": 133876,
+      "margin": 25622,
+      "normalized_margin": 0.17467123876008098,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Structured-policy",
+      "seed": 141421,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 159498,
+      "opponent_reward": 133876,
+      "margin": 25622,
+      "normalized_margin": 0.17467123876008098,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 314159,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 122433,
+      "opponent_reward": 117221,
+      "margin": 5212,
+      "normalized_margin": 0.04349604012451284,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 314159,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 122433,
+      "opponent_reward": 117221,
+      "margin": 5212,
+      "normalized_margin": 0.04349604012451284,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 271828,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 145028,
+      "opponent_reward": 135212,
+      "margin": 9816,
+      "normalized_margin": 0.07005423922352269,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 271828,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 148648,
+      "opponent_reward": 137938,
+      "margin": 10710,
+      "normalized_margin": 0.07474196227310476,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 161803,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 124322,
+      "opponent_reward": 114649,
+      "margin": 9673,
+      "normalized_margin": 0.08095542973833646,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 161803,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 145122,
+      "opponent_reward": 133342,
+      "margin": 11780,
+      "normalized_margin": 0.08460698689956332,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 141421,
+      "candidate_seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 127033,
+      "opponent_reward": 114848,
+      "margin": 12185,
+      "normalized_margin": 0.10075202268884285,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "Bruce-route1",
+      "seed": 141421,
+      "candidate_seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 127029,
+      "opponent_reward": 114615,
+      "margin": 12414,
+      "normalized_margin": 0.10274618860803496,
+      "result": "win",
+      "stderr": []
+    }
+  ],
+  "summaries": [
+    {
+      "opponent": "Kaito-v21.1",
+      "games": 8,
+      "wins": 6,
+      "ties": 0,
+      "losses": 2,
+      "win_rate": 0.75,
+      "mean_candidate_reward": 120773.5,
+      "mean_margin": 1694.5,
+      "median_normalized_margin": 0.017843927931035588,
+      "all_done": true
+    },
+    {
+      "opponent": "Rayk-c27",
+      "games": 8,
+      "wins": 8,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1,
+      "mean_candidate_reward": 133025.375,
+      "mean_margin": 12104.875,
+      "median_normalized_margin": 0.09093132025955954,
+      "all_done": true
+    },
+    {
+      "opponent": "Soil-composite",
+      "games": 8,
+      "wins": 8,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1,
+      "mean_candidate_reward": 132392.375,
+      "mean_margin": 10093.875,
+      "median_normalized_margin": 0.08352625063722607,
+      "all_done": true
+    },
+    {
+      "opponent": "Structured-policy",
+      "games": 8,
+      "wins": 8,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1,
+      "mean_candidate_reward": 138773.875,
+      "mean_margin": 22952.25,
+      "median_normalized_margin": 0.17467123876008098,
+      "all_done": true
+    },
+    {
+      "opponent": "Bruce-route1",
+      "games": 8,
+      "wins": 8,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1,
+      "mean_candidate_reward": 132756,
+      "mean_margin": 9625.25,
+      "median_normalized_margin": 0.07784869600572061,
+      "all_done": true
+    }
+  ],
+  "overall": {
+    "games": 40,
+    "wins": 38,
+    "ties": 0,
+    "losses": 2,
+    "win_rate": 0.95,
+    "mean_margin": 11294.15,
+    "all_done_without_stderr": true,
+    "every_opponent_mean_margin_positive": true,
+    "promotion_passed": true
+  }
+}
