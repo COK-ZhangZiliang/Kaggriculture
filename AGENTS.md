@@ -72,7 +72,7 @@ submission validation.
 - Its public score was observed at 471.3 on `2026-08-05T11:25:21Z`; simulation
   ratings are dynamic, so this is only a historical snapshot.
 
-### V2: market-aware mixed farm — 2026-08-06 (current)
+### V2: market-aware mixed farm — 2026-08-06
 
 - Replaced the single-crop planner with a three-quadrant wheat, melon,
   strawberry, cow, and sheep supply chain.
@@ -86,8 +86,41 @@ submission validation.
   c587ec5`, reached `COMPLETE`; code commit
   `c587ec54eb5e46e560f21797507b1e759ba7ccf6`, archive SHA-256
   `3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef`.
-- Its public score was 754.8 after public episode `90378552`, verified at
-  `2026-08-06T07:40:21Z`; this remains a dynamic snapshot.
+- Its public score was observed at 1,531.5 on `2026-08-13T13:26Z`; simulation
+  ratings are dynamic, so this is only a historical snapshot.
+
+### V3A: observable-state execution control — 2026-08-13
+
+- Preserved the V2 production route while adding actor-ordered field and shed
+  shadow execution, atomic-plant repair, conservative market-flow inference,
+  evidence-gated H1–H5 premium-sale timing, and capacity-safe terminal recovery.
+- Final local candidate SHA-256
+  `541d6a13e6d10ca61c00ffe5c46fd3722ea29f22b5b8ea8de6dd550f8f61a001`
+  passed 40 automated tests, both required 720-state smoke matches, and
+  deterministic three-file archive verification.
+- In a fixed four-seed, both-seat paired diagnostic, it improved the margin in
+  all 8 games against Kaito v27 and all 8 against Breaking Tie, but still lost
+  every game; this is an execution-hardening result, not evidence of a large
+  leaderboard gain. The V3A evidence was superseded by the V3B evidence file.
+- V3A has not been uploaded to Kaggle or committed to GitHub. The current remote
+  delivery remains V2 until a later explicitly authorized delivery cycle.
+
+### V3B: adaptive 8C/4S market counter — 2026-08-13 (current local)
+
+- Replaced the V2/V3A economic tape with an 8-cow/4-sheep route reconstructed
+  by majority vote from three public episodes, while retaining bounded weed and
+  cow-placement recovery.
+- Extended quantity-conserving one-turn sale leads to all scheduled products
+  and added an evidence-gated second-order premium counter for observed H4
+  market opponents.
+- The frozen `main.py` candidate SHA-256
+  `257d74f613f80607fba6fa68482e9db1eb07cb98618add47d45415b4f9079f54`
+  swept 80/80 local games against four hash-pinned public strong artifacts,
+  using unseen deterministic seeds, both seats, 720 states, and `DONE/DONE`.
+  See `docs/v3b-strategy.md` and `docs/evidence/v3b-strong-holdout.json`.
+- This is a fixed local artifact-panel result, not proof against future or
+  hidden opponents and not a Kaggle score. V3B has not been uploaded, committed,
+  or pushed; the current online and GitHub delivery remains V2.
 
 ## Verification Gates
 

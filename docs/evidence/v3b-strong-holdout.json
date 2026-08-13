@@ -1,0 +1,1384 @@
+{
+  "manifest": {
+    "environment": "kaggriculture",
+    "kaggle_environments_version": "1.32.6",
+    "candidate": {
+      "name": "main.py",
+      "sha256": "257d74f613f80607fba6fa68482e9db1eb07cb98618add47d45415b4f9079f54"
+    },
+    "seed_derivation": "uint31(first 4 bytes of SHA256(\"V3B-HOLDOUT-2026-08-13:<index>\")), excluding prior development seeds",
+    "seeds": [
+      479764040,
+      1688561458,
+      2085137515,
+      844469700,
+      1704748160,
+      346473495,
+      695913196,
+      1181994432,
+      905216506,
+      172895257,
+      388183878,
+      113498351,
+      1829551367,
+      1888595183,
+      284591139,
+      2077360824
+    ],
+    "both_seats": true,
+    "opponents": [
+      {
+        "name": "r5a",
+        "file": "main.py",
+        "sha256": "7f87c941af3050d0f21376f2843b324d7a06a1a8c050fa554cf07a769e5c937c"
+      },
+      {
+        "name": "kaito-v27",
+        "file": "main.py",
+        "sha256": "f48c21166eac68d1b05a401f04f94a2eb6154e65415af64893672365ff33c7b8"
+      },
+      {
+        "name": "breaking-tie",
+        "file": "main.py",
+        "sha256": "df4e899ad535754cf2ddbd3c16e48085916b0cd2baa5182a1a2cfc6a856abae5"
+      },
+      {
+        "name": "adaptive",
+        "file": "main.py",
+        "sha256": "026bb0126b5ff9c4decb78ce5c3cd296515dadf462e79046ec081b9d80f9757a"
+      }
+    ]
+  },
+  "summaries": [
+    {
+      "opponent": "r5a",
+      "games": 32,
+      "wins": 32,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1.0,
+      "mean_candidate_reward": 102696.5,
+      "mean_margin": 1524.78125,
+      "median_normalized_margin": 0.014968562707343959,
+      "all_done": true
+    },
+    {
+      "opponent": "kaito-v27",
+      "games": 16,
+      "wins": 16,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1.0,
+      "mean_candidate_reward": 107566.5625,
+      "mean_margin": 19665.6875,
+      "median_normalized_margin": 0.20357535106540045,
+      "all_done": true
+    },
+    {
+      "opponent": "breaking-tie",
+      "games": 16,
+      "wins": 16,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1.0,
+      "mean_candidate_reward": 90767.9375,
+      "mean_margin": 1077.0,
+      "median_normalized_margin": 0.005593361321971955,
+      "all_done": true
+    },
+    {
+      "opponent": "adaptive",
+      "games": 16,
+      "wins": 16,
+      "ties": 0,
+      "losses": 0,
+      "win_rate": 1.0,
+      "mean_candidate_reward": 93643.6875,
+      "mean_margin": 6642.625,
+      "median_normalized_margin": 0.07837830312143235,
+      "all_done": true
+    }
+  ],
+  "matches": [
+    {
+      "opponent": "r5a",
+      "seed": 479764040,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 122742.0,
+      "opponent_reward": 120594.0,
+      "margin": 2148.0,
+      "normalized_margin": 0.017654601045467996,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 479764040,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 122666.0,
+      "opponent_reward": 120786.0,
+      "margin": 1880.0,
+      "normalized_margin": 0.01544452294497478,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1688561458,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 92697.0,
+      "opponent_reward": 91729.0,
+      "margin": 968.0,
+      "normalized_margin": 0.010497435285697245,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1688561458,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 92697.0,
+      "opponent_reward": 91729.0,
+      "margin": 968.0,
+      "normalized_margin": 0.010497435285697245,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 2085137515,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 97460.0,
+      "opponent_reward": 96570.0,
+      "margin": 890.0,
+      "normalized_margin": 0.009173839097046848,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 2085137515,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 97460.0,
+      "opponent_reward": 96570.0,
+      "margin": 890.0,
+      "normalized_margin": 0.009173839097046848,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 844469700,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 77266.0,
+      "opponent_reward": 76197.0,
+      "margin": 1069.0,
+      "normalized_margin": 0.013931696891107303,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 844469700,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 77266.0,
+      "opponent_reward": 76197.0,
+      "margin": 1069.0,
+      "normalized_margin": 0.013931696891107303,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1704748160,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 75531.0,
+      "opponent_reward": 73622.0,
+      "margin": 1909.0,
+      "normalized_margin": 0.0255978760065168,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1704748160,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 75531.0,
+      "opponent_reward": 73622.0,
+      "margin": 1909.0,
+      "normalized_margin": 0.0255978760065168,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 346473495,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 74094.0,
+      "opponent_reward": 72980.0,
+      "margin": 1114.0,
+      "normalized_margin": 0.015148836640058746,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 346473495,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 73999.0,
+      "opponent_reward": 73133.0,
+      "margin": 866.0,
+      "normalized_margin": 0.01177174238099122,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 695913196,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 121800.0,
+      "opponent_reward": 120714.0,
+      "margin": 1086.0,
+      "normalized_margin": 0.00895618397288404,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 695913196,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 122039.0,
+      "opponent_reward": 120403.0,
+      "margin": 1636.0,
+      "normalized_margin": 0.013496011417163693,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1181994432,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 71879.0,
+      "opponent_reward": 70396.0,
+      "margin": 1483.0,
+      "normalized_margin": 0.020846951326656125,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1181994432,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 71884.0,
+      "opponent_reward": 70391.0,
+      "margin": 1493.0,
+      "normalized_margin": 0.020987524160955895,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 905216506,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 131535.0,
+      "opponent_reward": 130522.0,
+      "margin": 1013.0,
+      "normalized_margin": 0.007731142461372908,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 905216506,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 131535.0,
+      "opponent_reward": 130522.0,
+      "margin": 1013.0,
+      "normalized_margin": 0.007731142461372908,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 172895257,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 117990.0,
+      "opponent_reward": 116220.0,
+      "margin": 1770.0,
+      "normalized_margin": 0.015114640707057769,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 172895257,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 117995.0,
+      "opponent_reward": 116215.0,
+      "margin": 1780.0,
+      "normalized_margin": 0.01520003415738013,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 388183878,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 123526.0,
+      "opponent_reward": 120806.0,
+      "margin": 2720.0,
+      "normalized_margin": 0.02226478725668353,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 388183878,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 123526.0,
+      "opponent_reward": 120806.0,
+      "margin": 2720.0,
+      "normalized_margin": 0.02226478725668353,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 113498351,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 83444.0,
+      "opponent_reward": 81658.0,
+      "margin": 1786.0,
+      "normalized_margin": 0.021635110416590955,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 113498351,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 83444.0,
+      "opponent_reward": 81658.0,
+      "margin": 1786.0,
+      "normalized_margin": 0.021635110416590955,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1829551367,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 145624.0,
+      "opponent_reward": 142249.0,
+      "margin": 3375.0,
+      "normalized_margin": 0.02344783984604322,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1829551367,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 143968.0,
+      "opponent_reward": 143903.0,
+      "margin": 65.0,
+      "normalized_margin": 0.0004515911640978077,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1888595183,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 153084.0,
+      "opponent_reward": 150889.0,
+      "margin": 2195.0,
+      "normalized_margin": 0.014442072157724535,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 1888595183,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 153084.0,
+      "opponent_reward": 150889.0,
+      "margin": 2195.0,
+      "normalized_margin": 0.014442072157724535,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 284591139,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 89216.0,
+      "opponent_reward": 88487.0,
+      "margin": 729.0,
+      "normalized_margin": 0.008204701102401197,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 284591139,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 89510.0,
+      "opponent_reward": 88193.0,
+      "margin": 1317.0,
+      "normalized_margin": 0.014822484707630148,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 2077360824,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 66047.0,
+      "opponent_reward": 64305.0,
+      "margin": 1742.0,
+      "normalized_margin": 0.026727629802381244,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "r5a",
+      "seed": 2077360824,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 65749.0,
+      "opponent_reward": 64540.0,
+      "margin": 1209.0,
+      "normalized_margin": 0.018558742487853924,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 479764040,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 143122.0,
+      "opponent_reward": 120428.0,
+      "margin": 22694.0,
+      "normalized_margin": 0.17221779548472776,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 479764040,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 142844.0,
+      "opponent_reward": 120521.0,
+      "margin": 22323.0,
+      "normalized_margin": 0.16952138666869174,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 1688561458,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 138297.0,
+      "opponent_reward": 112041.0,
+      "margin": 26256.0,
+      "normalized_margin": 0.20976439853318313,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 1688561458,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 138297.0,
+      "opponent_reward": 112041.0,
+      "margin": 26256.0,
+      "normalized_margin": 0.20976439853318313,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 2085137515,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 92890.0,
+      "opponent_reward": 76709.0,
+      "margin": 16181.0,
+      "normalized_margin": 0.19081480433257272,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 2085137515,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 92890.0,
+      "opponent_reward": 76709.0,
+      "margin": 16181.0,
+      "normalized_margin": 0.19081480433257272,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 844469700,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 89617.0,
+      "opponent_reward": 72667.0,
+      "margin": 16950.0,
+      "normalized_margin": 0.2088930516871657,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 844469700,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 89617.0,
+      "opponent_reward": 72667.0,
+      "margin": 16950.0,
+      "normalized_margin": 0.2088930516871657,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 1704748160,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 74875.0,
+      "opponent_reward": 60479.0,
+      "margin": 14396.0,
+      "normalized_margin": 0.2127162847052913,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 1704748160,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 74875.0,
+      "opponent_reward": 60479.0,
+      "margin": 14396.0,
+      "normalized_margin": 0.2127162847052913,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 346473495,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 109260.0,
+      "opponent_reward": 89552.0,
+      "margin": 19708.0,
+      "normalized_margin": 0.1982576504436352,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 346473495,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 109260.0,
+      "opponent_reward": 89552.0,
+      "margin": 19708.0,
+      "normalized_margin": 0.1982576504436352,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 695913196,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 113986.0,
+      "opponent_reward": 95701.0,
+      "margin": 18285.0,
+      "normalized_margin": 0.17440280036435257,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 695913196,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 114292.0,
+      "opponent_reward": 95665.0,
+      "margin": 18627.0,
+      "normalized_margin": 0.17743633220135552,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 1181994432,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 105525.0,
+      "opponent_reward": 82065.0,
+      "margin": 23460.0,
+      "normalized_margin": 0.25011994242763474,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "kaito-v27",
+      "seed": 1181994432,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 91418.0,
+      "opponent_reward": 69138.0,
+      "margin": 22280.0,
+      "normalized_margin": 0.277535563915394,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 479764040,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 120582.0,
+      "opponent_reward": 120162.0,
+      "margin": 420.0,
+      "normalized_margin": 0.0034891835310537334,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 479764040,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 123404.0,
+      "opponent_reward": 120719.0,
+      "margin": 2685.0,
+      "normalized_margin": 0.021997108015221836,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 1688561458,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 91991.0,
+      "opponent_reward": 91647.0,
+      "margin": 344.0,
+      "normalized_margin": 0.003746501268800575,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 1688561458,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 91991.0,
+      "opponent_reward": 91647.0,
+      "margin": 344.0,
+      "normalized_margin": 0.003746501268800575,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 2085137515,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 96732.0,
+      "opponent_reward": 96345.0,
+      "margin": 387.0,
+      "normalized_margin": 0.004008763343122174,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 2085137515,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 97774.0,
+      "opponent_reward": 91990.0,
+      "margin": 5784.0,
+      "normalized_margin": 0.06095992917518602,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 844469700,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 76554.0,
+      "opponent_reward": 76127.0,
+      "margin": 427.0,
+      "normalized_margin": 0.005593361321971955,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 844469700,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 76554.0,
+      "opponent_reward": 76127.0,
+      "margin": 427.0,
+      "normalized_margin": 0.005593361321971955,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 1704748160,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 73321.0,
+      "opponent_reward": 72752.0,
+      "margin": 569.0,
+      "normalized_margin": 0.007790625235327542,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 1704748160,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 73321.0,
+      "opponent_reward": 72752.0,
+      "margin": 569.0,
+      "normalized_margin": 0.007790625235327542,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 346473495,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 73195.0,
+      "opponent_reward": 71978.0,
+      "margin": 1217.0,
+      "normalized_margin": 0.01676620308184029,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 346473495,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 73130.0,
+      "opponent_reward": 72835.0,
+      "margin": 295.0,
+      "normalized_margin": 0.00404206487856678,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 695913196,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 120126.0,
+      "opponent_reward": 119584.0,
+      "margin": 542.0,
+      "normalized_margin": 0.004522130908180718,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 695913196,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 120156.0,
+      "opponent_reward": 119484.0,
+      "margin": 672.0,
+      "normalized_margin": 0.005608412618928392,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 1181994432,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 70620.0,
+      "opponent_reward": 70431.0,
+      "margin": 189.0,
+      "normalized_margin": 0.0026798817449007807,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "breaking-tie",
+      "seed": 1181994432,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 72836.0,
+      "opponent_reward": 70475.0,
+      "margin": 2361.0,
+      "normalized_margin": 0.03294932001032719,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 479764040,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 125854.0,
+      "opponent_reward": 116205.0,
+      "margin": 9649.0,
+      "normalized_margin": 0.07972436472099777,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 479764040,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 126887.0,
+      "opponent_reward": 116295.0,
+      "margin": 10592.0,
+      "normalized_margin": 0.08711171057068369,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 1688561458,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 93301.0,
+      "opponent_reward": 86264.0,
+      "margin": 7037.0,
+      "normalized_margin": 0.07837830312143235,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 1688561458,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 93301.0,
+      "opponent_reward": 86264.0,
+      "margin": 7037.0,
+      "normalized_margin": 0.07837830312143235,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 2085137515,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 97967.0,
+      "opponent_reward": 90836.0,
+      "margin": 7131.0,
+      "normalized_margin": 0.07553905393452434,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 2085137515,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 98025.0,
+      "opponent_reward": 88908.0,
+      "margin": 9117.0,
+      "normalized_margin": 0.0975429699411019,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 844469700,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 77054.0,
+      "opponent_reward": 75871.0,
+      "margin": 1183.0,
+      "normalized_margin": 0.015471636423083211,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 844469700,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 77054.0,
+      "opponent_reward": 75871.0,
+      "margin": 1183.0,
+      "normalized_margin": 0.015471636423083211,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 1704748160,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 81247.0,
+      "opponent_reward": 75013.0,
+      "margin": 6234.0,
+      "normalized_margin": 0.07979009343402023,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 1704748160,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 81247.0,
+      "opponent_reward": 75013.0,
+      "margin": 6234.0,
+      "normalized_margin": 0.07979009343402023,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 346473495,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 75556.0,
+      "opponent_reward": 70645.0,
+      "margin": 4911.0,
+      "normalized_margin": 0.06718148302679189,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 346473495,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 75520.0,
+      "opponent_reward": 71610.0,
+      "margin": 3910.0,
+      "normalized_margin": 0.05315027526677088,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 695913196,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 123998.0,
+      "opponent_reward": 116263.0,
+      "margin": 7735.0,
+      "normalized_margin": 0.06438831104507181,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 695913196,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 124279.0,
+      "opponent_reward": 116110.0,
+      "margin": 8169.0,
+      "normalized_margin": 0.06796484032131254,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 1181994432,
+      "seat": 0,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 72099.0,
+      "opponent_reward": 66345.0,
+      "margin": 5754.0,
+      "normalized_margin": 0.08312386235589841,
+      "result": "win",
+      "stderr": []
+    },
+    {
+      "opponent": "adaptive",
+      "seed": 1181994432,
+      "seat": 1,
+      "states": 720,
+      "statuses": [
+        "DONE",
+        "DONE"
+      ],
+      "candidate_reward": 74910.0,
+      "opponent_reward": 64504.0,
+      "margin": 10406.0,
+      "normalized_margin": 0.1492819946346852,
+      "result": "win",
+      "stderr": []
+    }
+  ]
+}

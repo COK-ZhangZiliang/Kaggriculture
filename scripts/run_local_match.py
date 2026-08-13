@@ -32,7 +32,7 @@ def parse_args():
 def main():
     args = parse_args()
     replay_path = args.replay or Path(
-        f"replays/v2-p{args.player}-vs-{args.opponent}-seed-{args.seed}.json"
+        f"replays/v3b-p{args.player}-vs-{args.opponent}-seed-{args.seed}.json"
     )
     replay_path.parent.mkdir(parents=True, exist_ok=True)
 

@@ -74,7 +74,7 @@ def test_submission_file_loader_from_both_seats(candidate_seat, seed):
     assert rewards[candidate_seat] > rewards[1 - candidate_seat]
 
 
-def test_self_play_is_symmetric_and_completes():
+def test_self_play_completes_without_runtime_errors():
     env = make(
         "kaggriculture",
         configuration={"episodeSteps": 720, "seed": 20260808},
@@ -85,4 +85,10 @@ def test_self_play_is_symmetric_and_completes():
 
     assert len(steps) == 720
     assert [state.status for state in final] == ["DONE", "DONE"]
-    assert final[0].reward == final[1].reward
+    assert all(state.reward is not None and state.reward > 0 for state in final)
+    assert not [
+        (turn, player, log.get("stderr"))
+        for turn, logs in enumerate(env.logs)
+        for player, log in enumerate(logs)
+        if log.get("stderr")
+    ]

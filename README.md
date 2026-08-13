@@ -5,9 +5,9 @@
 
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
-  [![Tests](https://img.shields.io/badge/tests-18%20passed-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
+  [![Tests](https://img.shields.io/badge/tests-passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
   [![Submission status](https://img.shields.io/badge/Kaggle%20submission-COMPLETE-20BEFF?logo=kaggle&logoColor=white)](#-submission)
-  [![Policy](https://img.shields.io/badge/policy-market--aware-7B61FF)](#-strategy)
+  [![Policy](https://img.shields.io/badge/policy-adaptive%208C%2F4S-7B61FF)](#-strategy)
 
   **A deterministic mixed-farm agent for Kaggle's 720-state economic simulation.**
 </div>
@@ -16,16 +16,17 @@
 
 This repository contains a self-contained agent for the
 [Kaggriculture competition](https://www.kaggle.com/competitions/kaggriculture).
-The current agent combines a complete mixed-farm economic route with
-visible-state repair, shared-market timing, both-seat evaluation, and a
-reproducible submission archive.
+The current local agent runs an 8-cow/4-sheep mixed-farm route with bounded
+state repair and market timing selected from public observations. It combines
+high-throughput production, quantity-conserving sale leads, both-seat
+evaluation, and a reproducible archive.
 
 ```text
-mixed herd + wheat / melon / strawberry route
-  → align workers and repair visible weeds
-  → project same-turn shed stock
-  → order fragile-product sales against public opponent exposure
-  → drop and liquidate reachable stock on step 718
+8 cow + 4 sheep + wheat / melon / strawberry route
+  → repair visible weeds and displaced cow placement
+  → move scheduled sales one turn early without changing total quantity
+  → confirm H4 market opponents from public farm and inventory changes
+  → counter confirmed premium preemption one additional turn early
 ```
 
 The Kaggle entrypoint is [`main.py`](main.py). It has no runtime dependency on
@@ -35,43 +36,46 @@ the rest of this repository and returns only JSON-safe actions.
 
 The policy runs a diversified crop-and-livestock supply chain:
 
-- scales labor and unlocks three quadrants for a mixed cow/sheep herd;
-- uses wheat for feed and liquidity, bounded melons for capital events, and
-  strawberries for town-supported recurring production;
-- repairs visible weeds only for the affected actor, then replays a bounded
-  local route suffix;
-- clips sales to projected shed inventory after same-turn field actions;
-- detects sustained near-mirror farms and moves the next complete premium sale
-  one turn earlier;
-- orders existing sale blocks by opponent exposure and glut sensitivity;
-- uses the last executable step, 718, for same-turn `DROP` then `SELL`.
+- hires five workers, expands to three quadrants, and reaches eight cows and
+  four sheep while sustaining wheat, melon, and strawberry production;
+- repairs visible weeds that block scheduled planting or pasture construction;
+- realigns a cow carrier to an adjacent empty pasture during the expansion
+  window, then resumes the frozen route;
+- advances every scheduled product sale by one turn when stock is available
+  and deterministic town demand does not erase the queue advantage;
+- subtracts every advanced quantity from the original next-turn sale, so the
+  two-turn planned quantity is conserved;
+- detects near-mirror production from public farms and attributes premium
+  market inventory changes after accounting for our sale and town demand;
+- activates the second-order premium counter only after those observations
+  confirm an opponent that is already preempting the public sale schedule.
 
-The long-horizon route is derived from an Apache-2.0 public Kaggle Notebook;
-the state controller was written for this repository. Attribution and changes
+The long-horizon route and premium reference schedule come from public Kaggle
+Notebooks; the combined controller and repository verification were adapted
+here. Attribution and changes
 are recorded in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), and the
-full research and evidence boundary is in
-[`docs/v2-strategy.md`](docs/v2-strategy.md).
+full current evidence boundary is in
+[`docs/v3b-strategy.md`](docs/v3b-strategy.md).
 
 ## ✅ Verified current strategy
 
-Local verification used Python 3.12, `kaggle-environments==1.32.4`, 720 recorded
-states, and fixed environment seeds.
+The frozen strong-agent gate used Python 3.12,
+`kaggle-environments==1.32.6`, deterministic unseen seeds, both candidate
+seats, 720 recorded states, and required every individual game to be a win.
 
-| Gate | Games | Result | Mean margin |
-|---|---:|---:|---:|
-| Holdout vs five public policy artifacts | 40 | **38 wins** | Positive for every opponent |
-| P0 vs `starter`, seed 20260805 | 1 | **195,948 – 3,497** | +192,451 |
-| P0 vs `random`, seed 20260805 | 1 | **196,806 – 0** | +196,806 |
+| Frozen opponent | Seeds | Games | Result | Mean margin |
+|---|---:|---:|---:|---:|
+| R5A 8C/4S | 16 | 32 | **32-0-0** | +1,524.781 |
+| Kaito v27 | 8 | 16 | **16-0-0** | +19,665.688 |
+| Breaking Tie | 8 | 16 | **16-0-0** | +1,077.000 |
+| Adaptive | 8 | 16 | **16-0-0** | +6,642.625 |
 
-The 40-game holdout used four previously unopened seeds, both seats, and exact
-temporary files for Kaito v21.1, Rayk c27, a Subin/Savko composite, a structured
-economic policy, and Bruce Route 1. All 40 games ended `DONE/DONE`. The built-in
-`random` opponent is not reproducible, so its reward is only a smoke snapshot.
-The immutable per-match rows, opponent hashes, source URLs, and exact candidate
-SHA are in [`docs/evidence/v2-holdout.json`](docs/evidence/v2-holdout.json).
-The automated suite contains eighteen passing tests, including both-seat
-Kaggle file loading, self-play symmetry, terminal inventory, and reproducible
-archive checks. Local results do not imply a public leaderboard score.
+All 80 games ended `DONE/DONE` without captured stderr. The narrowest winning
+margin was +65, so the closest matchup remains sensitive. Exact opponent
+hashes, seeds, per-game rows, and claim limits are recorded in
+[`docs/evidence/v3b-strong-holdout.json`](docs/evidence/v3b-strong-holdout.json).
+This proves a sweep only against these exact frozen artifacts on this panel; it
+does not imply universal dominance or a public leaderboard score.
 
 ## 🚜 Quick start
 
@@ -117,8 +121,8 @@ python scripts/run_league.py \
   --opponent kaito=/absolute/path/to/kaito.py \
   --opponent rayk=/absolute/path/to/rayk.py \
   --seed 20260811 --seed 20260829 \
-  --require-positive-mean \
-  --output runs/eval/v2-dev.json
+  --require-all-wins \
+  --output runs/eval/v3b-holdout.json
 ```
 
 Build the minimal Kaggle archive and inspect its contents:
@@ -130,7 +134,7 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-Current delivery:
+Latest confirmed online delivery (V2):
 
 | Delivery evidence | Value |
 |:---|:---|
@@ -138,17 +142,27 @@ Current delivery:
 | Kaggle API timestamp | `2026-08-06T07:36:04.577000` |
 | Message | `v2 market-aware mixed-farm route c587ec5` |
 | Remote status | `COMPLETE` |
-| Public score snapshot | **754.8** · verified `2026-08-06T07:40:21Z`, after public episode `90378552` |
+| Public score snapshot | **1,531.5** · verified `2026-08-13T13:26Z` |
 | Matching code commit | [`c587ec5`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/c587ec54eb5e46e560f21797507b1e759ba7ccf6) |
-| Local status | 18 tests passed; required starter/random gates passed |
-| Archive | 17,814 bytes · SHA256 `3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef` |
-| Packed `main.py` | 24,339 bytes · SHA256 `8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38` |
+| V2 online archive | 17,814 bytes · SHA256 `3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef` |
+| V2 online `main.py` | 24,339 bytes · SHA256 `8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38` |
 | Archive members | Three root-level files: `main.py`, Apache-2.0 text, notice |
 
-The score above is a timestamped Kaggle API snapshot and may continue changing
-as simulation episodes are processed; it is not a claim about final rank or
-private leaderboard performance. The archived `main.py` and the file in the
-linked code commit have the same SHA256.
+The score above is a dynamic timestamped snapshot of the latest confirmed
+online delivery, not a V3B result. The online archive and linked V2 commit have
+the same `main.py` SHA256.
+
+Current local V3B candidate:
+
+| Local evidence | Value |
+|:---|:---|
+| Kaggle status | Not uploaded |
+| Git status | Not committed or pushed |
+| Strong-agent gate | 80/80 wins across four hash-pinned artifacts |
+| Verification | 27 tests passed; starter/random gates passed |
+| Performance | 719 calls · mean 0.097 ms · p99 0.288 ms · max 0.355 ms |
+| `main.py` | 36,071 bytes · SHA256 `257d74f613f80607fba6fa68482e9db1eb07cb98618add47d45415b4f9079f54` |
+| Archive | 20,223 bytes · SHA256 `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0` |
 
 The packaging script creates a deterministic archive whose executable remains
 self-contained. The license and notice travel with the third-party route:
@@ -173,7 +187,7 @@ repository, then submit the reviewed archive with the official CLI.
 │   ├── package_submission.py     # build and verify the archive
 │   ├── run_local_match.py        # run a 720-state local episode
 │   └── run_league.py             # both-seat file-agent league
-├── docs/v2-strategy.md           # research, ablations, and claim boundaries
+├── docs/v3b-strategy.md          # current strategy and evidence boundary
 ├── tests/                        # unit and environment smoke tests
 ├── assets/logo.svg               # project wordmark
 ├── LICENSES/Apache-2.0.txt       # third-party license copy

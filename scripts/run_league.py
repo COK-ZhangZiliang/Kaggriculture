@@ -57,6 +57,14 @@ def parse_args():
             "positive candidate mean margin"
         ),
     )
+    parser.add_argument(
+        "--require-all-wins",
+        action="store_true",
+        help=(
+            "fail unless every match finishes cleanly and the candidate "
+            "wins every game"
+        ),
+    )
     args = parser.parse_args()
     duplicate_names = find_duplicate_names(name for name, _ in args.opponent)
     if duplicate_names:
@@ -152,8 +160,16 @@ def summarize(rows, opponent_name):
     }
 
 
-def passes_gate(summaries, require_positive_mean=False):
+def passes_gate(
+    summaries,
+    require_positive_mean=False,
+    require_all_wins=False,
+):
     if not all(summary["all_done"] for summary in summaries):
+        return False
+    if require_all_wins and not all(
+        summary["wins"] == summary["games"] for summary in summaries
+    ):
         return False
     if require_positive_mean:
         return all(summary["mean_margin"] > 0 for summary in summaries)
@@ -198,7 +214,11 @@ def main():
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(result, indent=2), encoding="utf-8")
 
-    if not passes_gate(summaries, args.require_positive_mean):
+    if not passes_gate(
+        summaries,
+        require_positive_mean=args.require_positive_mean,
+        require_all_wins=args.require_all_wins,
+    ):
         return 1
     return 0
 
