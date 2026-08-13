@@ -134,35 +134,26 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-Latest confirmed online delivery (V2):
+Current confirmed online delivery (V3B):
 
 | Delivery evidence | Value |
 |:---|:---|
-| Submission ID | `55292510` |
-| Kaggle API timestamp | `2026-08-06T07:36:04.577000` |
-| Message | `v2 market-aware mixed-farm route c587ec5` |
+| Submission ID | `55484203` |
+| Kaggle API timestamp | `2026-08-13T13:28:49.090000` |
+| Message | `v3b adaptive 8c4s market counter 9bd601c` |
 | Remote status | `COMPLETE` |
-| Public score snapshot | **1,531.5** · verified `2026-08-13T13:26Z` |
-| Matching code commit | [`c587ec5`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/c587ec54eb5e46e560f21797507b1e759ba7ccf6) |
-| V2 online archive | 17,814 bytes · SHA256 `3967ea31aa2da69e0be8b5af0dc07b70d9f5f5384c3f8a1ae74ffa12173ca3ef` |
-| V2 online `main.py` | 24,339 bytes · SHA256 `8d419acf65749692682698b1ac0091942b22f2b67c94a9a8cf90c3dbc3418c38` |
+| Initial public score snapshot | **600.0** · verified `2026-08-13T13:30Z` |
+| Matching code commit | [`9bd601c`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/9bd601cb60150192986313049ce2a609644243e1) |
+| Online archive | 20,223 bytes · SHA256 `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0` |
+| Online `main.py` | 36,071 bytes · SHA256 `257d74f613f80607fba6fa68482e9db1eb07cb98618add47d45415b4f9079f54` |
 | Archive members | Three root-level files: `main.py`, Apache-2.0 text, notice |
 
-The score above is a dynamic timestamped snapshot of the latest confirmed
-online delivery, not a V3B result. The online archive and linked V2 commit have
-the same `main.py` SHA256.
-
-Current local V3B candidate:
-
-| Local evidence | Value |
-|:---|:---|
-| Kaggle status | Not uploaded |
-| Git status | Not committed or pushed |
-| Strong-agent gate | 80/80 wins across four hash-pinned artifacts |
-| Verification | 27 tests passed; starter/random gates passed |
-| Performance | 719 calls · mean 0.097 ms · p99 0.288 ms · max 0.355 ms |
-| `main.py` | 36,071 bytes · SHA256 `257d74f613f80607fba6fa68482e9db1eb07cb98618add47d45415b4f9079f54` |
-| Archive | 20,223 bytes · SHA256 `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0` |
+The score above is the first dynamic snapshot after validation and can change
+as public simulation episodes are processed. It is not a final-rank or private
+leaderboard claim. The uploaded `main.py` is traceable to code commit
+`9bd601c`; the delivery evidence update is recorded in a subsequent docs-only
+commit. Local verification remains 27 passing tests, starter/random smoke
+gates, 80/80 frozen strong-agent wins, and sub-millisecond decision latency.
 
 The packaging script creates a deterministic archive whose executable remains
 self-contained. The license and notice travel with the third-party route:

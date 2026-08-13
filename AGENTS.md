@@ -119,8 +119,14 @@ submission validation.
   using unseen deterministic seeds, both seats, 720 states, and `DONE/DONE`.
   See `docs/v3b-strategy.md` and `docs/evidence/v3b-strong-holdout.json`.
 - This is a fixed local artifact-panel result, not proof against future or
-  hidden opponents and not a Kaggle score. V3B has not been uploaded, committed,
-  or pushed; the current online and GitHub delivery remains V2.
+  hidden opponents and not a Kaggle score.
+- Kaggle submission `55484203`, message
+  `v3b adaptive 8c4s market counter 9bd601c`, reached `COMPLETE`; the uploaded
+  `main.py` maps to Git commit
+  `9bd601cb60150192986313049ce2a609644243e1`, and the archive SHA-256 is
+  `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0`.
+- Its initial public score was observed at 600.0 on `2026-08-13T13:30Z`;
+  simulation ratings are dynamic, so this is only a delivery snapshot.
 
 ## Verification Gates
 

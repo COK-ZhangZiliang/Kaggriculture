@@ -65,5 +65,11 @@ distribution, and it is not a Kaggle score.
   `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0`;
 - archive members: root-level `main.py`, `LICENSE-APACHE-2.0.txt`, and
   `THIRD_PARTY_NOTICES.txt`;
-- V3B has not been submitted to Kaggle or committed to GitHub. The latest
-  confirmed online delivery remains V2 submission `55292510`.
+- Kaggle submission `55484203`, message
+  `v3b adaptive 8c4s market counter 9bd601c`, reached `COMPLETE` at the remote
+  API. Its initial public score snapshot was 600.0 at `2026-08-13T13:30Z`;
+  simulation ratings are dynamic.
+- The uploaded archive SHA-256 is
+  `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0`,
+  and its `main.py` maps to Git commit
+  `9bd601cb60150192986313049ce2a609644243e1`.
