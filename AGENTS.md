@@ -105,7 +105,7 @@ submission validation.
 - V3A has not been uploaded to Kaggle or committed to GitHub. The current remote
   delivery remains V2 until a later explicitly authorized delivery cycle.
 
-### V3B: adaptive 8C/4S market counter — 2026-08-13 (current local)
+### V3B: adaptive 8C/4S market counter — 2026-08-13
 
 - Replaced the V2/V3A economic tape with an 8-cow/4-sheep route reconstructed
   by majority vote from three public episodes, while retaining bounded weed and
@@ -127,6 +127,28 @@ submission validation.
   `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0`.
 - Its initial public score was observed at 600.0 on `2026-08-13T13:30Z`;
   simulation ratings are dynamic, so this is only a delivery snapshot.
+
+### V3C: failure-driven execution and H7 repayment — 2026-08-14 (current local)
+
+- Reproduced all 17 captured V3B online losses exactly with engine `1.32.6`,
+  then separated production-route deficits, market mirrors, and a cash-starved
+  partial-purchase cascade. See `docs/v3c-strategy.md` and
+  `docs/evidence/v3c-failure-analysis.json`.
+- Kept the 8C/4S route; added first-day seed-surplus clipping, observable cow
+  purchase reconciliation, a tightly gated ninth cow, and a seven-turn premium
+  prepayment whose exact quantity is excluded from H1 and removed from the
+  original sale.
+- The final local `main.py` SHA-256 is
+  `d9e26d7e45a944dd4e46adc28f66f7d9ae5c6974e71755debe6b291029aa79e0`.
+  On fixed opponent tapes it improved 9 of 17 historical losses, left 8
+  unchanged, regressed none, and flipped 3; this is an open-loop diagnostic,
+  not a policy rematch.
+- A final-hash fresh closed-loop holdout swept 64/64 both-seat games against
+  four hash-pinned public artifacts, all 720 states and `DONE/DONE`, with a
+  minimum margin of +116. The seeds do not overlap the V3B holdout.
+- V3C has not been uploaded to Kaggle or committed to GitHub. The confirmed
+  online delivery remains V3B submission `55484203`; its public score was
+  observed at 2,546.8 on `2026-08-14T06:33:10Z` and remains dynamic.
 
 ## Verification Gates
 

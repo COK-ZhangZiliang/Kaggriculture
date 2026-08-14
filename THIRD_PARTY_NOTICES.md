@@ -31,8 +31,9 @@ The Kaggle submission archive carries this notice as
 The route was changed by majority-selecting public replay actions, serializing
 them as compact JSON, and recompressing them. The second source was reduced to
 83 premium-sale schedule entries; its field and terminal tapes are not
-included. This repository adds per-seat state, general product lead/repayment,
-market-evidence gating, malformed-observation protection, tests, and packaging.
+included. This repository adds per-seat state, weed and partial-purchase
+recovery, general-product H1 lead/repayment, evidence-gated H7
+prepayment/repayment, malformed-observation protection, tests, and packaging.
 The source Notebooks document further public replay and research lineage; that
 provenance remains part of this attribution.
 

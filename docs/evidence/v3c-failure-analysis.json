@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "strategy": "V3C failure-driven 8C/4S execution and market control",
+  "generated_at_utc": "2026-08-14T07:08:47Z",
+  "environment": {
+    "name": "kaggriculture",
+    "kaggle_environments_version": "1.32.6",
+    "episode_states": 720
+  },
+  "candidate": {
+    "main_sha256": "d9e26d7e45a944dd4e46adc28f66f7d9ae5c6974e71755debe6b291029aa79e0",
+    "archive_sha256": "90c800d2d51705a8662ed5d33d60f2953180f192f8091f2ab20d4886b29d13ef",
+    "archive_size_bytes": 21348,
+    "archive_members": ["main.py", "LICENSE-APACHE-2.0.txt", "THIRD_PARTY_NOTICES.txt"],
+    "identity_or_seed_routing": false
+  },
+  "failure_snapshot": {
+    "source_submission_id": 55484203,
+    "captured_public_episodes": 99,
+    "wins": 82,
+    "losses": 17,
+    "exact_reproduction": {
+      "replays": 17,
+      "all_720_done": true,
+      "action_mismatches": 0,
+      "observation_mismatches": 0,
+      "reward_mismatches": 0,
+      "status_mismatches": 0,
+      "max_reward_error": 0,
+      "local_result_sha256": "b16716dea77aad520c9968a2a31d4f670c4511b0d6f06c48ce598b7e8f37b796"
+    },
+    "root_cause_clusters": [
+      {"name": "10C/4S throughput", "games": 5},
+      {"name": "8C/4S market mirror", "games": 6},
+      {"name": "9C/4S milk", "games": 2},
+      {"name": "sheep-heavy production", "games": 3},
+      {"name": "cash-starved partial execution", "games": 1}
+    ]
+  },
+  "fixed_opponent_tape_counterfactual": {
+    "interpretation": "open-loop fixed-opponent actions, not a policy rematch",
+    "baseline_mean_margin": -6419.235294117647,
+    "candidate_mean_margin": -5458.882352941177,
+    "mean_margin_delta": 960.3529411764706,
+    "improved": 9,
+    "unchanged": 8,
+    "regressed": 0,
+    "loss_to_win_flips": 3,
+    "local_result_sha256": "bfca32ad3dce091bed4e7900ced119bbbe1432d4b03575ce39515510a2fe0cbb",
+    "cases": [
+      {"episode_id": 92670118, "seed": 150239165, "seat": 0, "replay_sha256": "4b71c90334a9f3f4bb0cbbfb5afbfc63bc8d5aa5d38f233a81b1f6a381174c58", "online_margin": -4869, "candidate_margin": -4869, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92676812, "seed": 1596497125, "seat": 1, "replay_sha256": "141e660996f909bb9eaeb6dc7fc23ca0b99890178683e1e63b010e79c8d870bd", "online_margin": -534, "candidate_margin": 1082, "margin_delta": 1616, "result": "win"},
+      {"episode_id": 92679807, "seed": 7753063, "seat": 1, "replay_sha256": "da94eadf3ff0e129e05e46bfd6b2c4138922d12ffca1799ea9de72cada7e3389", "online_margin": -3638, "candidate_margin": -3638, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92682418, "seed": 534547003, "seat": 0, "replay_sha256": "795ea6ad56257568fa128ab064bc93dbdc3db240f35be44ab4aa9263c03fa298", "online_margin": -7856, "candidate_margin": -7856, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92683358, "seed": 959244394, "seat": 1, "replay_sha256": "75144ddebd1fd954ae5e557689beeb93fb0babc461b28d033602e7aa87030cd0", "online_margin": -1446, "candidate_margin": -1446, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92705844, "seed": 453480279, "seat": 1, "replay_sha256": "9bec99d0da234c738f0555afa382be27078d71b6cab43e1350f069659efdd6c6", "online_margin": -14493, "candidate_margin": -14493, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92714057, "seed": 1104736535, "seat": 0, "replay_sha256": "cc2a45a61ea2d24c5164cad7eed98eb7461a735dbcb3351f08c528f60279f6b0", "online_margin": -3540, "candidate_margin": -2768, "margin_delta": 772, "result": "loss"},
+      {"episode_id": 92720766, "seed": 2129446026, "seat": 1, "replay_sha256": "bb26c1049fe188264a8feb3d3c42961e3f93ee79e510a6ea7fd8b3c66e54d73e", "online_margin": -11801, "candidate_margin": -11718, "margin_delta": 83, "result": "loss"},
+      {"episode_id": 92768720, "seed": 95747482, "seat": 0, "replay_sha256": "99141f1e0fc35f63124ecf831878f06afae58ffe719dd9416f12efb678c87fb6", "online_margin": -1389, "candidate_margin": 1368, "margin_delta": 2757, "result": "win"},
+      {"episode_id": 92778156, "seed": 713930395, "seat": 0, "replay_sha256": "6fce71c4264ea771e8753fd1145e1b8256656a5f08ce0b8527fc14ed3a84ff40", "online_margin": -316, "candidate_margin": 2907, "margin_delta": 3223, "result": "win"},
+      {"episode_id": 92801162, "seed": 1200477592, "seat": 1, "replay_sha256": "a5476b59ca06322e05db882673ed33f7cbce59ce669f9dc099fb7c53a03d2b5c", "online_margin": -4245, "candidate_margin": -3279, "margin_delta": 966, "result": "loss"},
+      {"episode_id": 92809494, "seed": 589974, "seat": 0, "replay_sha256": "62396fbebeef73b099c95ce6b0c39b80720d11d51bec3c2d60e900e7504d07b8", "online_margin": -909, "candidate_margin": -909, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92820693, "seed": 1794908185, "seat": 0, "replay_sha256": "be1051a0b1f4b3078652b9ad530c26b141568d84cadeb471180da74474333f01", "online_margin": -1564, "candidate_margin": -1322, "margin_delta": 242, "result": "loss"},
+      {"episode_id": 92821605, "seed": 161303794, "seat": 0, "replay_sha256": "d7d927956428c5b292a73d526b82ed21fe2e24d330e8ab043cb435f2bf3f79c8", "online_margin": -19248, "candidate_margin": -12706, "margin_delta": 6542, "result": "loss"},
+      {"episode_id": 92843962, "seed": 1530306122, "seat": 1, "replay_sha256": "04ba78500280ab278dec381a24ec6afe3cb57f422132a09eb4b0c2d41ab484eb", "online_margin": -13215, "candidate_margin": -13090, "margin_delta": 125, "result": "loss"},
+      {"episode_id": 92858725, "seed": 170091269, "seat": 0, "replay_sha256": "b630bf12b99c03fff1f844bc15435905681eec455375b7c7b0cb2618a06cc4c9", "online_margin": -12536, "candidate_margin": -12536, "margin_delta": 0, "result": "loss"},
+      {"episode_id": 92859765, "seed": 2046489758, "seat": 0, "replay_sha256": "6d7abe918ab6368ae790ca4aed4d3f9e1f14f25dff0fc631d7ebde8fb1ec34ca", "online_margin": -7528, "candidate_margin": -7528, "margin_delta": 0, "result": "loss"}
+    ]
+  },
+  "fresh_closed_loop_holdout": {
+    "interpretation": "live policy matches against four exact hash-pinned public artifacts",
+    "seed_derivation": "uint31(first 4 bytes of SHA256(\"V3C-POSTFAIL-HOLDOUT-2026-08-14:<index>\")), indices 0..7",
+    "overlap_with_v3b_holdout_seeds": [],
+    "seeds": [1656151642, 1269366056, 1565274304, 2111696081, 261974555, 340802642, 645143337, 1530989882],
+    "both_seats": true,
+    "games": 64,
+    "wins": 64,
+    "ties": 0,
+    "losses": 0,
+    "mean_margin": 5923.953125,
+    "worst_margin": 116,
+    "all_720_done": true,
+    "all_stderr_empty": true,
+    "local_result_sha256": "cf49f409296fe22d828966b3e0feec21b669d22916de9daec128788260dd1ff1",
+    "opponents": [
+      {"name": "R5A", "sha256": "7f87c941af3050d0f21376f2843b324d7a06a1a8c050fa554cf07a769e5c937c", "games": 16, "wins": 16, "mean_margin": 1641.0625, "worst_margin": 116},
+      {"name": "Kaito v27", "sha256": "f48c21166eac68d1b05a401f04f94a2eb6154e65415af64893672365ff33c7b8", "games": 16, "wins": 16, "mean_margin": 15451.375, "worst_margin": 6062},
+      {"name": "Breaking Tie", "sha256": "df4e899ad535754cf2ddbd3c16e48085916b0cd2baa5182a1a2cfc6a856abae5", "games": 16, "wins": 16, "mean_margin": 1342.9375, "worst_margin": 729},
+      {"name": "Adaptive", "sha256": "026bb0126b5ff9c4decb78ce5c3cd296515dadf462e79046ec081b9d80f9757a", "games": 16, "wins": 16, "mean_margin": 5260.4375, "worst_margin": 621}
+    ]
+  },
+  "h7_quantity_audit": {
+    "development_loss_panel_prepaid": 855,
+    "development_loss_panel_repaid": 855,
+    "strong_panel_prepaid": 4578,
+    "strong_panel_repaid": 4578,
+    "h1_overlap": 0,
+    "unrepaid": 0,
+    "local_result_sha256": "69be36273d185817e98c3e6ffb6590aa4eccfcd9355f75986d3a7400bdfffe1e"
+  },
+  "claim_limits": [
+    "The 17-case counterfactual keeps opponent actions fixed and is not a policy rematch.",
+    "The 64-game holdout covers four exact frozen artifacts and does not prove universal dominance.",
+    "V3C is local only and has not been submitted to Kaggle or committed to GitHub."
+  ]
+}

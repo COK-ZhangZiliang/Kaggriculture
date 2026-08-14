@@ -1,14 +1,16 @@
-"""Kaggriculture V3B: adaptive 8C/4S production and market counter.
+"""Kaggriculture V3C: failure-driven 8C/4S execution and market control.
 
 The field route is a majority reconstruction of public episodes 92165990,
 92185587, and 92223213 from submission 55440039.  The controller adds
-bounded weed/cow-placement recovery, a quantity-conserving one-turn lead,
-and an evidence-gated second-order counter derived from the public Breaking
-the Tie premium-sale schedule.  See THIRD_PARTY_NOTICES.md for provenance.
+bounded weed/cow-placement recovery, observable partial-purchase repair,
+quantity-conserving H1/H7 sale leads, and an evidence-gated second-order
+counter derived from the public Breaking the Tie premium-sale schedule.  See
+THIRD_PARTY_NOTICES.md for provenance.
 """
 import base64
 import copy
 import json
+import math
 import zlib
 
 
@@ -73,6 +75,41 @@ def _align_hands(action, obs):
     if len(hands) < expected:
         hands.extend([["PASS"] for _ in range(expected - len(hands))])
     action["hands"] = [list(order or ["PASS"]) for order in hands[:expected]]
+    return action
+
+
+def _clip_opening_seed_surplus(action, obs, step):
+    """Do not buy more seeds than the remaining first-day route can plant."""
+    if int(step) != 1:
+        return action
+    demand = {}
+    day_end = min(len(_ACTIONS), 24)
+    for future in range(int(step), day_end):
+        trace = _ACTIONS[future] or {}
+        unit_actions = [
+            trace.get("farmer") or ["PASS"],
+            *list(trace.get("hands") or []),
+        ]
+        for order in unit_actions:
+            if len(order) >= 2 and order[0] == "PLANT":
+                demand[order[1]] = demand.get(order[1], 0) + 1
+    seeds = _get(_get(obs, "private", {}) or {}, "seeds", {}) or {}
+    action = _copy_action(action)
+    market = []
+    for order in action.get("market") or []:
+        if len(order) < 3 or order[0] != "BUY_SEED":
+            market.append(order)
+            continue
+        item = order[1]
+        required = max(
+            0,
+            int(demand.get(item, 0))
+            - max(0, int(_get(seeds, item, 0) or 0)),
+        )
+        order[2] = min(max(0, int(order[2] or 0)), required)
+        if order[2] > 0:
+            market.append(order)
+    action["market"] = market
     return action
 
 
@@ -211,15 +248,20 @@ def _repay(action, state, step):
     return action
 
 
-def _front_run(action, obs, state, step):
+def _front_run(action, obs, state, step, prepaid=None):
     if not _FR_ITEMS:
         return action
+    prepaid = prepaid or {}
     private = _get(obs, "private", {}) or {}
     shed = _get(private, "shed", {}) or {}
     moved = {}
     action = _copy_action(action)
     for item in _FR_ITEMS:
-        target = _future_quantity(step, item)
+        target = max(
+            0,
+            _future_quantity(step, item)
+            - max(0, int(prepaid.get(item, 0) or 0)),
+        )
         if target <= 0 or _town_demand_now(obs, item, step) > 0:
             continue
         stock = max(0, int(_get(shed, item, 0) or 0))
@@ -243,7 +285,7 @@ def _front_run(action, obs, state, step):
     return action
 
 
-_R5_EXTRA_COW = False
+_ENABLE_NINTH_COW = True
 # V16-RC5-R5: bounded, public-state COW placement recovery.
 _COW_ALIGN_STATE = {
     0: {"last_step": -1, "active": {}},
@@ -328,7 +370,7 @@ def _cow_place_alignment(obs, action, step):
         elif age >= 2:
             unit_actions[actor_index] = _trace_actor_action(step - 1, actor)
 
-    if 160 <= step <= 210 or (_R5_EXTRA_COW and 500 <= step <= 525):
+    if 160 <= step <= 210 or (_ENABLE_NINTH_COW and 500 <= step <= 525):
         for actor_index, (position, intended) in enumerate(
             zip(positions, unit_actions)
         ):
@@ -369,8 +411,45 @@ def _owned_cows(obs):
     return total
 
 
+_COW_TARGET_AFTER_BUY = {0: 1, 120: 2, 161: 4, 168: 6, 192: 8}
+
+
+def _reconcile_scheduled_cows(obs, action, step):
+    """Increase an existing cow order after an earlier partial purchase.
+
+    BUY_ANIMAL executes per unit, so a two-cow order can silently buy only
+    one when cash is a few dollars short.  Later route turns already contain
+    the matching placement slots; enlarging a later scheduled order restores
+    the observable herd target without adding a market slot or buying beyond
+    the frozen eight-cow plan.
+    """
+    target = _COW_TARGET_AFTER_BUY.get(int(step))
+    if target is None:
+        return action
+    missing = max(0, target - _owned_cows(obs))
+    if missing <= 0:
+        return action
+    action = _copy_action(action)
+    for order in action.get("market") or []:
+        if len(order) >= 3 and order[:2] == ["BUY_ANIMAL", "COW"]:
+            order[2] = max(max(0, int(order[2] or 0)), missing)
+            break
+    return action
+
+
 def _guarded_demand_cow9(obs, action, step):
-    if not _R5_EXTRA_COW or step != 289 or _owned_cows(obs) != 8:
+    if not _ENABLE_NINTH_COW or step != 289 or _owned_cows(obs) != 8:
+        return action
+    farms = list(_get(obs, "farms", []) or [])
+    opponent_index = 1 - _seat(obs)
+    opponent = farms[opponent_index] if opponent_index < len(farms) else {}
+    opponent_cows = sum(
+        1
+        for row in list(_get(opponent, "tiles", []) or [])
+        for tile in list(row or [])
+        if isinstance(tile, dict) and tile.get("animal") == "COW"
+    )
+    if opponent_cows < 9:
         return action
     shops = list(
         _get(_get(obs, "town", {}) or {}, "unlocked_shops", []) or []
@@ -380,7 +459,16 @@ def _guarded_demand_cow9(obs, action, step):
         for shop in shops
     )
     farm = _farm(obs, _seat(obs))
-    if milk_demand < 2 or float(_get(farm, "money", 0) or 0) < 800:
+    prices = _get(_get(obs, "market", {}) or {}, "prices", {}) or {}
+    milk_price = float(_get(prices, "MILK", 0) or 0)
+    money = float(_get(farm, "money", 0) or 0)
+    if (
+        milk_demand < 3
+        or not math.isfinite(milk_price)
+        or not math.isfinite(money)
+        or not milk_price >= 225
+        or not money >= 800
+    ):
         return action
     action = _copy_action(action)
     market = [list(order) for order in (action.get("market") or [])]
@@ -405,6 +493,7 @@ _META_ITEMS = ("MELON", "STRAWBERRY", "MILK", "WOOL")
 _META_BASE_PRICE = {"MELON": 250, "STRAWBERRY": 120, "MILK": 160, "WOOL": 200}
 _META_GLUT_WEIGHT = {"MELON": 3.5, "STRAWBERRY": 2.0, "MILK": 2.0, "WOOL": 3.2}
 _META_HORIZON = 4
+_META_H5_LEAD = 7
 
 
 def _new_meta_state():
@@ -413,6 +502,7 @@ def _new_meta_state():
         "clone_confidence": 0,
         "h4_active": False,
         "h4_evidence": 0,
+        "h5_due": {},
         "prev_market_inv": None,
         "prev_town_shops": (),
         "prev_action": None,
@@ -598,7 +688,7 @@ def _meta_observe_h4(obs, step, state):
 def _meta_h5_counter(action, obs, step, state):
     if not state.get("h4_active"):
         return False
-    target = step + 5
+    target = step + _META_H5_LEAD
     if target >= len(_ACTIONS):
         return False
     orders = [list(order) for order in action.get("market", []) or []]
@@ -634,10 +724,35 @@ def _meta_h5_counter(action, obs, step, state):
         return False
     _, item, quantity = max(choices)
     action["market"] = [["SELL", item, quantity], *orders][:10]
+    due = state.setdefault("h5_due", {}).setdefault(target, {})
+    due[item] = max(0, int(due.get(item, 0) or 0)) + quantity
     return True
 
 
+def _meta_repay_h5(action, step, state):
+    """Remove quantities prepaid by the H7 counter from their route sale."""
+    due = dict(state.setdefault("h5_due", {}).pop(int(step), {}) or {})
+    if not due:
+        return
+    market = []
+    for raw in action.get("market", []) or []:
+        order = list(raw)
+        if (
+            len(order) >= 3
+            and order[0] == "SELL"
+            and max(0, int(due.get(order[1], 0) or 0)) > 0
+        ):
+            reduction = min(max(0, int(order[2] or 0)), due[order[1]])
+            order[2] = max(0, int(order[2] or 0)) - reduction
+            due[order[1]] -= reduction
+            if order[2] <= 0:
+                continue
+        market.append(order)
+    action["market"] = market[:10]
+
+
 def _meta_front_run(action, obs, step, state):
+    _meta_repay_h5(action, step, state)
     if _meta_h5_counter(action, obs, step, state):
         return
     if int(state.get("clone_confidence", 0)) < 1 or _META_HORIZON <= 0:
@@ -683,7 +798,7 @@ def _meta_front_run(action, obs, step, state):
 
 
 def agent(obs, config=None):
-    """Return the V3B action for one Kaggriculture observation."""
+    """Return the V3C action for one Kaggriculture observation."""
     try:
         if len(list(_get(obs, "farms", []) or [])) < 2:
             return {"farmer": ["PASS"], "hands": [], "market": []}
@@ -696,16 +811,28 @@ def agent(obs, config=None):
         _meta_observe_h4(obs, step, meta)
         meta["last_step"] = step
 
+        action = _clip_opening_seed_surplus(
+            _copy_action(_ACTIONS[step]), obs, step
+        )
         action = _weed_repair_action(
             obs,
-            _copy_action(_ACTIONS[step]),
+            action,
             step,
         )
         action = _cow_place_alignment(obs, action, step)
+        action = _reconcile_scheduled_cows(obs, action, step)
         action = _guarded_demand_cow9(obs, action, step)
         state = _fr_state(obs, step)
         action = _repay(action, state, step)
-        action = _front_run(action, obs, state, step)
+        action = _front_run(
+            action,
+            obs,
+            state,
+            step,
+            prepaid=dict(
+                (meta.get("h5_due", {}) or {}).get(step + 1, {}) or {}
+            ),
+        )
         action = _align_hands(action, obs)
 
         _meta_front_run(action, obs, step, meta)

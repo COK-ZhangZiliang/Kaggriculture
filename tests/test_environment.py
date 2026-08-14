@@ -28,7 +28,7 @@ def assert_complete_episode(players, seed, candidate_seat):
     steps = env.run(players)
     final = steps[-1]
 
-    assert version("kaggle-environments") == "1.32.4"
+    assert version("kaggle-environments") == "1.32.6"
     assert len(steps) == 720
     assert [state.status for state in final] == ["DONE", "DONE"]
     assert all(state.reward is not None for state in final)
