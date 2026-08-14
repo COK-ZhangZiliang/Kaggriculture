@@ -128,7 +128,7 @@ submission validation.
 - Its initial public score was observed at 600.0 on `2026-08-13T13:30Z`;
   simulation ratings are dynamic, so this is only a delivery snapshot.
 
-### V3C: failure-driven execution and H7 repayment — 2026-08-14 (current local)
+### V3C: failure-driven execution and H7 repayment — 2026-08-14 (current)
 
 - Reproduced all 17 captured V3B online losses exactly with engine `1.32.6`,
   then separated production-route deficits, market mirrors, and a cash-starved
@@ -146,9 +146,13 @@ submission validation.
 - A final-hash fresh closed-loop holdout swept 64/64 both-seat games against
   four hash-pinned public artifacts, all 720 states and `DONE/DONE`, with a
   minimum margin of +116. The seeds do not overlap the V3B holdout.
-- V3C has not been uploaded to Kaggle or committed to GitHub. The confirmed
-  online delivery remains V3B submission `55484203`; its public score was
-  observed at 2,546.8 on `2026-08-14T06:33:10Z` and remains dynamic.
+- Kaggle submission `55500863`, message
+  `v3c failure-driven h7 recovery 6aadc96`, reached `COMPLETE`; the uploaded
+  `main.py` maps to Git commit
+  `6aadc968f3cb0e81839532ff7f1ec0499b061f81`, and the archive SHA-256 is
+  `90c800d2d51705a8662ed5d33d60f2953180f192f8091f2ab20d4886b29d13ef`.
+- Its initial public score was observed at 600.0 on `2026-08-14T07:54:14Z`;
+  simulation ratings are dynamic, so this is only a delivery snapshot.
 
 ## Verification Gates
 

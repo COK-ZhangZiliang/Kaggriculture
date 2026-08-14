@@ -96,6 +96,16 @@ These panels test closed-loop policies, but they still cover four fixed public
 artifacts rather than the complete Kaggle population. They do not prove
 universal dominance or predict a leaderboard score.
 
+## Kaggle delivery
+
+The three-file archive was submitted as Kaggle submission `55500863` with
+message `v3c failure-driven h7 recovery 6aadc96` and reached `COMPLETE`. Its
+`main.py` maps to Git commit
+`6aadc968f3cb0e81839532ff7f1ec0499b061f81`; the archive SHA-256 is
+`90c800d2d51705a8662ed5d33d60f2953180f192f8091f2ab20d4886b29d13ef`.
+The initial public score snapshot was 600.0 at `2026-08-14T07:54:14Z`; ratings
+remain dynamic and this is not a final leaderboard claim.
+
 ## Reproduction
 
 Summarize downloaded public replays without committing them:

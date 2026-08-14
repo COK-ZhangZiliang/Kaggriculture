@@ -150,27 +150,26 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-Current confirmed online delivery (V3B):
+Current confirmed online delivery (V3C):
 
 | Delivery evidence | Value |
 |:---|:---|
-| Submission ID | `55484203` |
-| Kaggle API timestamp | `2026-08-13T13:28:49.090000` |
-| Message | `v3b adaptive 8c4s market counter 9bd601c` |
+| Submission ID | `55500863` |
+| Kaggle API timestamp | `2026-08-14T07:51:42.500000` |
+| Message | `v3c failure-driven h7 recovery 6aadc96` |
 | Remote status | `COMPLETE` |
-| Current public score snapshot | **2,546.8** · verified `2026-08-14T06:33:10Z` |
-| Matching code commit | [`9bd601c`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/9bd601cb60150192986313049ce2a609644243e1) |
-| Online archive | 20,223 bytes · SHA256 `b60f48ab876480c850821398ea52486ffc7e7da1a67faba657cbd665de1d67e0` |
-| Online `main.py` | 36,071 bytes · SHA256 `257d74f613f80607fba6fa68482e9db1eb07cb98618add47d45415b4f9079f54` |
+| Initial public score snapshot | **600.0** · verified `2026-08-14T07:54:14Z` |
+| Matching code commit | [`6aadc96`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/6aadc968f3cb0e81839532ff7f1ec0499b061f81) |
+| Online archive | 21,348 bytes · SHA256 `90c800d2d51705a8662ed5d33d60f2953180f192f8091f2ab20d4886b29d13ef` |
+| Online `main.py` | 40,408 bytes · SHA256 `d9e26d7e45a944dd4e46adc28f66f7d9ae5c6974e71755debe6b291029aa79e0` |
 | Archive members | Three root-level files: `main.py`, Apache-2.0 text, notice |
 
 The score above is a dynamic snapshot and can change as public simulation
 episodes are processed. It is not a final-rank or private
 leaderboard claim. The uploaded `main.py` is traceable to code commit
-`9bd601c`; the delivery evidence update is recorded in a subsequent docs-only
-commit. The current local V3C candidate has not been uploaded or committed;
-its evidence is 38 passing tests, starter/random smoke gates, and the 64/64
-fresh strong-agent holdout described above.
+`6aadc96`; the delivery evidence update is recorded in a subsequent docs-only
+commit. Its local evidence is 38 passing tests, starter/random smoke gates,
+and the 64/64 fresh strong-agent holdout described above.
 
 The packaging script creates a deterministic archive whose executable remains
 self-contained. The license and notice travel with the third-party route:

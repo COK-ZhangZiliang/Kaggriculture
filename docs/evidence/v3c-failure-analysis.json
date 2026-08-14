@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "strategy": "V3C failure-driven 8C/4S execution and market control",
-  "generated_at_utc": "2026-08-14T07:08:47Z",
+  "generated_at_utc": "2026-08-14T07:54:14Z",
   "environment": {
     "name": "kaggriculture",
     "kaggle_environments_version": "1.32.6",
@@ -13,6 +13,16 @@
     "archive_size_bytes": 21348,
     "archive_members": ["main.py", "LICENSE-APACHE-2.0.txt", "THIRD_PARTY_NOTICES.txt"],
     "identity_or_seed_routing": false
+  },
+  "delivery": {
+    "git_commit": "6aadc968f3cb0e81839532ff7f1ec0499b061f81",
+    "github_branch": "main",
+    "kaggle_submission_id": 55500863,
+    "kaggle_timestamp": "2026-08-14T07:51:42.500000",
+    "message": "v3c failure-driven h7 recovery 6aadc96",
+    "status": "COMPLETE",
+    "public_score_snapshot": 600.0,
+    "verified_at_utc": "2026-08-14T07:54:14Z"
   },
   "failure_snapshot": {
     "source_submission_id": 55484203,
@@ -101,6 +111,6 @@
   "claim_limits": [
     "The 17-case counterfactual keeps opponent actions fixed and is not a policy rematch.",
     "The 64-game holdout covers four exact frozen artifacts and does not prove universal dominance.",
-    "V3C is local only and has not been submitted to Kaggle or committed to GitHub."
+    "The public score is a timestamped dynamic snapshot, not a final leaderboard claim."
   ]
 }
