@@ -102,6 +102,15 @@ def make_cow9_observation(
 
 
 def reset_controller():
+    submission._ACTIONS = submission._LOW_ACTIONS
+    submission._META_SALES = submission._LOW_META_SALES
+    submission._ROUTE_STATE.clear()
+    submission._ROUTE_STATE.update(
+        {
+            0: {"last_step": -1, "shops": (), "expert": None},
+            1: {"last_step": -1, "shops": (), "expert": None},
+        }
+    )
     submission._FR_STATE.clear()
     submission._FR_STATE.update(
         {
@@ -124,40 +133,54 @@ def reset_controller():
     )
 
 
-def test_route_is_the_frozen_eight_cow_four_sheep_schedule():
-    route_hash = hashlib.sha256(
-        json.dumps(submission._ACTIONS, separators=(",", ":")).encode()
-    ).hexdigest()
-    cow_buys = sum(
-        order[2]
-        for action in submission._ACTIONS[:719]
-        for order in action.get("market", [])
-        if order[:2] == ["BUY_ANIMAL", "COW"]
-    )
-    sheep_buys = sum(
-        order[2]
-        for action in submission._ACTIONS[:719]
-        for order in action.get("market", [])
-        if order[:2] == ["BUY_ANIMAL", "SHEEP"]
-    )
+def test_routes_are_frozen_and_share_the_public_opening():
+    expected = {
+        "low": (
+            submission._LOW_ACTIONS,
+            "93daf1e051d2f394c50c08b59d0fd56d55bf0a5e8770e08701dbcacb91458518",
+            (10, 4),
+        ),
+        "high": (
+            submission._HIGH_ACTIONS,
+            "a548603cf9cae2bda0bc016d50d574e072287ea68315b790b7341c99ab63a31c",
+            (6, 12),
+        ),
+    }
+    for route, route_hash, animal_buys in expected.values():
+        actual_hash = hashlib.sha256(
+            json.dumps(route, separators=(",", ":")).encode()
+        ).hexdigest()
+        cow_buys = sum(
+            order[2]
+            for action in route
+            for order in action.get("market", [])
+            if order[:2] == ["BUY_ANIMAL", "COW"]
+        )
+        sheep_buys = sum(
+            order[2]
+            for action in route
+            for order in action.get("market", [])
+            if order[:2] == ["BUY_ANIMAL", "SHEEP"]
+        )
+        assert len(route) == 719
+        assert actual_hash == route_hash
+        assert (cow_buys, sheep_buys) == animal_buys
 
-    assert len(submission._ACTIONS) == 720
-    assert route_hash == (
-        "7a338431c2080e929df6871f45f686d0fde09036070c7a85ee0143afc228cfeb"
-    )
-    assert (cow_buys, sheep_buys) == (8, 4)
+    assert submission._LOW_ACTIONS[:168] == submission._HIGH_ACTIONS[:168]
+    assert submission._LOW_ACTIONS[168] != submission._HIGH_ACTIONS[168]
 
 
-def test_opening_builds_the_eight_cow_four_sheep_supply_chain():
+def test_opening_builds_the_shared_high_throughput_supply_chain():
     reset_controller()
     action = agent(make_observation())
 
-    assert action["farmer"] == ["PASS"]
+    assert action["farmer"] == ["BUILD_PASTURE"]
     assert action["hands"] == []
     assert action["market"].count(["HIRE"]) == 5
-    assert ["BUY_ANIMAL", "SHEEP", 4] in action["market"]
-    assert ["BUY_ANIMAL", "COW", 1] in action["market"]
-    assert ["BUY_SEED", "MELON", 5] in action["market"]
+    assert ["BUY_ANIMAL", "SHEEP", 2] in action["market"]
+    assert ["BUY_ANIMAL", "COW", 2] in action["market"]
+    assert ["BUY_SEED", "MELON", 12] in action["market"]
+    assert ["BUY_SEED", "WHEAT", 7] in action["market"]
     assert len(action["market"]) == 10
 
 
@@ -169,22 +192,82 @@ def test_hand_actions_are_aligned_to_observed_workers():
     assert len(action["hands"]) == len(hands)
 
 
-def test_opening_seed_buys_are_clipped_to_remaining_plant_demand():
-    surplus = make_observation(step=1, money=2)
-    surplus["private"]["seeds"] = {"MELON": 2, "WHEAT": 4}
-    protected = submission._clip_opening_seed_surplus(
-        deepcopy(submission._ACTIONS[1]), surplus, 1
+def test_route_selector_uses_only_early_public_shop_demand():
+    reset_controller()
+    high, high_sales = submission._select_route(
+        make_observation(step=168, shops=["BAKERY", "YARN_STORE"]),
+        168,
     )
-    assert ["BUY_SEED", "MELON", 3] in protected["market"]
-    assert ["BUY_SEED", "WHEAT", 1] in protected["market"]
+    assert high is submission._HIGH_ACTIONS
+    assert high_sales is submission._HIGH_META_SALES
 
-    exact = make_observation(step=1, money=3)
-    exact["private"]["seeds"] = {"MELON": 2, "WHEAT": 3}
-    unchanged = submission._clip_opening_seed_surplus(
-        deepcopy(submission._ACTIONS[1]), exact, 1
+    reset_controller()
+    low, low_sales = submission._select_route(
+        make_observation(step=168, shops=["BAKERY", "PIZZA_SHOP"]),
+        168,
     )
-    assert ["BUY_SEED", "MELON", 3] in unchanged["market"]
-    assert ["BUY_SEED", "WHEAT", 2] in unchanged["market"]
+    assert low is submission._LOW_ACTIONS
+    assert low_sales is submission._LOW_META_SALES
+
+    reset_controller()
+    dominated, _ = submission._select_route(
+        make_observation(
+            step=168,
+            shops=["ICE_CREAM_SHOP", "YARN_STORE"],
+        ),
+        168,
+    )
+    assert dominated is submission._LOW_ACTIONS
+
+
+def test_route_selection_is_sticky_isolated_and_resets_between_games():
+    reset_controller()
+    high_obs = make_observation(
+        step=168,
+        player=0,
+        shops=["YARN_STORE", "BAKERY"],
+    )
+    assert submission._select_route(high_obs, 168)[0] is submission._HIGH_ACTIONS
+    changed = make_observation(
+        step=216,
+        player=0,
+        shops=["BAKERY", "PIZZA_SHOP", "BRUNCH_SPOT"],
+    )
+    assert submission._select_route(changed, 216)[0] is submission._HIGH_ACTIONS
+
+    low_other = make_observation(
+        step=168,
+        player=1,
+        shops=["BAKERY", "PIZZA_SHOP"],
+    )
+    assert submission._select_route(low_other, 168)[0] is submission._LOW_ACTIONS
+    reset_obs = make_observation(step=0, player=0)
+    assert submission._select_route(reset_obs, 0)[0] is submission._LOW_ACTIONS
+
+
+def test_route_selection_ignores_identity_metadata():
+    actions = []
+    for seed, opponent_name in ((11, "alpha"), (987654321, "beta")):
+        reset_controller()
+        obs = make_observation(
+            step=168,
+            shops=["YARN_STORE", "BAKERY"],
+        )
+        obs["seed"] = seed
+        obs["opponent_name"] = opponent_name
+        obs["EpisodeId"] = seed + 100
+        actions.append(submission._select_route(obs, 168)[0][168])
+    assert actions[0] == actions[1]
+
+
+def test_seed_surplus_guard_is_a_noop_without_seed_orders():
+    obs = make_observation(step=1, money=2)
+    obs["private"]["seeds"] = {"MELON": 99, "WHEAT": 99}
+    route_action = deepcopy(submission._ACTIONS[1])
+
+    assert submission._clip_opening_seed_surplus(
+        route_action, obs, 1
+    ) == submission._ACTIONS[1]
 
 
 def test_opening_seed_clip_removes_zero_quantity_orders_from_agent_output():
@@ -210,12 +293,11 @@ def test_opening_seed_clip_removes_zero_quantity_orders_from_agent_output():
 
 def test_visible_weed_is_dug_then_the_delayed_build_is_retried():
     reset_controller()
-    hands = [[4, 3], [4, 2], [4, 1], [4, 0], [3, 4]]
-    obs = make_observation(step=4, hands=hands)
+    obs = make_observation(step=0)
     obs["farms"][0]["tiles"][4][4] = {"kind": "WEED"}
 
     assert agent(obs)["farmer"] == ["DIG"]
-    retry = make_observation(step=5, hands=hands)
+    retry = make_observation(step=1)
     assert agent(retry)["farmer"] == ["BUILD_PASTURE"]
 
 
@@ -244,6 +326,7 @@ def test_cow_alignment_moves_to_an_adjacent_empty_pasture_then_places():
 
 
 def test_later_cow_order_repairs_an_observed_partial_purchase():
+    reset_controller()
     obs = make_observation(step=168, money=2200)
     for x in range(3):
         obs["farms"][0]["tiles"][0][x] = {
@@ -274,111 +357,73 @@ def test_later_cow_order_repairs_an_observed_partial_purchase():
     ) == ["BUY_ANIMAL", "COW", 2]
 
 
-def test_ninth_cow_requires_public_roi_signals_and_is_seat_seed_agnostic():
-    market = [["BUY_SEED", "WHEAT", index + 1] for index in range(9)]
-    action = {"farmer": ["PASS"], "hands": [], "market": market}
-    results = []
-
-    for player, seed, opponent_name in (
-        (0, 11, "opponent-a"),
-        (1, 987654321, "opponent-b"),
-    ):
-        obs = make_cow9_observation(player=player)
-        obs["seed"] = seed
-        obs["opponent_name"] = opponent_name
-        result = submission._guarded_demand_cow9(
-            obs, deepcopy(action), 289
-        )
-        assert result["market"][-1] == ["BUY_ANIMAL", "COW", 1]
-        assert len(result["market"]) == 10
-        results.append(result)
-
-    assert results[0] == results[1]
-
-
-def test_ninth_cow_stays_off_at_each_roi_boundary():
-    action = {"farmer": ["PASS"], "hands": [], "market": []}
-    cases = [
-        make_cow9_observation(own_cows=7),
-        make_cow9_observation(opponent_cows=8),
-        make_cow9_observation(milk_price=224),
-        make_cow9_observation(
-            shops=["PIZZA_SHOP", "ICE_CREAM_SHOP"]
-        ),
-        make_cow9_observation(money=799),
-    ]
-
-    for obs in cases:
-        assert submission._guarded_demand_cow9(
-            obs, deepcopy(action), 289
-        ) == action
-
-    wrong_step = make_cow9_observation()
+def test_retired_ninth_cow_extension_never_mutates_the_route():
+    obs = make_cow9_observation()
+    action = {
+        "farmer": ["PASS"],
+        "hands": [],
+        "market": [["BUY_SEED", "WHEAT", index + 1] for index in range(9)],
+    }
+    assert submission._ENABLE_NINTH_COW is False
     assert submission._guarded_demand_cow9(
-        wrong_step, deepcopy(action), 288
+        obs, deepcopy(action), 289
     ) == action
 
 
-def test_ninth_cow_rejects_non_finite_roi_values():
-    action = {"farmer": ["PASS"], "hands": [], "market": []}
-    cases = []
-    for invalid in (float("nan"), float("inf"), float("-inf")):
-        invalid_price = make_cow9_observation()
-        invalid_price["market"]["prices"]["MILK"] = invalid
-        cases.append(invalid_price)
-        invalid_money = make_cow9_observation()
-        invalid_money["farms"][0]["money"] = invalid
-        cases.append(invalid_money)
+def test_low_route_repairs_partial_cow_purchases_through_ten_cows():
+    reset_controller()
+    expected = {0: 2, 73: 3, 120: 4, 168: 6, 216: 8, 264: 10}
+    assert {
+        step: submission._cow_target_after_buy(step)
+        for step in expected
+    } == expected
 
-    for obs in cases:
-        assert submission._guarded_demand_cow9(
-            obs, deepcopy(action), 289
-        ) == action
+    obs = make_observation(step=264, money=2200)
+    for index in range(7):
+        x, y = index % 5, index // 5
+        obs["farms"][0]["tiles"][y][x] = {
+            "kind": "PASTURE",
+            "animal": "COW",
+        }
+    repaired = submission._reconcile_scheduled_cows(
+        obs, deepcopy(submission._LOW_ACTIONS[264]), 264
+    )
+    assert next(
+        order
+        for order in repaired["market"]
+        if order[:2] == ["BUY_ANIMAL", "COW"]
+    ) == ["BUY_ANIMAL", "COW", 3]
 
 
-def test_ninth_cow_never_overflows_or_duplicates_the_market_queue():
-    obs = make_cow9_observation()
-    full_market = [["BUY_SEED", "WHEAT", index + 1] for index in range(10)]
-    full_action = {
-        "farmer": ["PASS"],
-        "hands": [],
-        "market": deepcopy(full_market),
-    }
-    assert submission._guarded_demand_cow9(
-        obs, full_action, 289
-    )["market"] == full_market
-
-    existing_cow = {
-        "farmer": ["PASS"],
-        "hands": [],
-        "market": [["BUY_ANIMAL", "COW", 2]],
-    }
-    assert submission._guarded_demand_cow9(
-        obs, deepcopy(existing_cow), 289
-    ) == existing_cow
+def test_high_route_stops_its_cow_target_at_six():
+    reset_controller()
+    submission._ACTIONS = submission._HIGH_ACTIONS
+    assert submission._cow_target_after_buy(168) == 6
+    assert submission._cow_target_after_buy(216) is None
+    assert submission._cow_target_after_buy(264) is None
 
 
 def test_one_turn_lead_conserves_the_scheduled_quantity():
     reset_controller()
-    obs = make_observation(step=159, shed={"WOOL": 9})
-    state = submission._fr_state(obs, 159)
+    obs = make_observation(step=147, shed={"WOOL": 6})
+    state = submission._fr_state(obs, 147)
     action = submission._front_run(
         {"farmer": ["PASS"], "hands": [], "market": []},
         obs,
         state,
-        159,
+        147,
     )
 
-    assert action["market"] == [["SELL", "WOOL", 9]]
+    assert action["market"] == [["SELL", "WOOL", 6]]
     assert state == {
-        "last_step": 159,
-        "due_step": 160,
-        "due": {"WOOL": 9},
+        "last_step": 147,
+        "due_step": 148,
+        "due": {"WOOL": 6},
     }
     repaid = submission._repay(
-        deepcopy(submission._ACTIONS[160]), state, 160
+        deepcopy(submission._ACTIONS[148]), state, 148
     )
-    assert ["SELL", "WOOL", 9] not in repaid["market"]
+    assert ["SELL", "WOOL", 6] not in repaid["market"]
 
 
 def test_one_turn_lead_also_covers_wheat_and_fertilizer_collisions():
@@ -389,16 +434,16 @@ def test_one_turn_lead_also_covers_wheat_and_fertilizer_collisions():
 def test_one_turn_lead_skips_a_town_demand_turn():
     reset_controller()
     obs = make_observation(
-        step=232,
-        shed={"MILK": 3},
+        step=196,
+        shed={"MILK": 12},
         shops=["SMOOTHIE_SHOP"],
     )
-    state = submission._fr_state(obs, 232)
+    state = submission._fr_state(obs, 196)
     action = submission._front_run(
         {"farmer": ["PASS"], "hands": [], "market": []},
         obs,
         state,
-        232,
+        196,
     )
 
     assert action["market"] == []
@@ -407,7 +452,7 @@ def test_one_turn_lead_skips_a_town_demand_turn():
 
 def test_h4_observation_activates_only_from_clean_public_supply():
     reset_controller()
-    obs = make_observation(step=157)
+    obs = make_observation(step=194)
     state = submission._new_meta_state()
     state.update(
         {
@@ -417,16 +462,16 @@ def test_h4_observation_activates_only_from_clean_public_supply():
             "prev_action": {
                 "farmer": ["PASS"],
                 "hands": [],
-                "market": [["SELL", "WOOL", 9]],
+                "market": [["SELL", "MILK", 12]],
             },
-            "prev_shed": {"WOOL": 9},
+            "prev_shed": {"MILK": 12},
             "prev_town_shops": (),
-            "prev_step": 156,
+            "prev_step": 193,
         }
     )
-    obs["market"]["inventory"]["WOOL"] += 18
+    obs["market"]["inventory"]["MILK"] += 24
 
-    submission._meta_observe_h4(obs, 157, state)
+    submission._meta_observe_h4(obs, 194, state)
 
     assert state["h4_active"] is True
     assert state["h4_evidence"] == 1
@@ -434,40 +479,40 @@ def test_h4_observation_activates_only_from_clean_public_supply():
 
 def test_h4_observation_ignores_the_one_dollar_price_floor():
     reset_controller()
-    obs = make_observation(step=157)
+    obs = make_observation(step=194)
     state = submission._new_meta_state()
     state.update(
         {
             "clone_confidence": 3,
             "prev_market_inv": {product: 10000 for product in PRODUCTS},
-            "prev_prices": {**{product: 100 for product in PRODUCTS}, "WOOL": 1},
+            "prev_prices": {**{product: 100 for product in PRODUCTS}, "MILK": 1},
             "prev_action": {
                 "farmer": ["PASS"],
                 "hands": [],
-                "market": [["SELL", "WOOL", 9]],
+                "market": [["SELL", "MILK", 12]],
             },
-            "prev_shed": {"WOOL": 9},
+            "prev_shed": {"MILK": 12},
             "prev_town_shops": (),
-            "prev_step": 156,
+            "prev_step": 193,
         }
     )
-    obs["market"]["inventory"]["WOOL"] += 18
+    obs["market"]["inventory"]["MILK"] += 24
 
-    submission._meta_observe_h4(obs, 157, state)
+    submission._meta_observe_h4(obs, 194, state)
 
     assert state["h4_active"] is False
 
 
 def test_confirmed_h4_counter_preempts_the_matching_sale_by_seven_turns():
     reset_controller()
-    obs = make_observation(step=153, shed={"WOOL": 9})
+    obs = make_observation(step=141, shed={"WOOL": 6})
     state = submission._new_meta_state()
     state["h4_active"] = True
     action = {"farmer": ["PASS"], "hands": [], "market": []}
 
-    assert submission._meta_h5_counter(action, obs, 153, state)
-    assert action["market"] == [["SELL", "WOOL", 9]]
-    assert state["h5_due"] == {160: {"WOOL": 9}}
+    assert submission._meta_h5_counter(action, obs, 141, state)
+    assert action["market"] == [["SELL", "WOOL", 6]]
+    assert state["h5_due"] == {148: {"WOOL": 6}}
 
 
 def test_h7_prepayment_is_not_sold_again_by_the_one_turn_lead():
@@ -477,26 +522,26 @@ def test_h7_prepayment_is_not_sold_again_by_the_one_turn_lead():
     early = {"farmer": ["PASS"], "hands": [], "market": []}
     assert submission._meta_h5_counter(
         early,
-        make_observation(step=153, shed={"WOOL": 9}),
-        153,
+        make_observation(step=141, shed={"WOOL": 6}),
+        141,
         meta,
     )
 
     fr_state = submission._fr_state(
-        make_observation(step=159, shed={"WOOL": 9}), 159
+        make_observation(step=147, shed={"WOOL": 6}), 147
     )
     one_turn = submission._front_run(
         {"farmer": ["PASS"], "hands": [], "market": []},
-        make_observation(step=159, shed={"WOOL": 9}),
+        make_observation(step=147, shed={"WOOL": 6}),
         fr_state,
-        159,
-        prepaid=meta["h5_due"][160],
+        147,
+        prepaid=meta["h5_due"][148],
     )
     assert one_turn["market"] == []
 
-    due = deepcopy(submission._ACTIONS[160])
-    submission._meta_repay_h5(due, 160, meta)
-    assert ["SELL", "WOOL", 9] not in due["market"]
+    due = deepcopy(submission._ACTIONS[148])
+    submission._meta_repay_h5(due, 148, meta)
+    assert ["SELL", "WOOL", 6] not in due["market"]
     assert meta["h5_due"] == {}
 
 
@@ -504,26 +549,26 @@ def test_h5_counter_does_not_evict_a_full_market_queue():
     reset_controller()
     market = [["BUY_SEED", "WHEAT", index + 1] for index in range(10)]
     action = {"farmer": ["PASS"], "hands": [], "market": deepcopy(market)}
-    obs = make_observation(step=153, shed={"WOOL": 9})
+    obs = make_observation(step=141, shed={"WOOL": 6})
     state = submission._new_meta_state()
     state["h4_active"] = True
 
-    assert not submission._meta_h5_counter(action, obs, 153, state)
+    assert not submission._meta_h5_counter(action, obs, 141, state)
     assert action["market"] == market
 
 
 def test_h5_counter_skips_when_current_town_demand_resets_the_edge():
     reset_controller()
     obs = make_observation(
-        step=228,
-        shed={"MILK": 3},
-        shops=["SMOOTHIE_SHOP"],
+        step=144,
+        shed={"WOOL": 6},
+        shops=["YARN_STORE"],
     )
     state = submission._new_meta_state()
     state["h4_active"] = True
     action = {"farmer": ["PASS"], "hands": [], "market": []}
 
-    assert not submission._meta_h5_counter(action, obs, 228, state)
+    assert not submission._meta_h5_counter(action, obs, 144, state)
     assert action["market"] == []
 
 

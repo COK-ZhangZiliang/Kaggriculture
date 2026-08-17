@@ -128,7 +128,7 @@ submission validation.
 - Its initial public score was observed at 600.0 on `2026-08-13T13:30Z`;
   simulation ratings are dynamic, so this is only a delivery snapshot.
 
-### V3C: failure-driven execution and H7 repayment — 2026-08-14 (current)
+### V3C: failure-driven execution and H7 repayment — 2026-08-14
 
 - Reproduced all 17 captured V3B online losses exactly with engine `1.32.6`,
   then separated production-route deficits, market mirrors, and a cash-starved
@@ -151,8 +151,37 @@ submission validation.
   `main.py` maps to Git commit
   `6aadc968f3cb0e81839532ff7f1ec0499b061f81`, and the archive SHA-256 is
   `90c800d2d51705a8662ed5d33d60f2953180f192f8091f2ab20d4886b29d13ef`.
-- Its initial public score was observed at 600.0 on `2026-08-14T07:54:14Z`;
-  simulation ratings are dynamic, so this is only a delivery snapshot.
+- Its initial public score was observed at 600.0 on `2026-08-14T07:54:14Z`.
+  The later official snapshot at `2026-08-17T02:36:22Z` showed 2,444.7 at
+  rank 371/4,818; simulation ratings and ranks are dynamic.
+
+### V4: public-demand-routed two-expert policy — 2026-08-17 (current local)
+
+- Reproduced all 111 captured V3C public losses exactly with their recorded
+  engine versions, then reconstructed public-behavior majority routes for a
+  low 10C/4S expert and a high expert that requests and places 6C/12S
+  cumulatively but finishes at a stable 6C/8S herd.
+- Added a per-seat, sticky step-168 selector over public unlocked shops:
+  observed yarn demand chooses the high expert except for the exact early
+  `ICE_CREAM_SHOP`, `YARN_STORE` dominated prefix; no identity, episode, or
+  seed routing is used.
+- Final local `main.py` SHA-256
+  `ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70`
+  passed 40 tests and low/high 720-state `DONE/DONE` smokes. On fixed opponent
+  tapes it won 97/111 captured losses, but that is open-loop counterfactual
+  evidence rather than a policy rematch.
+- A pre-frozen 32-game public-win control retained only 27 wins, so its strict
+  preservation gate failed. The opened 128-row development panel and 80-game
+  legacy panel evaluated pre-final hash `38838d46…`, not the final candidate.
+- A final-hash fresh closed-loop paired panel produced 101/128 V4 wins versus
+  45/128 for V3C and improved mean margin by 8,762.203, but failed the all-wins
+  and positive-mean-versus-every-opponent gates. See `docs/v4-strategy.md` and
+  `docs/evidence/v4-failure-analysis.json` for hashes and claim limits.
+- V4 has not been submitted to Kaggle or committed and pushed as a delivery
+  revision. Its reviewed 31,624-byte three-file archive has SHA-256
+  `796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c`,
+  but no V4 submission ID, remote status, online score, or Git mapping exists
+  yet.
 
 ## Verification Gates
 

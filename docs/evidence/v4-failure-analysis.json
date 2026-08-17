@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "strategy": "V4",
+  "generated_at_utc": "2026-08-17T03:31:25Z",
+  "candidate": {
+    "main_sha256": "ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70",
+    "main_size_bytes": 55343,
+    "identity_or_seed_routing": false,
+    "archive_sha256": "796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c",
+    "archive_size_bytes": 31624,
+    "archive_members": [
+      "main.py",
+      "LICENSE-APACHE-2.0.txt",
+      "THIRD_PARTY_NOTICES.txt"
+    ],
+    "archive_status": "reviewed_local_artifact"
+  },
+  "delivery": {
+    "v4_kaggle_status": "pending",
+    "v4_submission_id": null,
+    "v4_git_commit": null,
+    "current_confirmed_online_artifact": {
+      "strategy": "V3C",
+      "submission_id": 55500863,
+      "remote_status": "COMPLETE",
+      "git_commit": "6aadc968f3cb0e81839532ff7f1ec0499b061f81",
+      "dynamic_public_snapshot": {
+        "score": 2444.7,
+        "rank": 371,
+        "teams": 4818,
+        "retrieved_at_utc": "2026-08-17T02:36:22Z",
+        "source_archive_basename": "kaggriculture.zip",
+        "source_archive_size_bytes": 153621,
+        "source_archive_sha256": "86371574e2fe53ea4e86d6c5ca54ed57faaab4f2393df43c07c26ad579b00978",
+        "dynamic": true
+      }
+    }
+  },
+  "route_policy": {
+    "decision_step": 168,
+    "shared_prefix_steps": [
+      0,
+      167
+    ],
+    "selector": {
+      "high": "YARN_STORE appears in accumulated public unlocked_shops, except the exact dominated prefix",
+      "low": "no YARN_STORE, or first two shops are exactly ICE_CREAM_SHOP then YARN_STORE",
+      "sticky_after_decision": true,
+      "per_seat_state": true,
+      "episode_reset": "step is zero or decreases"
+    },
+    "low_expert": {
+      "terminal_herd": {
+        "cows": 10,
+        "sheep": 4
+      },
+      "cumulative_buy_requests": {
+        "cows": 10,
+        "sheep": 4
+      },
+      "cumulative_place_requests": {
+        "cows": 10,
+        "sheep": 4
+      },
+      "canonical_action_json_sha256": "93daf1e051d2f394c50c08b59d0fd56d55bf0a5e8770e08701dbcacb91458518"
+    },
+    "high_expert": {
+      "verified_terminal_herd": {
+        "cows": 6,
+        "sheep": 8
+      },
+      "cumulative_buy_requests": {
+        "cows": 6,
+        "sheep": 12
+      },
+      "cumulative_place_requests": {
+        "cows": 6,
+        "sheep": 12
+      },
+      "canonical_action_json_sha256": "a548603cf9cae2bda0bc016d50d574e072287ea68315b790b7341c99ab63a31c",
+      "count_boundary": "6C/8S is the verified stable terminal herd; 12 sheep is the cumulative request and placement count, including four sheep that leave or are replaced during the route."
+    },
+    "route_reconstruction": {
+      "source": "public opponent actions in captured V3C loss replays",
+      "low_family_terminal_10c4s_episodes": 61,
+      "high_family_terminal_6c8s_episodes": 9,
+      "method": "component-wise stable majority over farmer, each hand slot, and the full market list; the high route uses the low prefix through step 167",
+      "claim_limit": "Behavioral reconstruction does not bind a replay participant to a particular Notebook source or recover a current leaderboard binary."
+    },
+    "market_order_cap": 10,
+    "ninth_cow_enabled": false
+  },
+  "selection_and_exactness": {
+    "summary_artifact": {
+      "basename": "final-results-summary.json",
+      "size_bytes": 18638,
+      "sha256": "78e3d83f5415fe22d104aa3663c130e5eccb4212cc0f4106294b9701f7207a02"
+    },
+    "failure_exact_baseline": {
+      "artifact": {
+        "basename": "exact-baseline.json",
+        "size_bytes": 224957,
+        "sha256": "9b253411ce4b166cd9c6a50db86c05515e1f71cfa81a496bbae3da7fa358c767"
+      },
+      "candidate_identity_sha256": "d9e26d7e45a944dd4e46adc28f66f7d9ae5c6974e71755debe6b291029aa79e0",
+      "games": 111,
+      "engine_partitions": {
+        "1.32.6": {
+          "games": 41,
+          "result_sha256": "c763f16fdc2a1233b4aacf96820bfc685a7c57990709f848652f591f21c88602"
+        },
+        "1.32.7": {
+          "games": 70,
+          "result_sha256": "aeac890a76d28a0bb6eb2b7023f7124da2d6e48709568e790f632ed7a0c88729"
+        }
+      },
+      "all_720_done_stderr_empty": true,
+      "all_exact": true,
+      "mismatch_totals": {
+        "action": 0,
+        "observation": 0,
+        "reward": 0,
+        "status": 0
+      },
+      "maximum_reward_error": 0.0,
+      "recorded_online_loss_margin": {
+        "mean": -6115.738738738739,
+        "median": -3515.0,
+        "closest": -94.0,
+        "worst": -33114.0
+      },
+      "evidence_boundary": "Each replay was reproduced only with its recorded engine version. This validates the V3C artifact and tapes; it is not a V4 result."
+    },
+    "blind_control_selection_manifest_sha256": "39891b9719d2ae119d0bdf0cb1ed7bdd60835050d00f202853209dd4fd39da6c"
+  },
+  "final_fixed_opponent_tape_counterfactual": {
+    "candidate_sha256": "ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70",
+    "purpose": "counterfactual replay of all 111 captured V3C public losses",
+    "artifacts": [
+      {
+        "basename": "v4-final-failures-1326.json",
+        "engine_version": "1.32.6",
+        "games": 41,
+        "size_bytes": 143469,
+        "sha256": "65202e39ccf049d433dbc07b5559f72dffe7e43fc40d3a1ea7f2f177f9de1c07"
+      },
+      {
+        "basename": "v4-final-failures-1327.json",
+        "engine_version": "1.32.7",
+        "games": 70,
+        "size_bytes": 244339,
+        "sha256": "c7b8a4a990bf683bd0829f365ac46187185d3c3d84445d7a049d9ea22c5b13c2"
+      }
+    ],
+    "aggregate": {
+      "games": 111,
+      "wins": 97,
+      "ties": 0,
+      "losses": 14,
+      "all_720_done_no_stderr": true,
+      "candidate_margin": {
+        "mean": 8033.756756756757,
+        "median": 3931.0,
+        "worst": -7733.0
+      },
+      "paired_raw_margin_delta": {
+        "mean": 14149.495495495496,
+        "median": 11148.0,
+        "worst": -1468.0,
+        "improved": 108,
+        "regressed": 3
+      },
+      "paired_normalized_margin_delta": {
+        "mean": 0.16747001629205813,
+        "median": 0.11910128488747079,
+        "worst": -0.01838630814917556,
+        "improved": 110,
+        "regressed": 1
+      }
+    },
+    "evidence_boundary": "The opponent action sequence is frozen while the candidate receives newly evolved observations. This is an open-loop opponent-tape counterfactual, not a live policy rematch and not a holdout."
+  },
+  "blind_public_win_controls": {
+    "candidate_sha256": "ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70",
+    "selection": "32 V3C public wins frozen before candidate evaluation by engine, candidate seat, and online-margin-rank strata",
+    "artifacts": [
+      {
+        "basename": "v4-final-win-controls-1326.json",
+        "engine_version": "1.32.6",
+        "games": 16,
+        "size_bytes": 56657,
+        "sha256": "bb8378911ded880becf30f827b0fa54e3e2e0fd346f5ace2286e3267fbc55014"
+      },
+      {
+        "basename": "v4-final-win-controls-1327.json",
+        "engine_version": "1.32.7",
+        "games": 16,
+        "size_bytes": 56614,
+        "sha256": "3b694770531e1c42f7ed086985fd9455a8270b23b0e78a3e05f59e3e0bfdac76"
+      }
+    ],
+    "aggregate": {
+      "games": 32,
+      "wins": 27,
+      "ties": 0,
+      "losses": 5,
+      "all_720_done_no_stderr": true,
+      "candidate_margin": {
+        "mean": 11560.875,
+        "median": 5484.0,
+        "worst": -1570.0
+      },
+      "paired_raw_margin_delta": {
+        "mean": 5312.40625,
+        "median": 2777.0,
+        "worst": -23825.0,
+        "improved": 23,
+        "regressed": 9
+      },
+      "paired_normalized_margin_delta": {
+        "mean": 0.05477404412150538,
+        "median": 0.024104926399845995,
+        "worst": -0.3210901966849837,
+        "improved": 21,
+        "regressed": 11
+      }
+    },
+    "failed_preservation_episodes": [
+      {
+        "episode_id": 92943447,
+        "engine_version": "1.32.6",
+        "candidate_seat": 1,
+        "candidate_margin": -1570.0,
+        "normalized_margin_delta": -0.04792588883763203
+      },
+      {
+        "episode_id": 92957413,
+        "engine_version": "1.32.6",
+        "candidate_seat": 0,
+        "candidate_margin": -782.0,
+        "normalized_margin_delta": -0.015947859757089008
+      },
+      {
+        "episode_id": 93122737,
+        "engine_version": "1.32.6",
+        "candidate_seat": 0,
+        "candidate_margin": -538.0,
+        "normalized_margin_delta": -0.038561894868995826
+      },
+      {
+        "episode_id": 93517046,
+        "engine_version": "1.32.7",
+        "candidate_seat": 1,
+        "candidate_margin": -1364.0,
+        "normalized_margin_delta": -0.07062923369931308
+      },
+      {
+        "episode_id": 93678333,
+        "engine_version": "1.32.7",
+        "candidate_seat": 1,
+        "candidate_margin": -199.0,
+        "normalized_margin_delta": -0.033773444573735725
+      }
+    ],
+    "strict_32_of_32_preservation_gate_passed": false,
+    "evidence_boundary": "Selection was blind to candidate outcomes, but opponent actions remain frozen. This is a negative-control open-loop counterfactual, not a live policy rematch."
+  },
+  "opened_development_evidence": {
+    "candidate_sha256": "38838d46bf435fed98c1892ca32982f1a3f59816ff5a1be985710a16b1324f96",
+    "final_candidate_sha256": "ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70",
+    "paired_development_panel": {
+      "artifact": {
+        "basename": "v4-moe-current-policy-dev128.json",
+        "size_bytes": 53612,
+        "sha256": "9b4dfcd70f06984c677499ce52297050c39eeb2e8f2f66a978e38c3b2d8f0fce"
+      },
+      "row_count": 128,
+      "paired_games": 64,
+      "v4": {
+        "wins": 51,
+        "losses": 13,
+        "mean_margin": 4896.953125,
+        "worst_margin": -2578.0
+      },
+      "v3c": {
+        "wins": 24,
+        "losses": 40,
+        "mean_margin": -1194.171875,
+        "worst_margin": -26521.0
+      },
+      "paired_mean_margin_delta": 6091.125,
+      "paired_mean_normalized_margin_delta": 0.06565158741332355,
+      "normalized_improved": 52,
+      "normalized_regressed": 12,
+      "engine_version_recorded": null
+    },
+    "legacy_strong_panel": {
+      "artifact": {
+        "basename": "v4-moe-strong80.json",
+        "size_bytes": 30994,
+        "sha256": "7842bb698676ec622d004a53acadcb3db2f07ddf55a40976b80312c169d14aa5"
+      },
+      "games": 80,
+      "wins": 76,
+      "losses": 4,
+      "mean_margin": 14310.8625,
+      "worst_margin": -549.0,
+      "engine_version_recorded": null
+    },
+    "evidence_boundary": "Both panels were opened during development and evaluate pre-final candidate 38838d46..., not final candidate ff50c792.... They are diagnostic context, not final-hash holdout evidence."
+  },
+  "final_fresh_closed_loop_paired_panel": {
+    "status": "complete",
+    "artifact": {
+      "basename": "v4-final-fresh-paired256.json",
+      "size_bytes": 102226,
+      "sha256": "5c4eeda89ac990477ddd7fe772f481a58b2c23ce90f7d102d605675ff15340c4"
+    },
+    "candidate_hashes": {
+      "v4": "ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70",
+      "v3c": "d9e26d7e45a944dd4e46adc28f66f7d9ae5c6974e71755debe6b291029aa79e0"
+    },
+    "opponent_hashes": {
+      "kaito-v27": "f48c21166eac68d1b05a401f04f94a2eb6154e65415af64893672365ff33c7b8",
+      "v17": "ccf2aefdadd600d3e6fcaad2879a310eb15bbd14183fc2deeff9bb2525697b9a",
+      "public-moe": "d39dba50793d9777c990347443bf0c481c78adaea86055f6f6b0600dcfcd9f2e",
+      "tetsu-adaptive": "475709377b8d82a21fa298eea770ea5c005d5e329e343775c7de6e9b702bd73c"
+    },
+    "protocol": {
+      "row_count": 256,
+      "paired_games": 128,
+      "seed_count": 16,
+      "both_candidate_seats": true,
+      "seed_overlap_with_opened_development": [],
+      "engine_version_recorded": null,
+      "seed_generation_timestamp_recorded": null,
+      "seeds": [
+        716669300,
+        1050341272,
+        880091408,
+        1898329778,
+        804455517,
+        2136111327,
+        582009984,
+        845064268,
+        1943007041,
+        1637534043,
+        918176684,
+        1134065328,
+        783430956,
+        1963259029,
+        758488417,
+        1325749068
+      ]
+    },
+    "v4": {
+      "games": 128,
+      "wins": 101,
+      "ties": 0,
+      "losses": 27,
+      "all_720_done_no_stderr": true,
+      "mean_margin": 4779.921875,
+      "median_margin": 1809.0,
+      "worst_margin": -11870.0,
+      "mean_normalized_margin": 0.05935512785219325,
+      "by_opponent": {
+        "kaito-v27": {
+          "games": 32,
+          "wins": 32,
+          "losses": 0,
+          "mean_margin": 13430.78125,
+          "worst_margin": 1128.0
+        },
+        "v17": {
+          "games": 32,
+          "wins": 30,
+          "losses": 2,
+          "mean_margin": 5142.6875,
+          "worst_margin": -123.0
+        },
+        "public-moe": {
+          "games": 32,
+          "wins": 22,
+          "losses": 10,
+          "mean_margin": 974.4375,
+          "worst_margin": -1688.0
+        },
+        "tetsu-adaptive": {
+          "games": 32,
+          "wins": 17,
+          "losses": 15,
+          "mean_margin": -428.21875,
+          "worst_margin": -11870.0
+        }
+      }
+    },
+    "v3c": {
+      "games": 128,
+      "wins": 45,
+      "ties": 0,
+      "losses": 83,
+      "all_720_done_no_stderr": true,
+      "mean_margin": -3982.28125,
+      "median_margin": -2890.0,
+      "worst_margin": -33751.0,
+      "mean_normalized_margin": -0.04061612181322716
+    },
+    "paired_v4_minus_v3c": {
+      "net_win_gain": 56,
+      "mean_margin_delta": 8762.203125,
+      "median_margin_delta": 7111.0,
+      "worst_margin_delta": -20524.0,
+      "mean_normalized_margin_delta": 0.09997124966542041,
+      "normalized_improved": 100,
+      "normalized_regressed": 28,
+      "result_transitions": {
+        "loss_to_win": 60,
+        "win_to_win": 41,
+        "loss_to_loss": 23,
+        "win_to_loss": 4
+      }
+    },
+    "gate_assessment": {
+      "strict_original_gate_passed": false,
+      "all_wins_gate_passed": false,
+      "positive_overall_mean_margin_gate_passed": true,
+      "positive_mean_margin_every_opponent_gate_passed": false,
+      "failure_reasons": [
+        "V4 won 101 of 128 games rather than all 128.",
+        "Tetsu adaptive mean margin was -428.21875.",
+        "Twenty-eight paired normalized margins regressed."
+      ]
+    },
+    "evidence_boundary": "This is a final-hash closed-loop paired evaluation on fresh seeds that do not overlap the opened development seeds. It does not prove performance against hidden or future opponents, and the artifact does not bind an engine version or seed-generation timestamp."
+  },
+  "local_correctness": {
+    "pytest": {
+      "passed": 40
+    },
+    "engine_version": "1.32.6",
+    "smokes": [
+      {
+        "route": "low",
+        "seed": 20260805,
+        "candidate_seat": 0,
+        "states": 720,
+        "statuses": [
+          "DONE",
+          "DONE"
+        ],
+        "rewards": [
+          157958,
+          3453
+        ]
+      },
+      {
+        "route": "high",
+        "seed": 1220298539,
+        "candidate_seat": 0,
+        "states": 720,
+        "statuses": [
+          "DONE",
+          "DONE"
+        ],
+        "rewards": [
+          189557,
+          3455
+        ]
+      },
+      {
+        "route": "high",
+        "seed": 1220298539,
+        "candidate_seat": 1,
+        "states": 720,
+        "statuses": [
+          "DONE",
+          "DONE"
+        ],
+        "rewards": [
+          3470,
+          189791
+        ]
+      }
+    ],
+    "all_hands_aligned": true,
+    "maximum_market_orders": 10
+  },
+  "public_reference_artifacts": {
+    "v17": {
+      "url": "https://www.kaggle.com/code/boatlee/v17-r1-rc2-high-score-10c-4s-market-storage",
+      "license": "Apache-2.0 as displayed by the Kaggle Notebook page",
+      "main_sha256": "ccf2aefdadd600d3e6fcaad2879a310eb15bbd14183fc2deeff9bb2525697b9a",
+      "submission_archive_sha256": "d5e2ef7a24ecb279d2d0a16efae7f7de9bc23efdc71518d5800d51ec2abf43f7"
+    },
+    "public_moe": {
+      "url": "https://www.kaggle.com/code/indarkarhana/rank-top10-read-the-market-choose-the-farm",
+      "license": "Apache-2.0 as displayed by the Kaggle Notebook page",
+      "main_sha256": "d39dba50793d9777c990347443bf0c481c78adaea86055f6f6b0600dcfcd9f2e",
+      "submission_archive_sha256": "a5f0e99ef483408fb524e7ae7c9c2df0c71fd849a30e4fcc54ef50fc166e3ee8"
+    }
+  },
+  "claim_limits": [
+    "The 111-loss and 32-win-control counterfactuals keep opponent actions fixed and are not closed-loop policy rematches.",
+    "The blind 32-game control failed its 32-of-32 preservation gate.",
+    "The opened 128-row and 80-game panels evaluate pre-final candidate 38838d46..., not final candidate ff50c792....",
+    "The final fresh panel improved substantially over V3C but failed the strict all-wins and positive-mean-versus-every-opponent gates.",
+    "Local evaluations against hash-pinned public artifacts do not predict a Kaggle score or prove universal dominance.",
+    "V4 has a reviewed local archive but no Kaggle submission ID, remote status, Git delivery commit, or online score yet.",
+    "Leaderboard score and rank are dynamic timestamped snapshots."
+  ]
+}
