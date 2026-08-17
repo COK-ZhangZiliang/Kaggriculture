@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "strategy": "V4",
-  "generated_at_utc": "2026-08-17T03:31:25Z",
+  "generated_at_utc": "2026-08-17T03:35:34Z",
   "candidate": {
     "main_sha256": "ff50c792a8e2dbe23c8b9855cfe63074885a22ea381883af463012513a956f70",
     "main_size_bytes": 55343,
@@ -13,27 +13,42 @@
       "LICENSE-APACHE-2.0.txt",
       "THIRD_PARTY_NOTICES.txt"
     ],
-    "archive_status": "reviewed_local_artifact"
+    "archive_status": "uploaded_and_remotely_validated"
   },
   "delivery": {
-    "v4_kaggle_status": "pending",
-    "v4_submission_id": null,
-    "v4_git_commit": null,
+    "v4_kaggle_status": "COMPLETE",
+    "v4_submission_id": 55569567,
+    "v4_submission_message": "v4 demand-routed mixed farm ea61ae0",
+    "v4_submitted_at_utc": "2026-08-17T03:33:40.527Z",
+    "v4_git_commit": "ea61ae044eb481b145ca9741df552e7dd1f0b422",
     "current_confirmed_online_artifact": {
+      "strategy": "V4",
+      "submission_id": 55569567,
+      "remote_status": "COMPLETE",
+      "git_commit": "ea61ae044eb481b145ca9741df552e7dd1f0b422",
+      "archive_sha256": "796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c",
+      "dynamic_public_snapshot": {
+        "score": 600.0,
+        "rank": null,
+        "teams": null,
+        "retrieved_at_utc": "2026-08-17T03:35:34Z",
+        "interpretation": "initial starting snapshot before sufficient public episodes; not a strength estimate",
+        "dynamic": true
+      }
+    },
+    "v3c_analysis_snapshot": {
       "strategy": "V3C",
       "submission_id": 55500863,
       "remote_status": "COMPLETE",
       "git_commit": "6aadc968f3cb0e81839532ff7f1ec0499b061f81",
-      "dynamic_public_snapshot": {
-        "score": 2444.7,
-        "rank": 371,
-        "teams": 4818,
-        "retrieved_at_utc": "2026-08-17T02:36:22Z",
-        "source_archive_basename": "kaggriculture.zip",
-        "source_archive_size_bytes": 153621,
-        "source_archive_sha256": "86371574e2fe53ea4e86d6c5ca54ed57faaab4f2393df43c07c26ad579b00978",
-        "dynamic": true
-      }
+      "score": 2444.7,
+      "rank": 371,
+      "teams": 4818,
+      "retrieved_at_utc": "2026-08-17T02:36:22Z",
+      "source_archive_basename": "kaggriculture.zip",
+      "source_archive_size_bytes": 153621,
+      "source_archive_sha256": "86371574e2fe53ea4e86d6c5ca54ed57faaab4f2393df43c07c26ad579b00978",
+      "dynamic": true
     }
   },
   "route_policy": {
@@ -505,7 +520,7 @@
     "The opened 128-row and 80-game panels evaluate pre-final candidate 38838d46..., not final candidate ff50c792....",
     "The final fresh panel improved substantially over V3C but failed the strict all-wins and positive-mean-versus-every-opponent gates.",
     "Local evaluations against hash-pinned public artifacts do not predict a Kaggle score or prove universal dominance.",
-    "V4 has a reviewed local archive but no Kaggle submission ID, remote status, Git delivery commit, or online score yet.",
+    "V4 submission 55569567 is COMPLETE and maps to Git ea61ae0; its observed 600.0 score is only the dynamic starting snapshot.",
     "Leaderboard score and rank are dynamic timestamped snapshots."
   ]
 }

@@ -203,13 +203,16 @@ These smoke results validate route execution, not generalization.
 
 ## Delivery boundary
 
-V4 has not yet been uploaded to Kaggle, assigned a submission ID, remotely
-validated, or committed as a delivery revision. The reviewed 31,624-byte
+V4 submission `55569567`, message `v4 demand-routed mixed farm ea61ae0`,
+reached `COMPLETE` and maps to public Git commit
+`ea61ae044eb481b145ca9741df552e7dd1f0b422`. The reviewed 31,624-byte
 three-file archive has SHA-256
 `796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c`.
-The currently confirmed online artifact remains V3C submission `55500863`.
-Its public rating was 2,444.7 at rank 371 of 4,818 in the official snapshot
-retrieved at `2026-08-17T02:36:22Z`; ratings and ranks are dynamic.
+Kaggle reported the new submission at the 600.0 starting snapshot at
+`2026-08-17T03:35:34Z`; that initial value is not a strength estimate.
+
+The V3C analysis baseline was 2,444.7 at rank 371 of 4,818 in the full official
+snapshot retrieved at `2026-08-17T02:36:22Z`; ratings and ranks are dynamic.
 
 ## Reproduction
 

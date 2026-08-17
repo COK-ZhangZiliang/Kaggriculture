@@ -155,7 +155,7 @@ submission validation.
   The later official snapshot at `2026-08-17T02:36:22Z` showed 2,444.7 at
   rank 371/4,818; simulation ratings and ranks are dynamic.
 
-### V4: public-demand-routed two-expert policy — 2026-08-17 (current local)
+### V4: public-demand-routed two-expert policy — 2026-08-17 (current)
 
 - Reproduced all 111 captured V3C public losses exactly with their recorded
   engine versions, then reconstructed public-behavior majority routes for a
@@ -177,11 +177,14 @@ submission validation.
   45/128 for V3C and improved mean margin by 8,762.203, but failed the all-wins
   and positive-mean-versus-every-opponent gates. See `docs/v4-strategy.md` and
   `docs/evidence/v4-failure-analysis.json` for hashes and claim limits.
-- V4 has not been submitted to Kaggle or committed and pushed as a delivery
-  revision. Its reviewed 31,624-byte three-file archive has SHA-256
-  `796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c`,
-  but no V4 submission ID, remote status, online score, or Git mapping exists
-  yet.
+- Kaggle submission `55569567`, message
+  `v4 demand-routed mixed farm ea61ae0`, reached `COMPLETE`; the uploaded
+  `main.py` maps to Git commit
+  `ea61ae044eb481b145ca9741df552e7dd1f0b422`, and the 31,624-byte archive
+  SHA-256 is
+  `796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c`.
+- Its initial public score was 600.0 at `2026-08-17T03:35:34Z`; this is a
+  dynamic starting snapshot, not a strength estimate or final rank.
 
 ## Verification Gates
 

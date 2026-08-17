@@ -6,7 +6,7 @@
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
   [![Tests](https://img.shields.io/badge/tests-40%20passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
-  [![Submission status](https://img.shields.io/badge/V4%20submission-pending-f59e0b?logo=kaggle&logoColor=white)](#-submission)
+  [![Submission status](https://img.shields.io/badge/V4%20submission-COMPLETE-2ea44f?logo=kaggle&logoColor=white)](#-submission)
   [![Policy](https://img.shields.io/badge/policy-10C%2F4S%20%7C%206C%2F8S-7B61FF)](#-strategy)
 
   **A deterministic demand-routed farm agent for Kaggle's 720-state economic simulation.**
@@ -16,7 +16,7 @@
 
 This repository contains a self-contained agent for the
 [Kaggriculture competition](https://www.kaggle.com/competitions/kaggriculture).
-The current local V4 policy shares one opening route, observes the public town
+The current V4 policy shares one opening route, observes the public town
 shop sequence, and freezes one of two production experts at step 168:
 
 ```text
@@ -161,24 +161,17 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-V4 upload is **pending**. The reviewed three-file archive is 31,624 bytes with
-SHA-256
+V4 submission `55569567`, message `v4 demand-routed mixed farm ea61ae0`,
+reached `COMPLETE`. The uploaded `main.py` maps to public Git commit
+[`ea61ae0`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/ea61ae044eb481b145ca9741df552e7dd1f0b422).
+The reviewed three-file archive is 31,624 bytes with SHA-256
 `796b1b29abf0b53186b3e3c56a6c19bbb5d47d06e6e98533c05531a11a634a8c`.
-No Kaggle submission ID, remote validation status, online score, or matching
-Git commit exists yet. Local verification is not presented as an upload or
-scored bot.
 
-The currently confirmed online artifact remains V3C submission `55500863`
-(`COMPLETE`), mapped to Git commit
-[`6aadc96`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/6aadc968f3cb0e81839532ff7f1ec0499b061f81).
-Its dynamic public snapshot was **2,444.7**, rank **371/4,818**, at
-`2026-08-17T02:36:22Z`. This snapshot is neither V4 evidence nor a final-rank
-claim.
-
-When V4 is explicitly delivered, the reviewed revision must be committed and
-pushed to GitHub in the same cycle as the Kaggle upload, and the submission ID
-must be mapped to the Git commit SHA. The packaging script keeps the executable
-self-contained and carries the applicable notice and license:
+Kaggle reported an initial public score of **600.0** at
+`2026-08-17T03:35:34Z`. New simulation agents commonly begin at this starting
+snapshot before accumulating public episodes, so it is a delivery observation,
+not a V4 strength estimate or final-rank claim. The packaging script keeps the
+executable self-contained and carries the applicable notice and license:
 
 ```text
 submission.tar.gz
