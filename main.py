@@ -1,10 +1,11 @@
-"""Kaggriculture V4: public-demand-routed mixed-farm execution control.
+"""Kaggriculture V5: recovery-aware demand-routed execution control.
 
 The deterministic policy selects between 10C/4S and 6C/8S public-replay
 consensus routes at step 168 from the first two unlocked town shops.  It adds
-bounded weed/cow-placement recovery, route-aware partial-purchase repair,
-quantity-conserving H1/H7 sale leads, and an evidence-gated second-order
-counter.  See THIRD_PARTY_NOTICES.md for provenance and modifications.
+bounded weed/cow-placement recovery, route-aware seed and partial-purchase
+repair, retry-safe per-seat state, requested-sale impact ordering, and an
+observable post-recovery market regime.  See THIRD_PARTY_NOTICES.md for
+provenance and modifications.
 """
 import base64
 import copy
@@ -79,35 +80,106 @@ def _align_hands(action, obs):
     return action
 
 
-def _clip_opening_seed_surplus(action, obs, step):
-    """Do not buy more seeds than the remaining first-day route can plant."""
-    if int(step) != 1:
+def _clip_seed_surplus(action, obs, step):
+    """Remove only opening or carrot seed orders the route cannot consume."""
+    step = min(max(0, int(step)), len(_ACTIONS) - 1)
+    if step == 0:
+        demand = {}
+        for future in range(step, min(len(_ACTIONS), 24)):
+            trace = _ACTIONS[future] or {}
+            for order in [
+                trace.get("farmer") or ["PASS"],
+                *list(trace.get("hands") or []),
+            ]:
+                if len(order) >= 2 and order[0] == "PLANT":
+                    demand[order[1]] = demand.get(order[1], 0) + 1
+        seeds = _get(_get(obs, "private", {}) or {}, "seeds", {}) or {}
+        action = _copy_action(action)
+        market = []
+        remaining = {
+            crop: max(
+                0,
+                int(quantity)
+                - max(0, int(_get(seeds, crop, 0) or 0)),
+            )
+            for crop, quantity in demand.items()
+        }
+        for order in action.get("market") or []:
+            if len(order) < 3 or order[0] != "BUY_SEED":
+                market.append(order)
+                continue
+            crop = order[1]
+            required = remaining.get(crop, max(0, int(order[2] or 0)))
+            order[2] = min(max(0, int(order[2] or 0)), required)
+            remaining[crop] = max(0, required - order[2])
+            if order[2] > 0:
+                market.append(order)
+        action["market"] = market
         return action
-    demand = {}
-    day_end = min(len(_ACTIONS), 24)
-    for future in range(int(step), day_end):
-        trace = _ACTIONS[future] or {}
-        unit_actions = [
-            trace.get("farmer") or ["PASS"],
-            *list(trace.get("hands") or []),
-        ]
-        for order in unit_actions:
-            if len(order) >= 2 and order[0] == "PLANT":
-                demand[order[1]] = demand.get(order[1], 0) + 1
+    crops = {
+        order[1]
+        for order in (action.get("market") or [])
+        if len(order) >= 3
+        and order[0] == "BUY_SEED"
+        and order[1] == "CARROT"
+    }
+    if not crops:
+        return action
+    required_now = {}
     seeds = _get(_get(obs, "private", {}) or {}, "seeds", {}) or {}
+    for crop in crops:
+        stock = max(0, int(_get(seeds, crop, 0) or 0))
+        current_trace = _ACTIONS[step] or {}
+        current_plants = sum(
+            len(order) >= 2
+            and order[0] == "PLANT"
+            and order[1] == crop
+            for order in [
+                current_trace.get("farmer") or ["PASS"],
+                *list(current_trace.get("hands") or []),
+            ]
+        )
+        current_orders = sum(
+            max(0, int(order[2] or 0))
+            for order in (action.get("market") or [])
+            if len(order) >= 3 and order[:2] == ["BUY_SEED", crop]
+        )
+        # PLANT is atomic per crop and resolves before the market.  If the
+        # current request is under-stocked, every current PLANT of that crop
+        # fails and the existing stock remains available for later turns.
+        balance = stock - current_plants if stock >= current_plants else stock
+        deficit = 0
+        for future in range(step + 1, len(_ACTIONS)):
+            trace = _ACTIONS[future] or {}
+            unit_actions = [
+                trace.get("farmer") or ["PASS"],
+                *list(trace.get("hands") or []),
+            ]
+            plants = sum(
+                len(order) >= 2
+                and order[0] == "PLANT"
+                and order[1] == crop
+                for order in unit_actions
+            )
+            balance -= plants
+            deficit = max(deficit, -balance)
+            balance += sum(
+                max(0, int(order[2] or 0))
+                for order in (trace.get("market") or [])
+                if len(order) >= 3 and order[:2] == ["BUY_SEED", crop]
+            )
+        required_now[crop] = min(current_orders, max(0, deficit))
     action = _copy_action(action)
     market = []
+    remaining = dict(required_now)
     for order in action.get("market") or []:
         if len(order) < 3 or order[0] != "BUY_SEED":
             market.append(order)
             continue
         item = order[1]
-        required = max(
-            0,
-            int(demand.get(item, 0))
-            - max(0, int(_get(seeds, item, 0) or 0)),
-        )
+        required = remaining.get(item, max(0, int(order[2] or 0)))
         order[2] = min(max(0, int(order[2] or 0)), required)
+        remaining[item] = max(0, required - order[2])
         if order[2] > 0:
             market.append(order)
     action["market"] = market
@@ -135,13 +207,22 @@ def _weed_repair_action(obs, action, step):
     seat = _seat(obs)
     game = _WEED_STATE[seat]
     if step == 0 or step < int(game.get("last_step", -1)):
-        game = {"last_step": step, "active": {}}
+        game = {
+            "last_step": step,
+            "active": {},
+            "post_recovery_market_regime": False,
+        }
         _WEED_STATE[seat] = game
     game["last_step"] = step
     farm = _farm(obs, seat)
     positions = [_get(farm, "farmer"), *list(_get(farm, "hands", []) or [])]
     unit_actions = [action.get("farmer", ["PASS"]), *list(action.get("hands") or [])]
     active = game.setdefault("active", {})
+    # The engine resets all workers to the shed at each day boundary.  A
+    # delayed route replay is position-dependent, so carrying it into hour 0
+    # would execute yesterday's movements from the wrong location.
+    if step > 0 and int(_get(obs, "hour", step % 24) or 0) == 0:
+        active.clear()
 
     for actor, transaction in list(active.items()):
         index = 0 if actor == "farmer" else int(actor) + 1
@@ -152,7 +233,36 @@ def _weed_repair_action(obs, action, step):
         if age == 1:
             unit_actions[index] = list(transaction["intended"])
         elif 2 <= age <= 1 + _WEED_REPLAY_STEPS:
-            unit_actions[index] = _trace_actor_action(step - 1, actor)
+            delayed = _trace_actor_action(step - 1, actor)
+            unit_actions[index] = delayed
+            if delayed and delayed[0] in ("NORTH", "SOUTH", "WEST", "EAST"):
+                # Rejoin early only when the first delayed move reaches an
+                # in-bounds visible empty tile. Movement has no unit collision
+                # rule, so the move is executable; the current raw-route
+                # action is deliberately discarded to regain the timetable.
+                # An occupied destination can still need the next delayed
+                # WATER/CARE action, so its bounded replay is preserved.
+                if not transaction.get("first_move_seen", False):
+                    transaction["first_move_seen"] = True
+                    try:
+                        x, y = int(positions[index][0]), int(positions[index][1])
+                        dx, dy = {
+                            "NORTH": (0, -1),
+                            "SOUTH": (0, 1),
+                            "WEST": (-1, 0),
+                            "EAST": (1, 0),
+                        }[delayed[0]]
+                        destination = _tile_at(farm, (x + dx, y + dy))
+                    except (IndexError, KeyError, TypeError, ValueError):
+                        destination = "LOCKED"
+                    if destination is None:
+                        game["post_recovery_market_regime"] = True
+                        active.pop(actor, None)
+                    else:
+                        transaction["preserve_bounded_replay"] = True
+                elif not transaction.get("preserve_bounded_replay", False):
+                    game["post_recovery_market_regime"] = True
+                    active.pop(actor, None)
         else:
             active.pop(actor, None)
 
@@ -168,6 +278,33 @@ def _weed_repair_action(obs, action, step):
         active[actor] = {"start": step, "intended": list(intended)}
         unit_actions[index] = ["DIG"]
 
+    action["farmer"] = unit_actions[0] if unit_actions else ["PASS"]
+    action["hands"] = unit_actions[1:]
+    return _align_hands(action, obs)
+
+
+_PASSIVE_WEED_NOOPS = {"PASS"}
+
+
+def _clear_passive_weeds(obs, action):
+    """Turn only otherwise-certain tile no-ops on visible weeds into DIG."""
+    action = _align_hands(action, obs)
+    farm = _farm(obs, _seat(obs))
+    positions = [_get(farm, "farmer"), *list(_get(farm, "hands", []) or [])]
+    unit_actions = [
+        action.get("farmer", ["PASS"]),
+        *list(action.get("hands") or []),
+    ]
+    for index, (position, intended) in enumerate(zip(positions, unit_actions)):
+        if not isinstance(intended, list) or not intended:
+            continue
+        tile = _tile_at(farm, position)
+        if (
+            isinstance(tile, dict)
+            and tile.get("kind") == "WEED"
+            and intended[0] in _PASSIVE_WEED_NOOPS
+        ):
+            unit_actions[index] = ["DIG"]
     action["farmer"] = unit_actions[0] if unit_actions else ["PASS"]
     action["hands"] = unit_actions[1:]
     return _align_hands(action, obs)
@@ -275,7 +412,7 @@ def _front_run(action, obs, state, step, prepaid=None):
         if existing is not None:
             existing[2] = max(0, int(existing[2])) + quantity
         elif len(market) < 10:
-            market.append(["SELL", item, quantity])
+            market.insert(0, ["SELL", item, quantity])
         else:
             continue
         action["market"] = market[:10]
@@ -497,7 +634,6 @@ def _guarded_demand_cow9(obs, action, step):
     market.append(["BUY_ANIMAL", "COW", 1])
     action["market"] = market[:10]
     return action
-
 
 
 # The second-order market counter uses the selected route's own premium-sale
@@ -771,7 +907,18 @@ def _meta_front_run(action, obs, step, state):
     _meta_repay_h5(action, step, state)
     if _meta_h5_counter(action, obs, step, state):
         return
-    if int(state.get("clone_confidence", 0)) < 1 or _META_HORIZON <= 0:
+    # A fast weed rejoin marks the remainder of this episode for a wider,
+    # inventory-backed sale scan. This is deliberate opportunistic
+    # liquidation, not an H1/H7 prepayment and therefore has no repayment
+    # ledger at a later route step.
+    market_scan_horizon = (
+        11
+        if _WEED_STATE[_seat(obs)].get(
+            "post_recovery_market_regime", False
+        )
+        else _META_HORIZON
+    )
+    if int(state.get("clone_confidence", 0)) < 1 or market_scan_horizon <= 0:
         return
     orders = [list(order) for order in action.get("market", []) or []]
     if len(orders) >= 10:
@@ -783,7 +930,7 @@ def _meta_front_run(action, obs, step, state):
                 0, int(order[2] or 0)
             )
     planned = {}
-    end = min(len(_ACTIONS), step + _META_HORIZON + 1)
+    end = min(len(_ACTIONS), step + market_scan_horizon + 1)
     for future_step in range(step + 1, end):
         distance = future_step - step
         for item, quantity in (_META_SALES.get(future_step) or {}).items():
@@ -805,7 +952,7 @@ def _meta_front_run(action, obs, step, state):
         price = float(_get(prices, item, _META_BASE_PRICE[item]) or 0)
         priority = (
             price * quantity * _META_GLUT_WEIGHT[item]
-            + (_META_HORIZON + 1 - distance) * _META_BASE_PRICE[item]
+            + (market_scan_horizon + 1 - distance) * _META_BASE_PRICE[item]
         )
         choices.append((priority, item, quantity))
     if choices:
@@ -819,6 +966,28 @@ _ROUTE_STATE = {
     0: {"last_step": -1, "shops": (), "expert": None},
     1: {"last_step": -1, "shops": (), "expert": None},
 }
+_ACTION_CACHE = {
+    0: {"step": -1, "signature": None, "action": None},
+    1: {"step": -1, "signature": None, "action": None},
+}
+
+
+def _action_cache_signature(obs):
+    """Serialize decision state while ignoring retry-budget bookkeeping."""
+    try:
+        payload = {
+            str(key): value
+            for key, value in obs.items()
+            if str(key) != "remainingOverageTime"
+        }
+        return json.dumps(
+            payload,
+            sort_keys=True,
+            separators=(",", ":"),
+            default=str,
+        )
+    except (AttributeError, TypeError, ValueError):
+        return None
 
 
 def _select_route(obs, step):
@@ -850,11 +1019,290 @@ def _select_route(obs, step):
     return _LOW_ACTIONS, _LOW_META_SALES
 
 
+def _v5_is_shed_access(position, board_size):
+    """Match the engine's four orthogonally adjacent shed-access cells."""
+    try:
+        x, y = int(position[0]), int(position[1])
+    except (IndexError, TypeError, ValueError):
+        return False
+    half = max(2, int(board_size)) // 2
+    return (x, y) in {
+        (half - 1, half - 1),
+        (half, half - 1),
+        (half - 1, half),
+        (half, half),
+    }
+
+
+def _v5_projected_shed(obs, action):
+    """Project same-turn shed stock in actor execution order.
+
+    Kaggriculture resolves farmer and hand actions before market orders.  SELL
+    ranking therefore needs the stock after executable DROP, PLACE, and PICKUP
+    actions, not merely the stock visible in the observation.
+    """
+    farm = _farm(obs, _seat(obs))
+    private = _get(obs, "private", {}) or {}
+    projected = {
+        str(item): max(0, int(quantity or 0))
+        for item, quantity in dict(_get(private, "shed", {}) or {}).items()
+    }
+    inventories = list(_get(private, "inventories", []) or [])
+    positions = [
+        _get(farm, "farmer", [0, 0]),
+        *list(_get(farm, "hands", []) or []),
+    ]
+    unit_actions = [
+        action.get("farmer", ["PASS"]),
+        *list(action.get("hands") or []),
+    ]
+    tiles = list(_get(farm, "tiles", []) or [])
+    board_size = len(tiles) or 10
+
+    for index, unit_action in enumerate(unit_actions):
+        if (
+            index >= len(positions)
+            or index >= len(inventories)
+            or not isinstance(unit_action, (list, tuple))
+            or not unit_action
+            or not _v5_is_shed_access(positions[index], board_size)
+        ):
+            continue
+        inventory = {
+            str(item): max(0, int(quantity or 0))
+            for item, quantity in dict(inventories[index] or {}).items()
+        }
+        operation = unit_action[0]
+        if operation == "PICKUP" and len(unit_action) >= 2:
+            item = str(unit_action[1])
+            try:
+                requested = (
+                    max(0, int(unit_action[2]))
+                    if len(unit_action) >= 3
+                    else 1
+                )
+            except (TypeError, ValueError):
+                requested = 0
+            quantity = min(requested, projected.get(item, 0))
+            projected[item] = max(0, projected.get(item, 0) - quantity)
+            continue
+        if operation == "DROP":
+            deposits = list(inventory.items())
+        elif operation == "PLACE" and len(unit_action) >= 2:
+            item = str(unit_action[1])
+            try:
+                x, y = int(positions[index][0]), int(positions[index][1])
+                tile = tiles[y][x]
+            except (IndexError, TypeError, ValueError):
+                tile = None
+            structure = {
+                "COW": "PASTURE",
+                "SHEEP": "PASTURE",
+                "GOOSE": "COOP",
+            }.get(item)
+            if (
+                structure
+                and isinstance(tile, dict)
+                and tile.get("kind") == structure
+                and "animal" not in tile
+            ):
+                # Matching animal placement never falls through to the shed,
+                # even when the actor does not carry the requested animal.
+                continue
+            try:
+                requested = (
+                    max(0, int(unit_action[2]))
+                    if len(unit_action) >= 3
+                    else 1
+                )
+            except (TypeError, ValueError):
+                requested = 0
+            deposits = ((item, min(requested, inventory.get(item, 0))),)
+        else:
+            continue
+        for item, requested in deposits:
+            room = max(0, 100 - sum(projected.values()))
+            quantity = min(max(0, int(requested or 0)), room)
+            if quantity > 0:
+                projected[item] = projected.get(item, 0) + quantity
+    return projected
+
+
+def _v5_prune_terminal_wheat_seed(action, step):
+    """Remove WHEAT seed purchases after the route's last future planting."""
+    if any(
+        len(unit_order) >= 2
+        and unit_order[:2] == ["PLANT", "WHEAT"]
+        for future in range(int(step) + 1, len(_ACTIONS))
+        for unit_order in [
+            (_ACTIONS[future] or {}).get("farmer") or ["PASS"],
+            *list((_ACTIONS[future] or {}).get("hands") or []),
+        ]
+    ):
+        return action
+    action = _copy_action(action)
+    action["market"] = [
+        list(order)
+        for order in (action.get("market") or [])
+        if not (
+            len(order) >= 2
+            and order[:2] == ["BUY_SEED", "WHEAT"]
+        )
+    ][:10]
+    return action
+
+
+def _v5_market_finalize(action, obs):
+    """Rank sell slots by executable local impact, then merge duplicates."""
+    action = _copy_action(action)
+    orders = [list(order) for order in (action.get("market") or [])]
+    params = {
+        "WHEAT": (25, 10000, 400, "sqrt", 0.8, "log", 0.2),
+        "CARROT": (35, 10000, 450, "log", 0.2, "sqrt", 0.7),
+        "TOMATO": (60, 10000, 200, "linear", 0.4, "sqrt", 0.6),
+        "STRAWBERRY": (120, 10000, 100, "sqrt", 0.7, "linear", 1.6),
+        "MELON": (250, 10000, 300, "log", 0.2, "sq", 3.6),
+        "EGG": (50, 10000, 332, "linear", 0.4, "log", 0.2),
+        "MILK": (160, 10000, 122, "sqrt", 0.6, "linear", 1.6),
+        "WOOL": (200, 10000, 105, "log", 0.2, "sq", 3.2),
+        "FERTILIZER": (100, 10000, 200, "linear", 0.4, "linear", 0.4),
+    }
+    inventory = _get(_get(obs, "market", {}) or {}, "inventory", {}) or {}
+
+    def shape(name, value):
+        value = max(0.0, float(value))
+        if name == "linear":
+            return value
+        if name == "sq":
+            return value * value
+        if name == "sqrt":
+            return math.sqrt(value)
+        return math.log1p(value) if name == "log" else math.log10(1.0 + value)
+
+    def price(item, market_inventory):
+        (
+            base,
+            equilibrium,
+            scale,
+            below_func,
+            below_target,
+            above_func,
+            above_target,
+        ) = params[item]
+        if market_inventory < equilibrium:
+            value = (
+                base
+                + below_target
+                * base
+                / shape(below_func, scale)
+                * shape(below_func, equilibrium - market_inventory)
+            )
+        else:
+            value = (
+                base
+                - above_target
+                * base
+                / shape(above_func, scale)
+                * shape(above_func, market_inventory - equilibrium)
+            )
+        return max(1, int(round(value)))
+
+    def score(order):
+        if not (
+            len(order) >= 3
+            and order[0] == "SELL"
+            and order[1] in params
+        ):
+            return float("-inf")
+        item = order[1]
+        quantity = max(0, int(order[2] or 0))
+        start = int(_get(inventory, item, 10000) or 0)
+
+        def revenue(market_inventory):
+            total = 0
+            for _ in range(quantity):
+                quote = price(item, market_inventory)
+                total += quote
+                if quote > 1:
+                    market_inventory += 1
+            return total, market_inventory
+
+        now, delayed = revenue(start)
+        later, _ = revenue(delayed)
+        return max(0, now - later)
+
+    projected = _v5_projected_shed(obs, action)
+    remaining = dict(projected)
+    sell_rows = []
+    for index, order in enumerate(orders):
+        if not (
+            len(order) >= 3
+            and order[0] == "SELL"
+            and order[1] in params
+        ):
+            continue
+        item = order[1]
+        requested = max(0, int(order[2] or 0))
+        executable = min(requested, max(0, int(remaining.get(item, 0) or 0)))
+        remaining[item] = max(0, int(remaining.get(item, 0) or 0) - executable)
+        scored = list(order)
+        scored[2] = executable
+        sell_rows.append((score(scored), -index, order))
+    sell_rows.sort(reverse=True)
+    ranked = iter(row[2] for row in sell_rows)
+    orders = [
+        next(ranked)
+        if len(order) >= 3 and order[0] == "SELL" and order[1] in params
+        else order
+        for order in orders
+    ]
+    premium = {"MELON", "STRAWBERRY", "MILK", "WOOL"}
+    for index in range(1, len(orders)):
+        if not (
+            len(orders[index]) >= 2
+            and orders[index][0] == "SELL"
+            and orders[index][1] in premium
+        ):
+            continue
+        cursor = index
+        while cursor > 0 and (
+            not orders[cursor - 1] or orders[cursor - 1][0] != "SELL"
+        ):
+            orders[cursor - 1], orders[cursor] = (
+                orders[cursor],
+                orders[cursor - 1],
+            )
+            cursor -= 1
+    first = {}
+    merged = []
+    for order in orders:
+        if len(order) >= 3 and order[0] == "SELL":
+            item = order[1]
+            if item in first:
+                merged[first[item]][2] += max(0, int(order[2] or 0))
+                continue
+            first[item] = len(merged)
+        merged.append(order)
+    action["market"] = merged[:10]
+    return action
+
+
 def agent(obs, config=None):
-    """Return the V4 action for one Kaggriculture observation."""
+    """Return the V5 action for one Kaggriculture observation."""
     try:
         global _ACTIONS, _META_SALES
         raw_step = max(0, int(_get(obs, "step", 0) or 0))
+        seat = _seat(obs)
+        signature = _action_cache_signature(obs)
+        cached = _ACTION_CACHE[seat]
+        if (
+            raw_step > 0
+            and signature is not None
+            and int(cached.get("step", -1)) == raw_step
+            and cached.get("signature") == signature
+            and cached.get("action") is not None
+        ):
+            return copy.deepcopy(cached["action"])
         _ACTIONS, _META_SALES = _select_route(obs, raw_step)
         if len(list(_get(obs, "farms", []) or [])) < 2:
             return {"farmer": ["PASS"], "hands": [], "market": []}
@@ -867,7 +1315,7 @@ def agent(obs, config=None):
         _meta_observe_h4(obs, step, meta)
         meta["last_step"] = step
 
-        action = _clip_opening_seed_surplus(
+        action = _clip_seed_surplus(
             _copy_action(_ACTIONS[step]), obs, step
         )
         action = _weed_repair_action(
@@ -875,6 +1323,7 @@ def agent(obs, config=None):
             action,
             step,
         )
+        action = _clear_passive_weeds(obs, action)
         action = _cow_place_alignment(obs, action, step)
         action = _reconcile_scheduled_cows(obs, action, step)
         action = _guarded_demand_cow9(obs, action, step)
@@ -892,7 +1341,15 @@ def agent(obs, config=None):
         action = _align_hands(action, obs)
 
         _meta_front_run(action, obs, step, meta)
+        action = _v5_prune_terminal_wheat_seed(action, step)
+        action = _v5_market_finalize(action, obs)
         _meta_remember_market(obs, step, action, meta)
+        if signature is not None:
+            _ACTION_CACHE[seat] = {
+                "step": raw_step,
+                "signature": signature,
+                "action": copy.deepcopy(action),
+            }
         return action
     except Exception:
         farm = _farm(obs, _seat(obs))

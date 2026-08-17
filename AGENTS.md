@@ -186,6 +186,27 @@ submission validation.
 - Its initial public score was 600.0 at `2026-08-17T03:35:34Z`; this is a
   dynamic starting snapshot, not a strength estimate or final rank.
 
+### V5: recovery-aware execution and executable-market ranking — 2026-08-17
+
+- Kept the V4 public-shop two-expert selector and added failure-driven fixes:
+  day-boundary clearing for in-flight weed transactions, route-prefix seed
+  feasibility with atomic same-crop planting semantics, executable same-turn
+  shed projection for SELL ranking, terminal wheat-seed pruning, and retry-safe
+  per-seat action caching.
+- Current `main.py` SHA-256 is
+  `9390f7a9136f7c724376107fa3b2f464d871b0d725ac2039503c1cc312f6bc5b` and the
+  repository has 56 passing tests. Starter/random both-seat terminal smokes
+  completed 720 states with `DONE/DONE` and no stderr.
+- The current-hash opened 16-seed, four-opponent, both-seat regression panel
+  completed 128/128 wins, mean margin `+6321.125`, and worst margin `+181`.
+  The separate RC1 diagnostic panel was 123/128; its five near-mirror losses
+  remain an explicit evidence boundary rather than an identity/seed gate.
+- Detailed current strategy and raw result hashes are in
+  `docs/v5-strategy.md` and `docs/evidence/v5-failure-analysis.json`.
+- Kaggle/GitHub delivery is pending at this point in the history entry; append
+  the submission ID, validation status, archive SHA-256, and matching Git SHA
+  in the same documentation change after remote submission.
+
 ## Verification Gates
 
 Before treating a baseline change as complete, run all applicable checks:

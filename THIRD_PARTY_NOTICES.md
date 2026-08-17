@@ -40,13 +40,26 @@ references and used as hash-pinned local opponents:
 - downloaded `submission.tar.gz` SHA-256:
   `a5f0e99ef483408fb524e7ae7c9c2df0c71fd849a30e4fcc54ef50fc166e3ee8`
 
+### Adaptive farming strategy
+
+- [Adaptive Farming Strategy for Kaggriculture](https://www.kaggle.com/code/tetsutani/adaptive-farming-strategy-for-kaggriculture)
+- downloaded `main.py` SHA-256:
+  `475709377b8d82a21fa298eea770ea5c005d5e329e343775c7de6e9b702bd73c`
+- downloaded `submission.tar.gz` SHA-256:
+  `483a72e47bfe8e34af4b4858f252b3f3a9221f3cdf47bfba174929146f3ba381`
+- V5 reuses the published product price-curve parameters and the local
+  requested-sale impact-ranking idea. The implementation was integrated into
+  this repository's two-route controller, made deterministic, followed by
+  premium-before-outflow ordering and duplicate-sale merging, and covered by
+  repository tests. It does not copy the Notebook's full policy or route.
+
 These downloads support artifact-level inspection and local evaluation only.
 Similar behavior in a public episode is not proof that the episode executed
 the downloaded bytes.
 
 ## Retained controller lineage
 
-V4 retains controller and market-schedule lineage previously attributed to:
+V5 retains controller and market-schedule lineage previously attributed to:
 
 - [V16-RC5-R5A High-Score 8C/4S Recovery](https://www.kaggle.com/code/boatlee/v16-rc5-r5a-high-score-8c-4s-recovery),
   reference `main.py` SHA-256
@@ -55,11 +68,12 @@ V4 retains controller and market-schedule lineage previously attributed to:
   reference `main.py` SHA-256
   `df4e899ad535754cf2ddbd3c16e48085916b0cd2baa5182a1a2cfc6a856abae5`.
 
-The earlier 8C/4S action tape is no longer the current V4 production route.
-V4 retains bounded weed and cow-placement repair plus the reduced public
+The earlier 8C/4S action tape is no longer the current V5 production route.
+V5 retains bounded weed and cow-placement repair plus the reduced public
 premium-sale schedule, then adds independent per-seat route selection,
 route-aware purchase reconciliation, quantity-conserving repayment, malformed
-observation protection, tests, packaging, and evidence controls.
+observation protection, retry-safe action caching, tests, packaging, and
+evidence controls.
 
 ## License copy and distribution
 

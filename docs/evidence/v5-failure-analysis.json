@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-17T08:55:09Z",
+  "candidate": {
+    "path": "main.py",
+    "sha256": "9390f7a9136f7c724376107fa3b2f464d871b0d725ac2039503c1cc312f6bc5b"
+  },
+  "runtime": {
+    "engine": "kaggle-environments",
+    "version": "1.32.7",
+    "all_games": "720 states, DONE/DONE, stderr empty"
+  },
+  "opened_regression_panel": {
+    "result_sha256": "5d19789cce4db060cc63c13d10c2ab12b2aabd40767c6b1772a47f28f3c9da59",
+    "seeds": [
+      582009984,
+      716669300,
+      758488417,
+      783430956,
+      804455517,
+      845064268,
+      880091408,
+      918176684,
+      1050341272,
+      1134065328,
+      1325749068,
+      1637534043,
+      1898329778,
+      1943007041,
+      1963259029,
+      2136111327
+    ],
+    "opponents": {
+      "kaito-v27": {
+        "artifact_sha256": "f48c21166eac68d1b05a401f04f94a2eb6154e65415af64893672365ff33c7b8",
+        "games": 32,
+        "wins": 32,
+        "mean_margin": 14526.5,
+        "worst_margin": 1697.0
+      },
+      "public-moe": {
+        "artifact_sha256": "d39dba50793d9777c990347443bf0c481c78adaea86055f6f6b0600dcfcd9f2e",
+        "games": 32,
+        "wins": 32,
+        "mean_margin": 2837.1875,
+        "worst_margin": 777.0
+      },
+      "tetsu-adaptive": {
+        "artifact_sha256": "475709377b8d82a21fa298eea770ea5c005d5e329e343775c7de6e9b702bd73c",
+        "games": 32,
+        "wins": 32,
+        "mean_margin": 1626.59375,
+        "worst_margin": 181.0
+      },
+      "v17": {
+        "artifact_sha256": "ccf2aefdadd600d3e6fcaad2879a310eb15bbd14183fc2deeff9bb2525697b9a",
+        "games": 32,
+        "wins": 32,
+        "mean_margin": 6294.21875,
+        "worst_margin": 906.0
+      }
+    },
+    "overall": {
+      "games": 128,
+      "wins": 128,
+      "ties": 0,
+      "losses": 0,
+      "mean_margin": 6321.125,
+      "median_margin": 2678.0,
+      "worst_margin": 181.0
+    }
+  },
+  "rc1_diagnostic_panel": {
+    "result_sha256": "7f4d563ebecea71adf1b326d92866c231e971f50a99d55edf6ddf7393768f1cf",
+    "games": 128,
+    "wins": 123,
+    "ties": 0,
+    "losses": 5,
+    "mean_margin": 6417.453125,
+    "median_margin": 3061.5,
+    "worst_margin": -2549.0,
+    "claim_boundary": "development diagnostic; not a universal-policy guarantee"
+  },
+  "causal_debug_trace": {
+    "predecessor_candidate_sha256": "942d68ab685b320f6bd73acda76b7a46596f6a6ed67cf042ae4f48b9880dbba7",
+    "result_sha256": "d3d956c33a3d53156557c4923a19a8f78a54a2f6e40a510e127251cc4b8ade83",
+    "games": 8,
+    "wins": 8,
+    "mean_margin": 8408.375,
+    "worst_margin": 255.0,
+    "finding": "clear active weed transactions at hour 0 after the engine's worker reset"
+  }
+}
