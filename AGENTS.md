@@ -155,7 +155,7 @@ submission validation.
   The later official snapshot at `2026-08-17T02:36:22Z` showed 2,444.7 at
   rank 371/4,818; simulation ratings and ranks are dynamic.
 
-### V4: public-demand-routed two-expert policy — 2026-08-17 (current)
+### V4: public-demand-routed two-expert policy — 2026-08-17
 
 - Reproduced all 111 captured V3C public losses exactly with their recorded
   engine versions, then reconstructed public-behavior majority routes for a
@@ -186,7 +186,7 @@ submission validation.
 - Its initial public score was 600.0 at `2026-08-17T03:35:34Z`; this is a
   dynamic starting snapshot, not a strength estimate or final rank.
 
-### V5: recovery-aware execution and executable-market ranking — 2026-08-17
+### V5: recovery-aware execution and executable-market ranking — 2026-08-17 (current)
 
 - Kept the V4 public-shop two-expert selector and added failure-driven fixes:
   day-boundary clearing for in-flight weed transactions, route-prefix seed
@@ -203,9 +203,13 @@ submission validation.
   remain an explicit evidence boundary rather than an identity/seed gate.
 - Detailed current strategy and raw result hashes are in
   `docs/v5-strategy.md` and `docs/evidence/v5-failure-analysis.json`.
-- Kaggle/GitHub delivery is pending at this point in the history entry; append
-  the submission ID, validation status, archive SHA-256, and matching Git SHA
-  in the same documentation change after remote submission.
+- Kaggle submission `55574866`, message `v5 recovery-aware executable-market
+  controller cd5e81b`, reached `COMPLETE`; the uploaded `main.py` maps to Git
+  commit `cd5e81b1cc9d6ef38422aa5d47c7f76e64c866fc`, and the reviewed archive
+  SHA-256 is
+  `9baa7fd9783bab1391fa7293497a174abf5772e0e0beae2b8259aabf9447f1b1`.
+- Its initial public score was `600.0` at `2026-08-17T08:58:58Z`; leaderboard
+  ratings are dynamic and this is only a delivery snapshot.
 
 ## Verification Gates
 

@@ -6,7 +6,7 @@
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
   [![Tests](https://img.shields.io/badge/tests-56%20passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
-  [![Submission status](https://img.shields.io/badge/V5%20submission-PENDING-DAA520?logo=kaggle&logoColor=white)](#-submission)
+  [![Submission status](https://img.shields.io/badge/V5%20submission-COMPLETE-2ea44f?logo=kaggle&logoColor=white)](#-submission)
   [![Policy](https://img.shields.io/badge/policy-V5%20recovery%20controller-7B61FF)](#-strategy)
 
   **A deterministic demand-routed farm agent for Kaggle's 720-state economic simulation.**
@@ -149,11 +149,16 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-V5 packaging is ready for Kaggle submission and the corresponding GitHub
-delivery. The final submission ID, Git commit, archive hash, and remote status
-will be recorded here immediately after Kaggle validation. The packaging script
-keeps the executable self-contained and carries the applicable notice and
-license:
+V5 submission `55574866`, message `v5 recovery-aware executable-market
+controller cd5e81b`, reached `COMPLETE`. The uploaded `main.py` maps to public
+Git commit [`cd5e81b`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/cd5e81b1cc9d6ef38422aa5d47c7f76e64c866fc).
+The reviewed three-file archive is 35,598 bytes with SHA-256
+`9baa7fd9783bab1391fa7293497a174abf5772e0e0beae2b8259aabf9447f1b1`.
+
+Kaggle reported an initial public score of **600.0** at
+`2026-08-17T08:58:58Z`. Ratings are dynamic and this is a delivery snapshot,
+not a final-rank or hidden-test estimate. The packaging script keeps the
+executable self-contained and carries the applicable notice and license:
 
 ```text
 submission.tar.gz

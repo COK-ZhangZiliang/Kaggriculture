@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-17T08:55:09Z",
+  "generated_at_utc": "2026-08-17T09:00:56Z",
   "candidate": {
     "path": "main.py",
     "sha256": "9390f7a9136f7c724376107fa3b2f464d871b0d725ac2039503c1cc312f6bc5b"
@@ -89,5 +89,23 @@
     "mean_margin": 8408.375,
     "worst_margin": 255.0,
     "finding": "clear active weed transactions at hour 0 after the engine's worker reset"
+  },
+  "delivery": {
+    "kaggle_submission_id": "55574866",
+    "kaggle_status": "COMPLETE",
+    "kaggle_submitted_at_utc": "2026-08-17T08:58:58Z",
+    "initial_public_score": 600.0,
+    "git_commit": "cd5e81b1cc9d6ef38422aa5d47c7f76e64c866fc",
+    "archive": {
+      "path": "dist/submission.tar.gz",
+      "size_bytes": 35598,
+      "sha256": "9baa7fd9783bab1391fa7293497a174abf5772e0e0beae2b8259aabf9447f1b1",
+      "members": [
+        "main.py",
+        "LICENSE-APACHE-2.0.txt",
+        "THIRD_PARTY_NOTICES.txt"
+      ]
+    },
+    "score_boundary": "dynamic initial public snapshot, not a final-rank or hidden-test estimate"
   }
 }
