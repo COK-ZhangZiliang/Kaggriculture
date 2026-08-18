@@ -5,25 +5,26 @@
 
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
-  [![Tests](https://img.shields.io/badge/tests-56%20passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
-  [![Submission status](https://img.shields.io/badge/V5%20submission-COMPLETE-2ea44f?logo=kaggle&logoColor=white)](#-submission)
-  [![Policy](https://img.shields.io/badge/policy-V5%20recovery%20controller-7B61FF)](#-strategy)
+  [![Tests](https://img.shields.io/badge/tests-59%20passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
+  [![Submission status](https://img.shields.io/badge/V6%20submission-pending-f59e0b?logo=kaggle&logoColor=white)](#-submission)
+  [![Policy](https://img.shields.io/badge/policy-V6%20behavior%20router-7B61FF)](#-strategy)
 
-  **A deterministic demand-routed farm agent for Kaggle's 720-state economic simulation.**
+  **A deterministic behavior-routed farm agent for Kaggle's 720-state economic simulation.**
 </div>
 
 ## 🌾 Overview
 
-This repository contains a self-contained V5 agent for the
+This repository contains a self-contained V6 agent for the
 [Kaggriculture competition](https://www.kaggle.com/competitions/kaggriculture).
-It shares one opening route, observes the public town shop sequence, and
-freezes one of two production experts at step 168:
+It keeps V5 as the default two-expert policy and adds one conservative
+step-72 behavior gate for a recurrent public failure cluster:
 
 ```text
 shared opening through step 167
-  ├─ low expert  → terminal 10 cows / 4 sheep
-  └─ high expert → terminal 6 cows / 8 sheep
-                     (12 sheep requested and placed cumulatively)
+  ├─ exact public 2C/2S farm shape + BAKERY/PIZZA → counter expert
+  └─ otherwise, public shops at step 168
+       ├─ low expert  → terminal 10 cows / 4 sheep
+       └─ high expert → terminal 6 cows / 8 sheep
 ```
 
 The policy uses gameplay observations only. It does not route on episode ID,
@@ -33,11 +34,17 @@ repository and returns only JSON-safe actions.
 
 ## 🧠 Strategy
 
-V5 combines a deterministic two-expert production tape with failure-driven
-execution and market repair:
+V6 combines three deterministic public-replay consensus routes with
+failure-driven execution and market repair:
 
 - each seat keeps independent state, accumulates `unlocked_shops` through step
-  168, then makes a sticky route decision;
+  168, and makes sticky behavior and shop-route decisions;
+- at step 72, the counter expert is enabled only when the opponent publicly
+  shows exactly `$49`, no hands, 2 cows, 2 sheep, 12 melon plants, 7 wheat
+  plants, and 5 pasture tiles, and the first shop is `BAKERY` or
+  `PIZZA_SHOP`;
+- a repeated first-two-shop prefix cancels the counter expert and falls back to
+  the V5 route selector;
 - any observed `YARN_STORE` selects the high expert, except when the first two
   shops are exactly `ICE_CREAM_SHOP`, `YARN_STORE`, which selects the low
   expert because that early mix is milk-dominated;
@@ -62,40 +69,38 @@ execution and market repair:
 - every action is hand-aligned, market orders remain capped at 10, and a
   malformed observation falls back to JSON-safe `PASS` actions.
 
-The route tapes were reconstructed by component-wise majority from public
+The three route tapes were reconstructed by component-wise majority from public
 opponent behavior, then normalized, serialized, and compressed. Public
 Notebooks were also used as mechanism references and hash-pinned evaluation
 opponents; that does not establish that a replay participant ran a particular
 Notebook artifact. Attribution and this boundary are recorded in
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). The detailed strategy and
-evidence protocol are in [`docs/v5-strategy.md`](docs/v5-strategy.md).
+evidence protocol are in [`docs/v6-strategy.md`](docs/v6-strategy.md).
 
 ## ✅ Verified current strategy
 
 The current `main.py` SHA-256 is
-`9390f7a9136f7c724376107fa3b2f464d871b0d725ac2039503c1cc312f6bc5b`.
-It passed 56 automated tests. With `kaggle-environments==1.32.6`, starter and
-random smoke matches each completed 720 states with `DONE/DONE` and no stderr;
-the candidate won both local matches.
+`888115e1a4c48a52f28eeac60ce6fb8ede5dd67db360fee5df004ffa0613885e`.
+It passed 59 automated tests. With `kaggle-environments==1.32.7`, starter and
+random both-seat smoke matches each completed 720 states with `DONE/DONE` and
+no stderr.
 
-The current-hash opened regression panel used 16 seeds, four hash-pinned public
-policies, and both candidate seats. Every game reached 720 states and
-`DONE/DONE` without captured stderr:
+The captured 97-game public replay panel improved from 73 V5 wins to 78 V6
+wins and raised mean margin from `+5252.247` to `+5834.186`, while retaining
+all 73 historical win outcomes. The current candidate also completed 96/96
+wins in the 16-seed both-seat panel against the three still-available
+hash-pinned public artifacts:
 
-| Frozen opponent artifact | Games | V5 W-L | Mean margin | Worst margin |
+| Frozen panel | Games | V6 W-L | Mean margin | Worst margin |
 |:---|---:|---:|---:|---:|
-| Kaito v27 | 32 | **32-0** | +14,526.500 | +1,697 |
-| V17 | 32 | **32-0** | +6,294.219 | +906 |
-| Public MoE | 32 | **32-0** | +2,837.188 | +777 |
-| Tetsu adaptive | 32 | **32-0** | +1,626.594 | +181 |
-| **Overall** | **128** | **128-0** | **+6,321.125** | **+181** |
+| Existing three-opponent panel | 96 | **96-0** | +3,793.573 | +181 |
+| Fresh three-opponent panel | 48 | **47-1** | +3,301.125 | -448 |
 
-The separately generated RC1 diagnostic panel reached 123/128, with mean
-margin +6,417.453 and worst margin -2,549. It is retained as an honest
-near-mirror diagnostic, not hidden by seed or opponent routing and not used to
-claim universal performance. Exact hashes, seeds, aggregates, and claim
-limits are recorded in
-[`docs/evidence/v5-failure-analysis.json`](docs/evidence/v5-failure-analysis.json).
+The fresh-panel loss was also V5's only loss on those rows; V6 improved mean
+margin by `+763.063`. Kaito v27 was unavailable for the V6 rerun, so the
+current claim is deliberately limited to the three hash-pinned artifacts.
+Exact hashes, seeds, aggregates, and claim limits are recorded in
+[`docs/evidence/v6-failure-analysis.json`](docs/evidence/v6-failure-analysis.json).
 
 ## 🚜 Quick start
 
@@ -149,16 +154,14 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-V5 submission `55574866`, message `v5 recovery-aware executable-market
-controller cd5e81b`, reached `COMPLETE`. The uploaded `main.py` maps to public
-Git commit [`cd5e81b`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/cd5e81b1cc9d6ef38422aa5d47c7f76e64c866fc).
-The reviewed three-file archive is 35,598 bytes with SHA-256
-`9baa7fd9783bab1391fa7293497a174abf5772e0e0beae2b8259aabf9447f1b1`.
+The V6 delivery is pending final verification, Git push, Kaggle upload, and
+remote validation. The latest retrieved baseline is V5 submission `55574866`
+at a dynamic public score of **2735.4**. This section will be replaced with
+the traceable V6 submission ID, Git commit, archive hash, and remote status in
+the same delivery cycle.
 
-Kaggle reported an initial public score of **600.0** at
-`2026-08-17T08:58:58Z`. Ratings are dynamic and this is a delivery snapshot,
-not a final-rank or hidden-test estimate. The packaging script keeps the
-executable self-contained and carries the applicable notice and license:
+The packaging script keeps the executable self-contained and carries the
+applicable notice and license:
 
 ```text
 submission.tar.gz
@@ -180,8 +183,8 @@ environments are ignored by Git.
 │   ├── analyze_failure_replays.py # summarize ignored public replay files
 │   ├── run_local_match.py        # run a 720-state local episode
 │   └── run_league.py             # both-seat file-agent league
-├── docs/v5-strategy.md           # current strategy and evidence boundary
-├── docs/evidence/v5-failure-analysis.json
+├── docs/v6-strategy.md           # current strategy and evidence boundary
+├── docs/evidence/v6-failure-analysis.json
 ├── tests/                        # unit and environment smoke tests
 ├── assets/logo.svg               # project wordmark
 ├── LICENSES/Apache-2.0.txt       # third-party license copy

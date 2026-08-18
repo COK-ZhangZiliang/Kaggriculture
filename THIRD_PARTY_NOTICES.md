@@ -2,13 +2,16 @@
 
 ## Public-behavior route reconstruction
 
-`main.py` contains two compressed, re-serialized action routes reconstructed
-from opponent actions visible in 111 public Kaggriculture episode replays:
+`main.py` contains three compressed, re-serialized action routes reconstructed
+from opponent actions visible in public Kaggriculture episode replays:
 
 - the low route is a component-wise majority over 61 episodes whose opponent
   ended with 10 cows and 4 sheep;
 - the high route uses the low prefix through step 167 and a component-wise
   majority over nine episodes whose opponent ended with 6 cows and 8 sheep;
+- the counter route is a component-wise majority over six highly consistent
+  episodes with the same public step-72 farm shape and validated early shop
+  prefixes;
 - farmer actions, each hand slot, and the complete market list were voted
   separately, normalized as JSON, and recompressed.
 
@@ -47,9 +50,9 @@ references and used as hash-pinned local opponents:
   `475709377b8d82a21fa298eea770ea5c005d5e329e343775c7de6e9b702bd73c`
 - downloaded `submission.tar.gz` SHA-256:
   `483a72e47bfe8e34af4b4858f252b3f3a9221f3cdf47bfba174929146f3ba381`
-- V5 reuses the published product price-curve parameters and the local
+- V6 reuses the published product price-curve parameters and the local
   requested-sale impact-ranking idea. The implementation was integrated into
-  this repository's two-route controller, made deterministic, followed by
+  this repository's behavior-routed controller, made deterministic, followed by
   premium-before-outflow ordering and duplicate-sale merging, and covered by
   repository tests. It does not copy the Notebook's full policy or route.
 
@@ -59,7 +62,7 @@ the downloaded bytes.
 
 ## Retained controller lineage
 
-V5 retains controller and market-schedule lineage previously attributed to:
+V6 retains controller and market-schedule lineage previously attributed to:
 
 - [V16-RC5-R5A High-Score 8C/4S Recovery](https://www.kaggle.com/code/boatlee/v16-rc5-r5a-high-score-8c-4s-recovery),
   reference `main.py` SHA-256
@@ -68,8 +71,8 @@ V5 retains controller and market-schedule lineage previously attributed to:
   reference `main.py` SHA-256
   `df4e899ad535754cf2ddbd3c16e48085916b0cd2baa5182a1a2cfc6a856abae5`.
 
-The earlier 8C/4S action tape is no longer the current V5 production route.
-V5 retains bounded weed and cow-placement repair plus the reduced public
+The earlier 8C/4S action tape is no longer a current V6 production route.
+V6 retains bounded weed and cow-placement repair plus the reduced public
 premium-sale schedule, then adds independent per-seat route selection,
 route-aware purchase reconciliation, quantity-conserving repayment, malformed
 observation protection, retry-safe action caching, tests, packaging, and

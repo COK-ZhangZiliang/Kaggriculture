@@ -101,14 +101,58 @@ def make_cow9_observation(
     return obs
 
 
+def make_counter_observation(*, step=72, player=0, shops=None):
+    obs = make_observation(
+        step=step,
+        player=player,
+        shops=shops or ["BAKERY"],
+    )
+    opponent = obs["farms"][1 - player]
+    opponent["money"] = 49
+    opponent["hands"] = []
+    opponent["tiles"] = [[None for _ in range(10)] for _ in range(10)]
+    tiles = [
+        *[
+            {"kind": "PASTURE", "animal": "COW"}
+            for _ in range(2)
+        ],
+        *[
+            {"kind": "PASTURE", "animal": "SHEEP"}
+            for _ in range(2)
+        ],
+        {"kind": "PASTURE", "animal": None},
+        *[
+            {"kind": "PLANT", "crop": "MELON"}
+            for _ in range(12)
+        ],
+        *[
+            {"kind": "PLANT", "crop": "WHEAT"}
+            for _ in range(7)
+        ],
+    ]
+    for index, tile in enumerate(tiles):
+        opponent["tiles"][index // 10][index % 10] = tile
+    return obs
+
+
 def reset_controller():
     submission._ACTIONS = submission._LOW_ACTIONS
     submission._META_SALES = submission._LOW_META_SALES
     submission._ROUTE_STATE.clear()
     submission._ROUTE_STATE.update(
         {
-            0: {"last_step": -1, "shops": (), "expert": None},
-            1: {"last_step": -1, "shops": (), "expert": None},
+            0: {
+                "last_step": -1,
+                "shops": (),
+                "counter": None,
+                "expert": None,
+            },
+            1: {
+                "last_step": -1,
+                "shops": (),
+                "counter": None,
+                "expert": None,
+            },
         }
     )
     submission._FR_STATE.clear()
@@ -152,6 +196,11 @@ def test_routes_are_frozen_and_share_the_public_opening():
             "a548603cf9cae2bda0bc016d50d574e072287ea68315b790b7341c99ab63a31c",
             (6, 12),
         ),
+        "counter": (
+            submission._COUNTER_ACTIONS,
+            "8fe54de47206d31ff165b407086c351313abaf8f7a03da90d6f205aa44aab928",
+            (10, 4),
+        ),
     }
     for route, route_hash, animal_buys in expected.values():
         actual_hash = hashlib.sha256(
@@ -175,6 +224,70 @@ def test_routes_are_frozen_and_share_the_public_opening():
 
     assert submission._LOW_ACTIONS[:168] == submission._HIGH_ACTIONS[:168]
     assert submission._LOW_ACTIONS[168] != submission._HIGH_ACTIONS[168]
+
+
+def test_counter_route_uses_only_the_validated_public_signature():
+    reset_controller()
+    route, sales = submission._select_route(
+        make_counter_observation(),
+        72,
+    )
+    assert route is submission._COUNTER_ACTIONS
+    assert sales is submission._COUNTER_META_SALES
+
+    for first_shop in ("ICE_CREAM_SHOP", "SMOOTHIE_SHOP"):
+        reset_controller()
+        route, sales = submission._select_route(
+            make_counter_observation(shops=[first_shop]),
+            72,
+        )
+        assert route is submission._LOW_ACTIONS
+        assert sales is submission._LOW_META_SALES
+
+    reset_controller()
+    mismatch = make_counter_observation()
+    mismatch["farms"][1]["money"] = 50
+    assert (
+        submission._select_route(mismatch, 72)[0]
+        is submission._LOW_ACTIONS
+    )
+
+
+def test_counter_route_falls_back_for_a_repeated_shop_prefix():
+    reset_controller()
+    assert (
+        submission._select_route(make_counter_observation(), 72)[0]
+        is submission._COUNTER_ACTIONS
+    )
+    repeated = make_counter_observation(
+        step=80,
+        shops=["BAKERY", "BAKERY"],
+    )
+    route, sales = submission._select_route(repeated, 80)
+    assert route is submission._LOW_ACTIONS
+    assert sales is submission._LOW_META_SALES
+
+
+def test_counter_route_state_is_isolated_by_seat():
+    reset_controller()
+    assert (
+        submission._select_route(
+            make_counter_observation(player=0),
+            72,
+        )[0]
+        is submission._COUNTER_ACTIONS
+    )
+    assert (
+        submission._select_route(
+            make_observation(
+                step=72,
+                player=1,
+                shops=["BAKERY"],
+            ),
+            72,
+        )[0]
+        is submission._LOW_ACTIONS
+    )
 
 
 def test_opening_builds_the_shared_high_throughput_supply_chain():

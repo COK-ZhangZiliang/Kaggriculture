@@ -186,7 +186,7 @@ submission validation.
 - Its initial public score was 600.0 at `2026-08-17T03:35:34Z`; this is a
   dynamic starting snapshot, not a strength estimate or final rank.
 
-### V5: recovery-aware execution and executable-market ranking — 2026-08-17 (current)
+### V5: recovery-aware execution and executable-market ranking — 2026-08-17
 
 - Kept the V4 public-shop two-expert selector and added failure-driven fixes:
   day-boundary clearing for in-flight weed transactions, route-prefix seed
@@ -210,6 +210,28 @@ submission validation.
   `9baa7fd9783bab1391fa7293497a174abf5772e0e0beae2b8259aabf9447f1b1`.
 - Its initial public score was `600.0` at `2026-08-17T08:58:58Z`; leaderboard
   ratings are dynamic and this is only a delivery snapshot.
+
+### V6: observable behavior-routed counter expert — 2026-08-18 (current)
+
+- Retrieved the real V5 public score of `2735.4` and evaluated 97 captured
+  public games under engine `1.32.7`: V5 won 73/97, with all 24 losses reaching
+  `DONE/DONE`; the repeated weakness was later market cadence rather than
+  crashes or invalid termination.
+- Kept V5 as the default and added a third public-replay majority route behind
+  a conservative step-72 public-state gate: exact opponent `$49`, zero hands,
+  2 cows, 2 sheep, 12 melon, 7 wheat, 5 pasture, and first shop `BAKERY` or
+  `PIZZA_SHOP`. A repeated first-two-shop prefix falls back to V5.
+- The evaluated candidate improved the public panel to 78/97 wins and retained
+  all 73 historical win outcomes. It swept the available three-opponent
+  16-seed both-seat panel 96/96, then reached 47/48 on a fresh 8-seed panel;
+  the lone `-448` row was also V5's only loss on that panel.
+- The current repository `main.py` SHA-256 is
+  `888115e1a4c48a52f28eeac60ce6fb8ede5dd67db360fee5df004ffa0613885e`.
+  Detailed hashes, seeds, results, and claim limits are in
+  `docs/v6-strategy.md` and `docs/evidence/v6-failure-analysis.json`.
+- Kaggle delivery is pending final verification, Git push, upload, and remote
+  validation. This entry must be completed with the submission ID, Git commit,
+  archive SHA-256, status, and observed score in the same delivery cycle.
 
 ## Verification Gates
 

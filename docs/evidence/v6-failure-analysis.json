@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-18T08:45:00Z",
+  "candidate": {
+    "path": "main.py",
+    "sha256": "888115e1a4c48a52f28eeac60ce6fb8ede5dd67db360fee5df004ffa0613885e",
+    "route_sha256": {
+      "low": "93daf1e051d2f394c50c08b59d0fd56d55bf0a5e8770e08701dbcacb91458518",
+      "high": "a548603cf9cae2bda0bc016d50d574e072287ea68315b790b7341c99ab63a31c",
+      "counter": "8fe54de47206d31ff165b407086c351313abaf8f7a03da90d6f205aa44aab928"
+    }
+  },
+  "runtime": {
+    "engine": "kaggle-environments",
+    "version": "1.32.7"
+  },
+  "latest_remote_baseline": {
+    "submission_id": "55574866",
+    "policy": "V5",
+    "public_score": 2735.4,
+    "source": "Kaggle submissions API",
+    "retrieved_on": "2026-08-18",
+    "boundary": "dynamic leaderboard snapshot"
+  },
+  "public_failure_replay_panel": {
+    "result_sha256": "0727e8c595cbd0531f6c1073de6933b06704b7c23a7c99e761a6e335baf96204",
+    "engine": "kaggle-environments==1.32.7",
+    "games": 97,
+    "captured_v5_losses": 24,
+    "captured_v5_win_controls": 73,
+    "all_done": true,
+    "v5": {
+      "candidate_sha256": "9390f7a9136f7c724376107fa3b2f464d871b0d725ac2039503c1cc312f6bc5b",
+      "wins": 73,
+      "losses": 24,
+      "mean_margin": 5252.2474226804125,
+      "worst_margin": -20139.0
+    },
+    "v6_evaluated_candidate": {
+      "candidate_sha256": "79f43ff52371553d58e3313770da6e1d13c816e0caea2e8df80c531ca60918b4",
+      "wins": 78,
+      "losses": 19,
+      "mean_margin": 5834.18556701031,
+      "worst_margin": -20139.0,
+      "flipped_v5_losses": 5,
+      "retained_v5_win_outcomes": 73
+    },
+    "finding": "All failures completed normally. The actionable cluster was a repeated observable 2-cow/2-sheep opening whose later market cadence diverged from the V5 low route."
+  },
+  "behavior_gate": {
+    "decision_step": 72,
+    "opponent_money": 49,
+    "opponent_hands": 0,
+    "opponent_tiles": {
+      "COW": 2,
+      "SHEEP": 2,
+      "MELON": 12,
+      "WHEAT": 7,
+      "PASTURE": 5
+    },
+    "allowed_first_shop": [
+      "BAKERY",
+      "PIZZA_SHOP"
+    ],
+    "repeated_first_two_shop_fallback": true,
+    "route_source": "component-wise majority reconstruction from six highly consistent public episode action streams",
+    "identity_inputs": false,
+    "seed_inputs": false,
+    "episode_inputs": false
+  },
+  "existing_three_opponent_panel": {
+    "result_sha256": "b2435a9a11e7154f1191457a8ffb9b47ff442721291ab2ed10cfceb05577cb61",
+    "evaluated_candidate_sha256": "79f43ff52371553d58e3313770da6e1d13c816e0caea2e8df80c531ca60918b4",
+    "seeds": [
+      582009984,
+      716669300,
+      758488417,
+      783430956,
+      804455517,
+      845064268,
+      880091408,
+      918176684,
+      1050341272,
+      1134065328,
+      1325749068,
+      1637534043,
+      1898329778,
+      1943007041,
+      1963259029,
+      2136111327
+    ],
+    "both_seats": true,
+    "opponents": {
+      "public-moe": "d39dba50793d9777c990347443bf0c481c78adaea86055f6f6b0600dcfcd9f2e",
+      "tetsu-adaptive": "475709377b8d82a21fa298eea770ea5c005d5e329e343775c7de6e9b702bd73c",
+      "v17": "ccf2aefdadd600d3e6fcaad2879a310eb15bbd14183fc2deeff9bb2525697b9a"
+    },
+    "games": 96,
+    "wins": 96,
+    "losses": 0,
+    "mean_margin": 3793.5729166666665,
+    "worst_margin": 181.0,
+    "all_720_done_no_stderr": true,
+    "boundary": "Kaito v27 was unavailable for this rerun; this is a three-opponent panel, not the earlier V5 four-opponent panel."
+  },
+  "fresh_three_opponent_panel": {
+    "v6_result_sha256": "9ecb3c412b00a476b146edf65f4515e4aef29ff776165bef8c1def38b65932d8",
+    "v5_result_sha256": "9cd768c0bff6dd1e1b73e7651bce06f48feaa6ef91e4e065044b1b1eb19e9267",
+    "evaluated_v6_candidate_sha256": "79f43ff52371553d58e3313770da6e1d13c816e0caea2e8df80c531ca60918b4",
+    "seeds": [
+      717395972,
+      227487307,
+      1317400627,
+      962475872,
+      1929947870,
+      490618752,
+      462240092,
+      1284645891
+    ],
+    "both_seats": true,
+    "games": 48,
+    "v6": {
+      "wins": 47,
+      "losses": 1,
+      "mean_margin": 3301.125,
+      "worst_margin": -448.0
+    },
+    "v5": {
+      "wins": 47,
+      "losses": 1,
+      "mean_margin": 2538.0625,
+      "worst_margin": -448.0
+    },
+    "v6_mean_margin_delta": 763.0625,
+    "shared_loss": {
+      "opponent": "tetsu-adaptive",
+      "seed": 1317400627,
+      "candidate_seat": 1,
+      "margin": -448.0
+    },
+    "all_720_done_no_stderr": true
+  },
+  "source_equivalence": {
+    "evaluated_candidate_sha256": "79f43ff52371553d58e3313770da6e1d13c816e0caea2e8df80c531ca60918b4",
+    "repository_candidate_sha256": "888115e1a4c48a52f28eeac60ce6fb8ede5dd67db360fee5df004ffa0613885e",
+    "difference": "documentation string and compressed-route declaration order",
+    "behavior_check": "all three decompressed route hashes and targeted selector tests match"
+  },
+  "claim_boundary": "Public replay evaluation is fixed-action counterfactual evidence. Local panels are closed-loop against hash-pinned public artifacts. Neither proves performance against hidden or future policies.",
+  "delivery": {
+    "status": "pending"
+  }
+}

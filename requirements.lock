@@ -1,6 +1,6 @@
 # Base generated from a clean project .venv on 2026-08-05.
-# Updated 2026-08-14 for kaggle-environments 1.32.6 after confirming that its
-# dependency metadata matches 1.32.4; validated with pip check and full tests.
+# Updated 2026-08-18 for kaggle-environments 1.32.7 after confirming that only
+# the pinned environment package changed; validate with pip check and tests.
 # Runtime: CPython 3.12.13, macOS 26.5.1 arm64.
 # Regenerate when requirements.txt or requirements-dev.txt changes.
 # This platform-specific lock intentionally excludes pip, setuptools, and wheel.
@@ -62,7 +62,7 @@ jsonschema-specifications==2025.9.1
 jupyter_core==5.9.1
 jupytext==1.19.5
 kaggle==2.2.4
-kaggle-environments==1.32.6
+kaggle-environments==1.32.7
 kagglesdk==0.1.36
 kiwisolver==1.5.0
 litellm==1.93.1
