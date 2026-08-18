@@ -17,7 +17,7 @@
   "latest_remote_baseline": {
     "submission_id": "55574866",
     "policy": "V5",
-    "public_score": 2735.4,
+    "public_score": 2730.6,
     "source": "Kaggle submissions API",
     "retrieved_on": "2026-08-18",
     "boundary": "dynamic leaderboard snapshot"
@@ -148,6 +148,22 @@
   },
   "claim_boundary": "Public replay evaluation is fixed-action counterfactual evidence. Local panels are closed-loop against hash-pinned public artifacts. Neither proves performance against hidden or future policies.",
   "delivery": {
-    "status": "pending"
+    "kaggle_submission_id": "55596752",
+    "kaggle_status": "COMPLETE",
+    "kaggle_submitted_at_utc": "2026-08-18T08:50:00.573Z",
+    "initial_public_score": 600.0,
+    "message": "v6 behavior-routed counter 2ba26b7",
+    "git_commit": "2ba26b7ff3bc6df55000625df248c91f531c00d3",
+    "archive": {
+      "path": "dist/submission.tar.gz",
+      "size_bytes": 44336,
+      "sha256": "e9dbd91bcd7b3ce1d98d29ed7e331d43432e9c3fef450797d5996d5fd063b64f",
+      "members": [
+        "main.py",
+        "LICENSE-APACHE-2.0.txt",
+        "THIRD_PARTY_NOTICES.txt"
+      ]
+    },
+    "score_boundary": "dynamic initial public snapshot, not a final-rank or hidden-policy estimate"
   }
 }

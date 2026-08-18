@@ -5,12 +5,12 @@ a repeated failure cluster found in public Kaggle replays.
 
 ## Failure diagnosis
 
-The latest retrieved V5 public score was `2735.4`. All 24 captured public
-losses reached 720 states with `DONE/DONE`; they were economic losses rather
-than crashes, invalid-action termination, or timeout failures. The largest
-repeatable opportunity was a public opening with an identical observable farm
-shape at step 72 but a later production and market cadence that V5 did not
-counter well.
+The V5 public score immediately before V6 upload was `2730.6`. All 24
+captured public losses reached 720 states with `DONE/DONE`; they were economic
+losses rather than crashes, invalid-action termination, or timeout failures.
+The largest repeatable opportunity was a public opening with an identical
+observable farm shape at step 72 but a later production and market cadence
+that V5 did not counter well.
 
 On the 97 captured public games, V5 won 73 and lost 24, with mean margin
 `+5252.247`. The V6 candidate won 78 and lost 19, with mean margin `+5834.186`.

@@ -229,9 +229,15 @@ submission validation.
   `888115e1a4c48a52f28eeac60ce6fb8ede5dd67db360fee5df004ffa0613885e`.
   Detailed hashes, seeds, results, and claim limits are in
   `docs/v6-strategy.md` and `docs/evidence/v6-failure-analysis.json`.
-- Kaggle delivery is pending final verification, Git push, upload, and remote
-  validation. This entry must be completed with the submission ID, Git commit,
-  archive SHA-256, status, and observed score in the same delivery cycle.
+- Kaggle submission `55596752`, message `v6 behavior-routed counter 2ba26b7`,
+  reached `COMPLETE`; the uploaded `main.py` maps to Git commit
+  `2ba26b7ff3bc6df55000625df248c91f531c00d3`, and the 44,336-byte archive
+  SHA-256 is
+  `e9dbd91bcd7b3ce1d98d29ed7e331d43432e9c3fef450797d5996d5fd063b64f`.
+- Its initial public score was `600.0` at `2026-08-18T08:50:00.573Z`.
+  Immediately before upload, V5's dynamic score was `2730.6`; ratings change
+  as episodes run, so these are delivery snapshots rather than strength
+  estimates.
 
 ## Verification Gates
 

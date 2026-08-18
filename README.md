@@ -6,7 +6,7 @@
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
   [![Tests](https://img.shields.io/badge/tests-59%20passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
-  [![Submission status](https://img.shields.io/badge/V6%20submission-pending-f59e0b?logo=kaggle&logoColor=white)](#-submission)
+  [![Submission status](https://img.shields.io/badge/V6%20submission-COMPLETE-2ea44f?logo=kaggle&logoColor=white)](#-submission)
   [![Policy](https://img.shields.io/badge/policy-V6%20behavior%20router-7B61FF)](#-strategy)
 
   **A deterministic behavior-routed farm agent for Kaggle's 720-state economic simulation.**
@@ -154,11 +154,17 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-The V6 delivery is pending final verification, Git push, Kaggle upload, and
-remote validation. The latest retrieved baseline is V5 submission `55574866`
-at a dynamic public score of **2735.4**. This section will be replaced with
-the traceable V6 submission ID, Git commit, archive hash, and remote status in
-the same delivery cycle.
+V6 submission `55596752`, message `v6 behavior-routed counter 2ba26b7`,
+reached `COMPLETE`. The uploaded `main.py` maps to public Git commit
+[`2ba26b7`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/2ba26b7ff3bc6df55000625df248c91f531c00d3).
+The reviewed 44,336-byte archive has SHA-256
+`e9dbd91bcd7b3ce1d98d29ed7e331d43432e9c3fef450797d5996d5fd063b64f`.
+
+Kaggle reported an initial public score of **600.0** at
+`2026-08-18T08:50:00.573Z`. Immediately before upload, the dynamic V5
+submission score was **2730.6**. Simulation ratings change as episodes are
+played, so the V6 value is a delivery snapshot rather than a strength estimate
+or final rank.
 
 The packaging script keeps the executable self-contained and carries the
 applicable notice and license:
