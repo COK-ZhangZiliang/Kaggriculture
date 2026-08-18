@@ -162,8 +162,8 @@ The reviewed 44,336-byte archive has SHA-256
 
 Kaggle reported an initial public score of **600.0** at
 `2026-08-18T08:50:00.573Z`. Immediately before upload, the dynamic V5
-submission score was **2730.6**. The latest observed V6 score was **685.8** at
-`2026-08-18T08:59:14Z`. Simulation ratings change as episodes are played, so
+submission score was **2730.6**. The latest observed V6 score was **909.1** at
+`2026-08-18T09:06:26Z`. Simulation ratings change as episodes are played, so
 these values are delivery snapshots rather than strength estimates or final
 ranks.
 

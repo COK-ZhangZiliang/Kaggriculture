@@ -236,8 +236,8 @@ submission validation.
   `e9dbd91bcd7b3ce1d98d29ed7e331d43432e9c3fef450797d5996d5fd063b64f`.
 - Its initial public score was `600.0` at `2026-08-18T08:50:00.573Z`.
   Immediately before upload, V5's dynamic score was `2730.6`; ratings change
-  as episodes run. V6 was later observed at `685.8` on
-  `2026-08-18T08:59:14Z`; these are delivery snapshots rather than strength
+  as episodes run. V6 was later observed at `909.1` on
+  `2026-08-18T09:06:26Z`; these are delivery snapshots rather than strength
   estimates.
 
 ## Verification Gates

@@ -152,8 +152,8 @@
     "kaggle_status": "COMPLETE",
     "kaggle_submitted_at_utc": "2026-08-18T08:50:00.573Z",
     "initial_public_score": 600.0,
-    "latest_observed_public_score": 685.8,
-    "latest_observed_at_utc": "2026-08-18T08:59:14Z",
+    "latest_observed_public_score": 909.1,
+    "latest_observed_at_utc": "2026-08-18T09:06:26Z",
     "message": "v6 behavior-routed counter 2ba26b7",
     "git_commit": "2ba26b7ff3bc6df55000625df248c91f531c00d3",
     "archive": {
