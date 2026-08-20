@@ -145,16 +145,19 @@
         "legacy_gate_requires_normal_episode_start_before_step_72": true,
         "competition_runner_compatibility_verified": true
     },
-  "provenance": {
-    "notice": "THIRD_PARTY_NOTICES.md",
-    "route_data_derivation": "Five current and five legacy route tapes were extracted from an Apache-2.0 public Notebook artifact, JSON-normalized, recompressed, modified, and integrated with the independently maintained V6 execution controller.",
-    "artifact_main_sha256": "c26402b67a0d04a46348353069645b1a49c3cb3df6df69d7fa35d8adbbdbeae4",
-    "artifact_tar_sha256": "697d4e0144bcb8c190d91e904641a61e1d09ee0ca00342c8033f9ffe8e4cb978",
-    "public_replay_identity_inference": false
-  },
+    "provenance": {
+        "notice": "THIRD_PARTY_NOTICES.md",
+        "route_data_derivation": "Five current and five legacy route tapes were extracted from an Apache-2.0 public Notebook artifact, JSON-normalized, recompressed, modified, and integrated with the independently maintained V6 execution controller.",
+        "artifact_main_sha256": "c26402b67a0d04a46348353069645b1a49c3cb3df6df69d7fa35d8adbbdbeae4",
+        "artifact_tar_sha256": "697d4e0144bcb8c190d91e904641a61e1d09ee0ca00342c8033f9ffe8e4cb978",
+        "public_replay_identity_inference": false
+    },
     "delivery": {
-        "kaggle_submission": "pending",
-        "git_commit": "pending",
+        "kaggle_submission_id": "55638354",
+        "kaggle_message": "v7 public-shop five-route 77c271f",
+        "submitted_at_utc": "2026-08-20T04:56:38.653Z",
+        "git_commit": "77c271f600b09b2dc070bc6b406240356bcb5616",
+        "github_main_pushed": true,
         "archive_sha256": "03c99a672bee741591d7224781865efd20cb3a26ea775193eadade4ac28f5c4a",
         "archive_size_bytes": 99523,
         "archive_members": [
@@ -162,8 +165,13 @@
             "LICENSE-APACHE-2.0.txt",
             "THIRD_PARTY_NOTICES.txt"
         ],
-        "remote_validation": "pending",
-    "score": "pending",
-    "score_is_dynamic_snapshot": true
-  }
+        "remote_validation": "COMPLETE",
+        "validation_observed_at_utc": "2026-08-20T05:02:19Z",
+        "initial_public_score": 600.0,
+        "comparison_at_validation": {
+            "v6_score": 2417.7,
+            "v5_score": 2656.4
+        },
+        "score_is_dynamic_snapshot": true
+    }
 }

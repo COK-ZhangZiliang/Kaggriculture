@@ -275,10 +275,11 @@ submission validation.
   `docs/evidence/v7-failure-analysis.json`.
 - The reviewed 99,523-byte archive has SHA-256
   `03c99a672bee741591d7224781865efd20cb3a26ea775193eadade4ac28f5c4a`.
-  Kaggle submission and GitHub delivery are pending at the time of this entry;
-  the delivery record must be updated with the validated submission ID,
-  matching Git SHA, timestamp, status, and dynamic score in the same delivery
-  cycle.
+  Kaggle submission `55638354`, message `v7 public-shop five-route 77c271f`,
+  reached `COMPLETE`; the uploaded `main.py` maps to public Git commit
+  `77c271f600b09b2dc070bc6b406240356bcb5616`. Kaggle recorded it at
+  `2026-08-20T04:56:38.653Z`; validation was observed complete at
+  `2026-08-20T05:02:19Z` with an initial dynamic public score of `600.0`.
 
 ## Verification Gates
 

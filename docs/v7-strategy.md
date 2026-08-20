@@ -66,7 +66,7 @@ The normalized route JSON hashes used during development were:
 
 ## Evidence boundary
 
-The latest remote V6 snapshot was score 2416.6 at
+The analysis snapshot observed V6 at score 2416.6 at
 `2026-08-20T04:01:34Z`; V5 was 2665.5. The leaderboard CSV snapshot at
 `2026-08-20T04:04:51Z` had 5,446 teams and the local team at rank 74 with
 score 2665.5. These values are dynamic ratings, not immutable benchmark
@@ -114,5 +114,9 @@ Raw manifests and hashes are recorded in
 [`docs/evidence/v7-failure-analysis.json`](evidence/v7-failure-analysis.json).
 The reviewed 99,523-byte archive has SHA-256
 `03c99a672bee741591d7224781865efd20cb3a26ea775193eadade4ac28f5c4a`.
-GitHub and Kaggle delivery are pending at the time this document is authored;
-no remote score is attributed to V7 yet.
+It was delivered as Kaggle submission `55638354`, message
+`v7 public-shop five-route 77c271f`, and reached `COMPLETE`. The uploaded
+`main.py` maps to Git commit
+`77c271f600b09b2dc070bc6b406240356bcb5616`. Kaggle recorded the submission at
+`2026-08-20T04:56:38.653Z`; validation was observed at
+`2026-08-20T05:02:19Z` with an initial dynamic public score of 600.0.

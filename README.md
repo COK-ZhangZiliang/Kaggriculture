@@ -6,6 +6,7 @@
   [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
   [![Kaggle Environment](https://img.shields.io/badge/Kaggle-Environment-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/competitions/kaggriculture)
   [![Tests](https://img.shields.io/badge/tests-61%20passing-2ea44f?logo=pytest&logoColor=white)](#-verified-current-strategy)
+  [![Submission status](https://img.shields.io/badge/V7%20submission-COMPLETE-2ea44f?logo=kaggle&logoColor=white)](#-submission)
   [![Policy](https://img.shields.io/badge/policy-V7%20five--route-7B61FF)](#-strategy)
 
   **A deterministic public-demand-routed farm agent for Kaggle's 720-state economic simulation.**
@@ -61,7 +62,7 @@ The repository has 61 passing tests. With
 `kaggle-environments==1.32.7`, starter and random both-seat smoke matches each
 completed 720 states with `DONE/DONE` and no stderr.
 
-The latest observed online V6 snapshot was score **2416.6** at
+The V7 analysis snapshot observed online V6 at score **2416.6** at
 `2026-08-20T04:01:34Z`; V5 was **2665.5** at the same retrieval. The leaderboard
 CSV captured at `2026-08-20T04:04:51Z` placed our team at rank
 74/5446 with score 2665.5. These are dynamic simulation snapshots, not fixed
@@ -121,17 +122,19 @@ tar -tzf dist/submission.tar.gz
 
 ## 📦 Submission
 
-The reviewed V7 archive has been created; GitHub and remote Kaggle delivery
-are pending. The delivery record will be updated with the Kaggle submission ID,
-validated status, Git commit SHA, archive size, archive SHA-256, timestamp, and
-dynamic score after those operations complete. No score is claimed here before
-remote validation.
+V7 submission `55638354`, message `v7 public-shop five-route 77c271f`, reached
+`COMPLETE`. The uploaded `main.py` maps to public Git commit
+[`77c271f`](https://github.com/COK-ZhangZiliang/Kaggriculture/commit/77c271f600b09b2dc070bc6b406240356bcb5616).
 
-The current archive is 99,523 bytes with SHA-256
+The reviewed archive is 99,523 bytes with SHA-256
 `03c99a672bee741591d7224781865efd20cb3a26ea775193eadade4ac28f5c4a`.
+Kaggle recorded the submission at `2026-08-20T04:56:38.653Z`; validation was
+observed complete at `2026-08-20T05:02:19Z` with an initial public score of
+**600.0**. At that observation V6 was **2417.7** and V5 was **2656.4**. All
+scores are dynamic delivery snapshots, not final strength estimates.
 
-The package is expected to contain only the self-contained entrypoint and the
-applicable Apache attribution files:
+The package contains only the self-contained entrypoint and the applicable
+Apache attribution files:
 
 ```text
 submission.tar.gz
