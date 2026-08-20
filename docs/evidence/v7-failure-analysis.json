@@ -168,6 +168,8 @@
         "remote_validation": "COMPLETE",
         "validation_observed_at_utc": "2026-08-20T05:02:19Z",
         "initial_public_score": 600.0,
+        "latest_observed_public_score": 681.7,
+        "latest_score_observed_at_utc": "2026-08-20T05:05:16Z",
         "comparison_at_validation": {
             "v6_score": 2417.7,
             "v5_score": 2656.4

@@ -279,7 +279,8 @@ submission validation.
   reached `COMPLETE`; the uploaded `main.py` maps to public Git commit
   `77c271f600b09b2dc070bc6b406240356bcb5616`. Kaggle recorded it at
   `2026-08-20T04:56:38.653Z`; validation was observed complete at
-  `2026-08-20T05:02:19Z` with an initial dynamic public score of `600.0`.
+  `2026-08-20T05:02:19Z` with an initial dynamic public score of `600.0`. V7
+  was later observed at `681.7` on `2026-08-20T05:05:16Z`.
 
 ## Verification Gates
 

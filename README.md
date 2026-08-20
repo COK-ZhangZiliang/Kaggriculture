@@ -131,7 +131,8 @@ The reviewed archive is 99,523 bytes with SHA-256
 Kaggle recorded the submission at `2026-08-20T04:56:38.653Z`; validation was
 observed complete at `2026-08-20T05:02:19Z` with an initial public score of
 **600.0**. At that observation V6 was **2417.7** and V5 was **2656.4**. All
-scores are dynamic delivery snapshots, not final strength estimates.
+scores are dynamic delivery snapshots, not final strength estimates. V7 was
+later observed at **681.7** on `2026-08-20T05:05:16Z`.
 
 The package contains only the self-contained entrypoint and the applicable
 Apache attribution files:
