@@ -1,0 +1,169 @@
+{
+  "schema_version": "v7-evidence-1",
+  "candidate": {
+    "label": "V7 public-shop five-route controller",
+    "main_sha256": "7ce060d8551cf3e7a20a800c1eea2e18ece63d6d6eab8e21199b65f9b78e4794",
+    "tests_passed": 61,
+    "starter_random_smoke": {
+      "states_each": 720,
+      "statuses_each": ["DONE", "DONE"],
+      "stderr": false
+    }
+  },
+  "remote_snapshot": {
+    "retrieved_at": "2026-08-20T04:01:34Z",
+    "competition": "kaggriculture",
+    "v6_submission_id": "55596752",
+    "v6_status": "COMPLETE",
+    "v6_score": 2416.6,
+    "v5_submission_id": "55574866",
+    "v5_status": "COMPLETE",
+    "v5_score": 2665.5,
+    "score_is_dynamic_snapshot": true,
+    "leaderboard_snapshot": {
+      "captured_at": "2026-08-20T04:04:51Z",
+      "team_count": 5446,
+      "local_team_rank": 74,
+      "local_team_score": 2665.5,
+      "zip_sha256": "dfc3e51ee9f924b89a6ab988768102e695ee5fc0e509a775dd56ef0c948cd61c"
+    }
+  },
+  "public_replay_failure_analysis": {
+    "engine": "kaggle-environments==1.32.7",
+    "source_submission_id": "55596752",
+    "games": 126,
+    "v6_wins": 75,
+    "v6_losses": 51,
+    "all_games_done_done": true,
+    "failure_clusters": [
+      {"cluster": "revenue_deficit:STRAWBERRY", "games": 23, "mean_margin": -3343.304347826087},
+      {"cluster": "late_market_cadence_or_liquidation", "games": 10, "mean_margin": -1756.9},
+      {"cluster": "revenue_deficit:WOOL", "games": 8, "mean_margin": -9174.625},
+      {"cluster": "revenue_deficit:WHEAT", "games": 8, "mean_margin": -1915.0},
+      {"cluster": "revenue_deficit:MILK", "games": 2, "mean_margin": -2180.5}
+    ],
+    "interpretation": "The recurring weakness was late market cadence and product-specific revenue deficits, especially when the low 10C/4S route met public 6C/8S or similar herds. This motivates observable shop-prefix route selection.",
+    "raw_artifacts": {
+      "replay_manifest_sha256": "9a6631ab98b38f545c12c4497ff0ac779c28c8d28593df5caf87e880d402818f",
+      "agent_analysis_sha256": "6f8eb7ba7248f343d574f95ea65730af49f0fe04df90c1ebafa8b500b06409b2"
+    }
+  },
+  "open_loop_fixed_tape": {
+    "engine": "kaggle-environments==1.32.7",
+    "games": 126,
+    "wins": 99,
+    "ties": 0,
+    "losses": 27,
+    "mean_margin": 7401.507936507936,
+    "median_margin": 3409.5,
+    "worst_margin": -25432.0,
+    "mean_delta_vs_online_v6": 1349.7857142857142,
+    "improved": 72,
+    "unchanged": 0,
+    "regressed": 54,
+    "all_games_done_done": true,
+    "claim_boundary": "Open-loop replay counterfactual: the candidate is evaluated against recorded opponent actions, so this does not prove a closed-loop policy win or a leaderboard improvement.",
+    "raw_result_sha256": "91693958b0515f5c67df139da236fd0467c521d334edbcebfbf78a847cbc742d"
+  },
+  "fresh_closed_loop_panel": {
+    "engine": "kaggle-environments==1.32.7",
+    "candidate_sha256": "7ce060d8551cf3e7a20a800c1eea2e18ece63d6d6eab8e21199b65f9b78e4794",
+    "both_seats": true,
+    "seeds": [494168721, 1841303361, 1326838907, 635119006, 1232971796, 1228162192, 1754842454, 765588388],
+    "seed_policy": "Fresh post-freeze seeds; checked not to overlap earlier V7 development manifests.",
+    "opponents": [
+      {
+        "name": "latest-tetsu",
+        "sha256": "c26402b67a0d04a46348353069645b1a49c3cb3df6df69d7fa35d8adbbdbeae4",
+        "games": 16,
+        "wins": 16,
+        "ties": 0,
+        "losses": 0,
+        "mean_margin": 3345.75,
+        "worst_margin": 1556.0,
+        "all_done_done": true
+      },
+      {
+        "name": "tetsu-town",
+        "sha256": "399dd14bbe8d2040c475eaccf6489462132af0aa583f5e21cfba17ae1a6c5788",
+        "games": 16,
+        "wins": 16,
+        "ties": 0,
+        "losses": 0,
+        "mean_margin": 3262.125,
+        "worst_margin": 1556.0,
+        "all_done_done": true
+      },
+      {
+        "name": "v6",
+        "sha256": "888115e1a4c48a52f28eeac60ce6fb8ede5dd67db360fee5df004ffa0613885e",
+        "games": 16,
+        "wins": 11,
+        "ties": 0,
+        "losses": 5,
+        "mean_margin": 532.25,
+        "worst_margin": -14727.0,
+        "all_done_done": true
+      },
+      {
+        "name": "v17",
+        "sha256": "ccf2aefdadd600d3e6fcaad2879a310eb15bbd14183fc2deeff9bb2525697b9a",
+        "games": 16,
+        "wins": 13,
+        "ties": 0,
+        "losses": 3,
+        "mean_margin": 291.4375,
+        "worst_margin": -25819.0,
+        "all_done_done": true
+      }
+    ],
+    "total_games": 64,
+    "total_wins": 56,
+    "total_ties": 0,
+    "total_losses": 8,
+    "all_done_done": true,
+    "all_stderr_empty": true,
+    "claim_boundary": "Closed-loop local evidence for these four hash-pinned artifacts and seeds only; it is not evidence of universal dominance or leaderboard score.",
+        "raw_result_sha256": "9336ed6084af56cf145427964b9bbee358b3c70aa58e17231babe82e73fe2154"
+  },
+    "regression_boundary": {
+        "panel": "older V7 development panel",
+        "candidate_sha256": "575dcf5599c6cd4f899c96f5598fd8c7d11f6e7798ee815463faea0d6b09b21d",
+        "final_hash_directly_evaluated_on_this_panel": false,
+        "games": 96,
+    "v7_wins": 65,
+    "v7_losses": 31,
+    "v7_mean_margin": 2531.72,
+    "v6_wins": 96,
+    "v6_losses": 0,
+        "claim_boundary": "The pre-final V7 behavior candidate did not preserve the older panel's V6 96/96 result. This panel was not rerun after unused route constants were removed, so the result is not attributed to the final main hash; it remains an explicit regression boundary and is not an identity or seed routing rule.",
+        "raw_result_sha256": "feb7ce937d3050b695a5a07427eace4e83171a9daa6c20d79cf62cbf45399468"
+    },
+    "runtime_assumptions": {
+        "agent_calls_are_sequential": true,
+        "module_level_active_route_is_not_thread_safe": true,
+        "legacy_gate_requires_normal_episode_start_before_step_72": true,
+        "competition_runner_compatibility_verified": true
+    },
+  "provenance": {
+    "notice": "THIRD_PARTY_NOTICES.md",
+    "route_data_derivation": "Five current and five legacy route tapes were extracted from an Apache-2.0 public Notebook artifact, JSON-normalized, recompressed, modified, and integrated with the independently maintained V6 execution controller.",
+    "artifact_main_sha256": "c26402b67a0d04a46348353069645b1a49c3cb3df6df69d7fa35d8adbbdbeae4",
+    "artifact_tar_sha256": "697d4e0144bcb8c190d91e904641a61e1d09ee0ca00342c8033f9ffe8e4cb978",
+    "public_replay_identity_inference": false
+  },
+    "delivery": {
+        "kaggle_submission": "pending",
+        "git_commit": "pending",
+        "archive_sha256": "03c99a672bee741591d7224781865efd20cb3a26ea775193eadade4ac28f5c4a",
+        "archive_size_bytes": 99523,
+        "archive_members": [
+            "main.py",
+            "LICENSE-APACHE-2.0.txt",
+            "THIRD_PARTY_NOTICES.txt"
+        ],
+        "remote_validation": "pending",
+    "score": "pending",
+    "score_is_dynamic_snapshot": true
+  }
+}

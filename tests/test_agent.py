@@ -101,33 +101,29 @@ def make_cow9_observation(
     return obs
 
 
-def make_counter_observation(*, step=72, player=0, shops=None):
+def make_legacy_observation(*, step=24, player=0, shops=None):
     obs = make_observation(
         step=step,
         player=player,
         shops=shops or ["BAKERY"],
     )
     opponent = obs["farms"][1 - player]
-    opponent["money"] = 49
+    opponent["money"] = 12
     opponent["hands"] = []
     opponent["tiles"] = [[None for _ in range(10)] for _ in range(10)]
     tiles = [
-        *[
-            {"kind": "PASTURE", "animal": "COW"}
-            for _ in range(2)
-        ],
+        {"kind": "PASTURE", "animal": "COW"},
         *[
             {"kind": "PASTURE", "animal": "SHEEP"}
-            for _ in range(2)
+            for _ in range(4)
         ],
-        {"kind": "PASTURE", "animal": None},
         *[
             {"kind": "PLANT", "crop": "MELON"}
-            for _ in range(12)
+            for _ in range(5)
         ],
         *[
             {"kind": "PLANT", "crop": "WHEAT"}
-            for _ in range(7)
+            for _ in range(5)
         ],
     ]
     for index, tile in enumerate(tiles):
@@ -136,23 +132,13 @@ def make_counter_observation(*, step=72, player=0, shops=None):
 
 
 def reset_controller():
-    submission._ACTIONS = submission._LOW_ACTIONS
-    submission._META_SALES = submission._LOW_META_SALES
+    submission._ACTIONS = submission._ACTIONS_8C6S_3Q
+    submission._META_SALES = submission._V7_CURRENT_SALES["8c6s_3q"]
     submission._ROUTE_STATE.clear()
     submission._ROUTE_STATE.update(
         {
-            0: {
-                "last_step": -1,
-                "shops": (),
-                "counter": None,
-                "expert": None,
-            },
-            1: {
-                "last_step": -1,
-                "shops": (),
-                "counter": None,
-                "expert": None,
-            },
+            0: {"last_step": -1, "legacy": None, "label": None},
+            1: {"last_step": -1, "legacy": None, "label": None},
         }
     )
     submission._FR_STATE.clear()
@@ -184,25 +170,38 @@ def reset_controller():
     )
 
 
-def test_routes_are_frozen_and_share_the_public_opening():
-    expected = {
-        "low": (
-            submission._LOW_ACTIONS,
-            "93daf1e051d2f394c50c08b59d0fd56d55bf0a5e8770e08701dbcacb91458518",
+def test_routes_are_frozen_with_route_specific_sale_schedules():
+    current = {
+        "10c4s_3q": (
+            "60cd665cbcafdc3186256f2aff7004968b127ecdccb1c16de1265885d422111c",
             (10, 4),
         ),
-        "high": (
-            submission._HIGH_ACTIONS,
-            "a548603cf9cae2bda0bc016d50d574e072287ea68315b790b7341c99ab63a31c",
+        "8c6s_3q": (
+            "2483809ada657c092e98e2b854ded9539a9b9a597723f1f4027a02ea97faa6aa",
+            (8, 6),
+        ),
+        "6c8s_3q": (
+            "25f62869f42ce905b882b4acc66c1fb2061d89b6293ac42c24e030de60460942",
+            (6, 8),
+        ),
+        "6c12s_4q_first_yarn": (
+            "64e81ecf1788855ab65e58671042c0c241dbc63accc972eb73caed8b637da5d2",
             (6, 12),
         ),
-        "counter": (
-            submission._COUNTER_ACTIONS,
-            "8fe54de47206d31ff165b407086c351313abaf8f7a03da90d6f205aa44aab928",
-            (10, 4),
+        "6c12s_4q_second_yarn": (
+            "a072f831ccca5ba0e0ca4b6d38d1eec3994cc34627b8c748831f027c9e066d9d",
+            (6, 12),
         ),
     }
-    for route, route_hash, animal_buys in expected.values():
+    legacy_hashes = {
+        "10c4s_3q": "25b683c5d82e120b7da51b50128ddd8c9966a933c38f53421b23f9c6785fd6de",
+        "8c6s_3q": "96f5164bece882a2b943e843f6208e8b16377a756df0d017ea3159fa167b7199",
+        "6c8s_3q": "3ccd016720dde7d921decf1caeebaac057390fca0f3c19906e4a94b4a20b6062",
+        "6c12s_4q_first_yarn": current["6c12s_4q_first_yarn"][0],
+        "6c12s_4q_second_yarn": current["6c12s_4q_second_yarn"][0],
+    }
+    for label, (route_hash, animal_buys) in current.items():
+        route = submission._V7_CURRENT_ROUTES[label]
         actual_hash = hashlib.sha256(
             json.dumps(route, separators=(",", ":")).encode()
         ).hexdigest()
@@ -221,72 +220,87 @@ def test_routes_are_frozen_and_share_the_public_opening():
         assert len(route) == 719
         assert actual_hash == route_hash
         assert (cow_buys, sheep_buys) == animal_buys
+        assert (
+            submission._V7_CURRENT_SALES[label]
+            == submission._v7_sales_schedule(route)
+        )
 
-    assert submission._LOW_ACTIONS[:168] == submission._HIGH_ACTIONS[:168]
-    assert submission._LOW_ACTIONS[168] != submission._HIGH_ACTIONS[168]
+    for label, route in submission._V7_LEGACY_ROUTES.items():
+        actual_hash = hashlib.sha256(
+            json.dumps(route, separators=(",", ":")).encode()
+        ).hexdigest()
+        assert len(route) == 719
+        assert actual_hash == legacy_hashes[label]
+        assert (
+            submission._V7_LEGACY_SALES[label]
+            == submission._v7_sales_schedule(route)
+        )
+
+    routes = submission._V7_CURRENT_ROUTES
+    assert routes["8c6s_3q"][:264] == routes["10c4s_3q"][:264]
+    assert routes["8c6s_3q"][:216] == routes["6c8s_3q"][:216]
+    assert (
+        routes["8c6s_3q"][:120]
+        == routes["6c12s_4q_first_yarn"][:120]
+    )
+    assert (
+        routes["8c6s_3q"][:72]
+        == routes["6c12s_4q_second_yarn"][:72]
+    )
 
 
-def test_counter_route_uses_only_the_validated_public_signature():
+def test_legacy_route_uses_only_the_validated_public_layout():
     reset_controller()
     route, sales = submission._select_route(
-        make_counter_observation(),
-        72,
+        make_legacy_observation(),
+        24,
     )
-    assert route is submission._COUNTER_ACTIONS
-    assert sales is submission._COUNTER_META_SALES
-
-    for first_shop in ("ICE_CREAM_SHOP", "SMOOTHIE_SHOP"):
-        reset_controller()
-        route, sales = submission._select_route(
-            make_counter_observation(shops=[first_shop]),
-            72,
-        )
-        assert route is submission._LOW_ACTIONS
-        assert sales is submission._LOW_META_SALES
+    assert route is submission._LEGACY_ACTIONS_8C6S_3Q
+    assert sales is submission._V7_LEGACY_SALES["8c6s_3q"]
 
     reset_controller()
-    mismatch = make_counter_observation()
-    mismatch["farms"][1]["money"] = 50
+    mismatch = make_legacy_observation()
+    mismatch["farms"][1]["money"] = 13
     assert (
-        submission._select_route(mismatch, 72)[0]
-        is submission._LOW_ACTIONS
+        submission._select_route(mismatch, 24)[0]
+        is submission._ACTIONS_8C6S_3Q
     )
 
 
-def test_counter_route_falls_back_for_a_repeated_shop_prefix():
+def test_legacy_route_decision_is_sticky_after_the_opening_window():
     reset_controller()
     assert (
-        submission._select_route(make_counter_observation(), 72)[0]
-        is submission._COUNTER_ACTIONS
+        submission._select_route(make_legacy_observation(), 24)[0]
+        is submission._LEGACY_ACTIONS_8C6S_3Q
     )
-    repeated = make_counter_observation(
+    later = make_observation(
         step=80,
-        shops=["BAKERY", "BAKERY"],
+        shops=["PIZZA_SHOP"],
     )
-    route, sales = submission._select_route(repeated, 80)
-    assert route is submission._LOW_ACTIONS
-    assert sales is submission._LOW_META_SALES
+    route, sales = submission._select_route(later, 80)
+    assert route is submission._LEGACY_ACTIONS_10C4S_3Q
+    assert sales is submission._V7_LEGACY_SALES["10c4s_3q"]
 
 
-def test_counter_route_state_is_isolated_by_seat():
+def test_legacy_route_state_is_isolated_by_seat():
     reset_controller()
     assert (
         submission._select_route(
-            make_counter_observation(player=0),
-            72,
+            make_legacy_observation(player=0),
+            24,
         )[0]
-        is submission._COUNTER_ACTIONS
+        is submission._LEGACY_ACTIONS_8C6S_3Q
     )
     assert (
         submission._select_route(
             make_observation(
-                step=72,
+                step=24,
                 player=1,
                 shops=["BAKERY"],
             ),
-            72,
+            24,
         )[0]
-        is submission._LOW_ACTIONS
+        is submission._ACTIONS_8C6S_3Q
     )
 
 
@@ -312,57 +326,82 @@ def test_hand_actions_are_aligned_to_observed_workers():
     assert len(action["hands"]) == len(hands)
 
 
-def test_route_selector_uses_only_early_public_shop_demand():
-    reset_controller()
-    high, high_sales = submission._select_route(
-        make_observation(step=168, shops=["BAKERY", "YARN_STORE"]),
-        168,
-    )
-    assert high is submission._HIGH_ACTIONS
-    assert high_sales is submission._HIGH_META_SALES
-
-    reset_controller()
-    low, low_sales = submission._select_route(
-        make_observation(step=168, shops=["BAKERY", "PIZZA_SHOP"]),
-        168,
-    )
-    assert low is submission._LOW_ACTIONS
-    assert low_sales is submission._LOW_META_SALES
-
-    reset_controller()
-    dominated, _ = submission._select_route(
-        make_observation(
-            step=168,
-            shops=["ICE_CREAM_SHOP", "YARN_STORE"],
-        ),
-        168,
-    )
-    assert dominated is submission._LOW_ACTIONS
+def test_route_selector_maps_public_shop_prefixes_to_five_routes():
+    cases = [
+        (["YARN_STORE"], "6c12s_4q_first_yarn"),
+        (["BAKERY", "YARN_STORE"], "6c12s_4q_second_yarn"),
+        (["BAKERY", "BRUNCH_SPOT", "YARN_STORE"], "6c8s_3q"),
+        (["BAKERY", "PIZZA_SHOP"], "10c4s_3q"),
+        (["BAKERY", "BRUNCH_SPOT", "PET_CAFE"], "8c6s_3q"),
+    ]
+    for shops, label in cases:
+        reset_controller()
+        route, sales = submission._select_route(
+            make_observation(step=216, shops=shops), 216
+        )
+        assert route is submission._V7_CURRENT_ROUTES[label]
+        assert sales is submission._V7_CURRENT_SALES[label]
 
 
-def test_route_selection_is_sticky_isolated_and_resets_between_games():
+def test_route_selection_is_staged_isolated_and_resets_between_games():
     reset_controller()
-    high_obs = make_observation(
-        step=168,
+    first_yarn = make_observation(
+        step=120,
         player=0,
-        shops=["YARN_STORE", "BAKERY"],
+        shops=["YARN_STORE"],
     )
-    assert submission._select_route(high_obs, 168)[0] is submission._HIGH_ACTIONS
-    changed = make_observation(
+    assert (
+        submission._select_route(first_yarn, 120)[0]
+        is submission._ACTIONS_6C12S_4Q_FIRST_YARN
+    )
+    later_yarn = make_observation(
         step=216,
         player=0,
-        shops=["BAKERY", "PIZZA_SHOP", "BRUNCH_SPOT"],
+        shops=["YARN_STORE", "PIZZA_SHOP", "BRUNCH_SPOT"],
     )
-    assert submission._select_route(changed, 216)[0] is submission._HIGH_ACTIONS
+    assert (
+        submission._select_route(later_yarn, 216)[0]
+        is submission._ACTIONS_6C12S_4Q_FIRST_YARN
+    )
 
-    low_other = make_observation(
-        step=168,
+    milk_other = make_observation(
+        step=216,
         player=1,
         shops=["BAKERY", "PIZZA_SHOP"],
     )
-    assert submission._select_route(low_other, 168)[0] is submission._LOW_ACTIONS
+    assert (
+        submission._select_route(milk_other, 216)[0]
+        is submission._ACTIONS_10C4S_3Q
+    )
     reset_obs = make_observation(step=0, player=0)
-    assert submission._select_route(reset_obs, 0)[0] is submission._LOW_ACTIONS
+    assert (
+        submission._select_route(reset_obs, 0)[0]
+        is submission._ACTIONS_8C6S_3Q
+    )
+
+
+def test_third_shop_can_refine_route_before_the_shared_prefix_diverges():
+    reset_controller()
+    before = make_observation(
+        step=168,
+        shops=["BAKERY", "BRUNCH_SPOT"],
+    )
+    assert (
+        submission._select_route(before, 168)[0]
+        is submission._ACTIONS_8C6S_3Q
+    )
+    after = make_observation(
+        step=216,
+        shops=["BAKERY", "BRUNCH_SPOT", "PIZZA_SHOP"],
+    )
+    assert (
+        submission._select_route(after, 216)[0]
+        is submission._ACTIONS_10C4S_3Q
+    )
+    assert (
+        submission._ACTIONS_8C6S_3Q[:216]
+        == submission._ACTIONS_10C4S_3Q[:216]
+    )
 
 
 def test_route_selection_ignores_identity_metadata():
@@ -370,13 +409,13 @@ def test_route_selection_ignores_identity_metadata():
     for seed, opponent_name in ((11, "alpha"), (987654321, "beta")):
         reset_controller()
         obs = make_observation(
-            step=168,
+            step=216,
             shops=["YARN_STORE", "BAKERY"],
         )
         obs["seed"] = seed
         obs["opponent_name"] = opponent_name
         obs["EpisodeId"] = seed + 100
-        actions.append(submission._select_route(obs, 168)[0][168])
+        actions.append(submission._select_route(obs, 216)[0][216])
     assert actions[0] == actions[1]
 
 
@@ -413,8 +452,8 @@ def test_opening_seed_clip_removes_zero_quantity_orders_from_agent_output():
 
 def test_seed_clip_preserves_prefix_capacity_and_removes_later_surplus():
     reset_controller()
-    submission._ACTIONS = submission._LOW_ACTIONS
-    obs = make_observation(step=152, money=1235)
+    submission._ACTIONS = submission._ACTIONS_10C4S_3Q
+    obs = make_observation(step=149, money=1235)
     obs["private"]["seeds"] = {
         "WHEAT": 2,
         "CARROT": 0,
@@ -423,20 +462,23 @@ def test_seed_clip_preserves_prefix_capacity_and_removes_later_surplus():
     }
 
     clipped = submission._clip_seed_surplus(
-        deepcopy(submission._LOW_ACTIONS[152]), obs, 152
+        deepcopy(submission._ACTIONS_10C4S_3Q[149]), obs, 149
     )
 
-    assert clipped["market"] == [["BUY_SEED", "CARROT", 2]]
+    assert clipped["market"] == [
+        ["BUY_PRODUCT", "WHEAT", 2],
+        ["BUY_SEED", "CARROT", 1],
+    ]
 
 
 def test_seed_clip_does_not_buy_for_an_atomic_plant_that_already_failed():
     reset_controller()
-    submission._ACTIONS = submission._LOW_ACTIONS
+    submission._ACTIONS = submission._ACTIONS_10C4S_3Q
     obs = make_observation(step=525)
     obs["private"]["seeds"] = {"CARROT": 0}
 
     clipped = submission._clip_seed_surplus(
-        deepcopy(submission._LOW_ACTIONS[525]), obs, 525
+        deepcopy(submission._ACTIONS_10C4S_3Q[525]), obs, 525
     )
 
     assert ["BUY_SEED", "CARROT", 1] not in clipped["market"]
@@ -465,7 +507,7 @@ def test_pass_on_a_visible_weed_is_replaced_by_dig():
 
 def test_weed_replay_rejoins_on_the_first_move_to_an_empty_tile(monkeypatch):
     reset_controller()
-    route = deepcopy(submission._LOW_ACTIONS)
+    route = deepcopy(submission._ACTIONS_10C4S_3Q)
     route[11]["farmer"] = ["WEST"]
     monkeypatch.setattr(submission, "_ACTIONS", route)
     submission._WEED_STATE[0] = {
@@ -495,7 +537,7 @@ def test_weed_replay_rejoins_on_the_first_move_to_an_empty_tile(monkeypatch):
 
 def test_weed_replay_preserves_followup_work_on_an_occupied_tile(monkeypatch):
     reset_controller()
-    route = deepcopy(submission._LOW_ACTIONS)
+    route = deepcopy(submission._ACTIONS_10C4S_3Q)
     route[11]["farmer"] = ["WEST"]
     route[12]["farmer"] = ["WATER"]
     monkeypatch.setattr(submission, "_ACTIONS", route)
@@ -661,7 +703,8 @@ def test_retired_ninth_cow_extension_never_mutates_the_route():
 
 def test_low_route_repairs_partial_cow_purchases_through_ten_cows():
     reset_controller()
-    expected = {0: 2, 73: 3, 120: 4, 168: 6, 216: 8, 264: 10}
+    submission._ACTIONS = submission._ACTIONS_10C4S_3Q
+    expected = {0: 2, 72: 3, 120: 4, 168: 6, 216: 8, 264: 10}
     assert {
         step: submission._cow_target_after_buy(step)
         for step in expected
@@ -675,7 +718,7 @@ def test_low_route_repairs_partial_cow_purchases_through_ten_cows():
             "animal": "COW",
         }
     repaired = submission._reconcile_scheduled_cows(
-        obs, deepcopy(submission._LOW_ACTIONS[264]), 264
+        obs, deepcopy(submission._ACTIONS_10C4S_3Q[264]), 264
     )
     assert next(
         order
@@ -686,7 +729,7 @@ def test_low_route_repairs_partial_cow_purchases_through_ten_cows():
 
 def test_high_route_stops_its_cow_target_at_six():
     reset_controller()
-    submission._ACTIONS = submission._HIGH_ACTIONS
+    submission._ACTIONS = submission._ACTIONS_6C8S_3Q
     assert submission._cow_target_after_buy(168) == 6
     assert submission._cow_target_after_buy(216) is None
     assert submission._cow_target_after_buy(264) is None
@@ -979,10 +1022,10 @@ def test_market_rank_uses_executable_stock_including_same_turn_place():
 
 def test_terminal_seed_prune_removes_the_order_instead_of_emitting_zero():
     reset_controller()
-    submission._ACTIONS = submission._LOW_ACTIONS
+    submission._ACTIONS = submission._ACTIONS_10C4S_3Q
 
     pruned = submission._v5_prune_terminal_wheat_seed(
-        deepcopy(submission._LOW_ACTIONS[670]), 670
+        deepcopy(submission._ACTIONS_10C4S_3Q[670]), 670
     )
 
     assert not [
@@ -1046,6 +1089,40 @@ def test_action_cache_is_isolated_between_player_seats():
 
     assert ["SELL", "WOOL", 6] in first["market"]
     assert ["SELL", "WOOL", 6] not in second["market"]
+
+
+def test_alternating_seats_keep_route_schedule_and_cached_action_isolated():
+    reset_controller()
+    first_yarn = make_observation(
+        step=216,
+        player=0,
+        shops=["YARN_STORE", "BAKERY", "PET_CAFE"],
+    )
+    milk_route = make_observation(
+        step=216,
+        player=1,
+        shops=["BAKERY", "PIZZA_SHOP", "PET_CAFE"],
+    )
+
+    first = agent(deepcopy(first_yarn))
+    agent(deepcopy(milk_route))
+    retry = agent(deepcopy(first_yarn))
+
+    assert retry == first
+    assert submission._ROUTE_STATE[0]["label"] == "6c12s_4q_first_yarn"
+    assert submission._ROUTE_STATE[1]["label"] == "10c4s_3q"
+
+    next_obs = make_observation(
+        step=217,
+        player=0,
+        shops=["YARN_STORE", "BAKERY", "PET_CAFE"],
+    )
+    agent(next_obs)
+    assert submission._ACTIONS is submission._ACTIONS_6C12S_4Q_FIRST_YARN
+    assert (
+        submission._META_SALES
+        is submission._V7_CURRENT_SALES["6c12s_4q_first_yarn"]
+    )
 
 
 def test_invalid_observation_fails_safe():

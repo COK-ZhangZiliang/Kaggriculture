@@ -240,6 +240,46 @@ submission validation.
   `2026-08-18T09:06:26Z`; these are delivery snapshots rather than strength
   estimates.
 
+### V7: public-shop five-route controller — 2026-08-20
+
+- Pulled the latest V6 remote snapshot (`2416.6` at
+  `2026-08-20T04:01:34Z`) and analyzed 126 captured public games: V6 won 75
+  and lost 51, with all games reaching `DONE/DONE`. The dominant failure
+  clusters were late market cadence plus strawberry, wool, wheat, and milk
+  revenue deficits. These are dynamic online snapshots and replay diagnostics,
+  not fixed leaderboard strength claims.
+- Replaced the single V6 public-state counter choice with five observable
+  current routes: first-shop Yarn selects first-Yarn 6C/12S, second-shop Yarn
+  selects second-Yarn 6C/12S, third-shop Yarn selects 6C/8S, an early
+  milk-support pattern selects 10C/4S, and otherwise 8C/6S. A step-24–71
+  observable legacy-opening gate selects matching legacy tapes. No identity,
+  episode, submission, or seed routing is used.
+- Retained V6 execution controls for seed feasibility, day-boundary weed
+  recovery, cow reconciliation, bounded premium repayment, executable SELL
+  ranking, terminal seed pruning, retry-safe action caching, and malformed
+  observation protection. Route data are modified, normalized, compressed
+  derivatives of the Apache-2.0 artifact documented in
+  `THIRD_PARTY_NOTICES.md`.
+- Frozen V7 `main.py` SHA-256 is
+  `7ce060d8551cf3e7a20a800c1eea2e18ece63d6d6eab8e21199b65f9b78e4794`.
+  The repository has 61 passing tests; starter and random both-seat smokes
+  each complete 720 states with `DONE/DONE` and no stderr.
+- On the fixed 126-game public replay tape, V7 scored 99/126, mean margin
+  `+7401.508`, improving 72 and regressing 54; this is open-loop
+  counterfactual evidence. A fresh closed-loop 64-game panel against four
+  hash-pinned artifacts scored 56/64, with per-opponent positive mean margins
+  and all 64 episodes at 720 states and `DONE/DONE`. A pre-final behavior
+  candidate scored 65/96 on an older panel versus V6's 96/96; it was not
+  rerun after unused constants were removed and is retained as an explicit
+  pre-final regression boundary. See `docs/v7-strategy.md` and
+  `docs/evidence/v7-failure-analysis.json`.
+- The reviewed 99,523-byte archive has SHA-256
+  `03c99a672bee741591d7224781865efd20cb3a26ea775193eadade4ac28f5c4a`.
+  Kaggle submission and GitHub delivery are pending at the time of this entry;
+  the delivery record must be updated with the validated submission ID,
+  matching Git SHA, timestamp, status, and dynamic score in the same delivery
+  cycle.
+
 ## Verification Gates
 
 Before treating a baseline change as complete, run all applicable checks:

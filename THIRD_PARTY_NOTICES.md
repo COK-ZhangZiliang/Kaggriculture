@@ -1,35 +1,36 @@
 # Third-party notices
 
-## Public-behavior route reconstruction
+## Adaptive public-shop route lineage
 
-`main.py` contains three compressed, re-serialized action routes reconstructed
-from opponent actions visible in public Kaggriculture episode replays:
+`main.py` contains ten compressed, re-serialized public-shop action routes
+derived from the Apache-2.0 Adaptive Farming Strategy artifact identified
+below and connected to the V7 controller. Five are current routes and five are
+legacy fallback routes selected by observable shop prefixes and farm state:
 
-- the low route is a component-wise majority over 61 episodes whose opponent
-  ended with 10 cows and 4 sheep;
-- the high route uses the low prefix through step 167 and a component-wise
-  majority over nine episodes whose opponent ended with 6 cows and 8 sheep;
-- the counter route is a component-wise majority over six highly consistent
-  episodes with the same public step-72 farm shape and validated early shop
-  prefixes;
-- farmer actions, each hand slot, and the complete market list were voted
-  separately, normalized as JSON, and recompressed.
+- current: `10c4s_3q`, `8c6s_3q`, `6c8s_3q`,
+  `6c12s_4q_first_yarn`, and `6c12s_4q_second_yarn`;
+- legacy: the corresponding `10c4s_3q`, `8c6s_3q`, `6c8s_3q`,
+  `6c12s_4q_first_yarn`, and `6c12s_4q_second_yarn` fallback tapes;
+- the route data was extracted, JSON-normalized, and recompressed for this
+  repository, while the selector and execution path were integrated with the
+  independently maintained V6 recovery controller.
 
-This is a majority reconstruction of observable behavior. It is not source-code
-copying from every replay participant, does not establish that a participant
-used a named public Notebook, and does not recover any participant's current
-or private submission binary. Public replay identity and public Notebook
-artifact identity are therefore kept as separate provenance claims.
+These route data are modified derivative portions of the attributed Apache-2.0
+artifact. Similar actions in a public replay do not establish that a replay
+participant used that Notebook or recover a participant's current or private
+submission binary. Public replay identity and public Notebook artifact identity
+are therefore kept as separate provenance claims.
 
 ## Apache-2.0 public Notebook references
 
 The following Kaggle Notebook pages displayed an Apache 2.0 license when
-accessed on 2026-08-17. Their downloaded artifacts were inspected as mechanism
-references and used as hash-pinned local opponents:
+accessed on the dates recorded below. Their downloaded artifacts were inspected
+as mechanism references and used as hash-pinned local opponents:
 
 ### V17 10C/4S
 
 - [V17-R1-RC2 High-Score 10C/4S Market Storage](https://www.kaggle.com/code/boatlee/v17-r1-rc2-high-score-10c-4s-market-storage)
+- license inspected on 2026-08-17;
 - downloaded `main.py` SHA-256:
   `ccf2aefdadd600d3e6fcaad2879a310eb15bbd14183fc2deeff9bb2525697b9a`
 - downloaded `submission.tar.gz` SHA-256:
@@ -38,6 +39,7 @@ references and used as hash-pinned local opponents:
 ### Public shop-routed mixture of experts
 
 - [Rank Top10: Read the Market, Choose the Farm](https://www.kaggle.com/code/indarkarhana/rank-top10-read-the-market-choose-the-farm)
+- license inspected on 2026-08-17;
 - downloaded `main.py` SHA-256:
   `d39dba50793d9777c990347443bf0c481c78adaea86055f6f6b0600dcfcd9f2e`
 - downloaded `submission.tar.gz` SHA-256:
@@ -46,23 +48,36 @@ references and used as hash-pinned local opponents:
 ### Adaptive farming strategy
 
 - [Adaptive Farming Strategy for Kaggriculture](https://www.kaggle.com/code/tetsutani/adaptive-farming-strategy-for-kaggriculture)
-- downloaded `main.py` SHA-256:
+- the Notebook page displayed an Apache 2.0 license when inspected on
+  2026-08-20;
+- the 2026-08-20 artifact `main.py` SHA-256:
+  `c26402b67a0d04a46348353069645b1a49c3cb3df6df69d7fa35d8adbbdbeae`
+- the 2026-08-20 artifact `submission.tar.gz` SHA-256:
+  `697d4e0144bcb8c190d91e904641a61e1d09ee0ca00342c8033f9ffe8e4cb978`
+- the earlier inspected artifact `main.py` SHA-256:
   `475709377b8d82a21fa298eea770ea5c005d5e329e343775c7de6e9b702bd73c`
-- downloaded `submission.tar.gz` SHA-256:
+- the earlier inspected `submission.tar.gz` SHA-256:
   `483a72e47bfe8e34af4b4858f252b3f3a9221f3cdf47bfba174929146f3ba381`
-- V6 reuses the published product price-curve parameters and the local
-  requested-sale impact-ranking idea. The implementation was integrated into
-  this repository's behavior-routed controller, made deterministic, followed by
-  premium-before-outflow ordering and duplicate-sale merging, and covered by
-  repository tests. It does not copy the Notebook's full policy or route.
+- the older artifact remains the recorded mechanism source for the published
+  product price-curve parameters and requested-sale impact-ranking idea;
+- V7 inspects the 2026-08-20 artifact for adaptive route, preemption, and room
+  safety mechanisms. Its five current routes, five legacy routes, and related
+  mechanisms were modified, made deterministic, and integrated into the V6
+  execution controller; this repository does not claim byte-for-byte copying
+  of the Notebook's full policy or route.
+
+The downloaded 2026-08-20 tar archive contained only `main.py`; it did not
+carry a license or notice file. The Apache 2.0 page attribution is therefore
+preserved here, while this repository's own submission package carries
+`LICENSE-APACHE-2.0.txt` and `THIRD_PARTY_NOTICES.txt` beside `main.py`.
 
 These downloads support artifact-level inspection and local evaluation only.
 Similar behavior in a public episode is not proof that the episode executed
 the downloaded bytes.
 
-## Retained controller lineage
+## Retained V7 controller lineage
 
-V6 retains controller and market-schedule lineage previously attributed to:
+V7 retains controller and market-schedule lineage previously attributed to:
 
 - [V16-RC5-R5A High-Score 8C/4S Recovery](https://www.kaggle.com/code/boatlee/v16-rc5-r5a-high-score-8c-4s-recovery),
   reference `main.py` SHA-256
@@ -71,12 +86,13 @@ V6 retains controller and market-schedule lineage previously attributed to:
   reference `main.py` SHA-256
   `df4e899ad535754cf2ddbd3c16e48085916b0cd2baa5182a1a2cfc6a856abae5`.
 
-The earlier 8C/4S action tape is no longer a current V6 production route.
-V6 retains bounded weed and cow-placement repair plus the reduced public
-premium-sale schedule, then adds independent per-seat route selection,
-route-aware purchase reconciliation, quantity-conserving repayment, malformed
-observation protection, retry-safe action caching, tests, packaging, and
-evidence controls.
+The earlier 8C/4S action tape is no longer the sole current V7 production
+route. V7 retains bounded weed and cow-placement repair plus the reduced public
+premium-sale schedule, then adds the five current/five legacy shop routes,
+public-state route selection, route-aware purchase reconciliation,
+quantity-conserving repayment, modified preemption and room-safety controls,
+malformed observation protection, retry-safe action caching, tests, packaging,
+and evidence controls.
 
 ## License copy and distribution
 
